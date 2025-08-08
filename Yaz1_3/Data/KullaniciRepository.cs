@@ -123,7 +123,6 @@ namespace CompanyManagementSystem.Data
 
 
 
-
         public void sil(int id)
         {
             using var conn = DbHelper.GetConnection();
@@ -171,36 +170,7 @@ namespace CompanyManagementSystem.Data
         }
 
 
-        //public Kullanici GetById(int id)
-        //{
-        //    using var conn = DbHelper.GetConnection();
-        //    conn.Open();
-
-        //    using var cmd = new NpgsqlCommand("SELECT * FROM Kullanici WHERE Id = @Id", conn);
-        //    cmd.Parameters.AddWithValue("@Id", id);
-
-        //    using var reader = cmd.ExecuteReader();
-
-        //    if (reader.Read())
-        //    {
-        //        return new Kullanici
-        //        {
-        //            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-        //            Ad = reader.GetString(reader.GetOrdinal("Ad")),
-        //            Soyad = reader.GetString(reader.GetOrdinal("Soyad")),
-        //            Email = reader.GetString(reader.GetOrdinal("Email")),
-        //            DogumTarihi = reader.GetDateTime(reader.GetOrdinal("dogum_tarihi")),
-        //            Cinsiyet = reader.GetChar(reader.GetOrdinal("cinsiyet")),
-        //            Gelir = reader.GetDecimal(reader.GetOrdinal("gelir")),
-        //            Sifre = reader.GetString(reader.GetOrdinal("sifre")),
-        //            KayitTarihi = reader.GetDateTime(reader.GetOrdinal("kayit_zamani")),
-        //            Resim = reader.IsDBNull(reader.GetOrdinal("resim")) ? null : (byte[])reader["resim"]
-        //        };
-        //    }
-
-        //    return null;
-            
-        //}
+        
 
         public int EmailVarMi(string email)
         {

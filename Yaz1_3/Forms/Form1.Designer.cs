@@ -170,9 +170,9 @@
             // 
             // button1
             // 
-            button1.Location = new Point(656, 343);
+            button1.Location = new Point(653, 343);
             button1.Name = "button1";
-            button1.Size = new Size(120, 23);
+            button1.Size = new Size(130, 23);
             button1.TabIndex = 16;
             button1.Text = "Admin ekle/güncelle";
             button1.UseVisualStyleBackColor = true;
