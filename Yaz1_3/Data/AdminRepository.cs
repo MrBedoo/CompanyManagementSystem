@@ -30,6 +30,6 @@ namespace CompanyManagementSystem.Data
             int count = Convert.ToInt32(cmd.ExecuteScalar());
             return count > 0;
         }
-
+        
     }
 }
