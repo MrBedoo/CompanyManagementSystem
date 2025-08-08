@@ -1,4 +1,5 @@
-﻿using Npgsql;
+﻿using CompanyManagementSystem.Models;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -148,6 +149,43 @@ namespace CompanyManagementSystem.Data
 
             return liste;
         }
+
+
+        public bool AdSoyadEmailVarMi<T>(T entity, string[] alanlar, string idProperty = "Id") where T : class
+        {
+            using var conn = DbHelper.GetConnection();
+            conn.Open();
+
+            var type = typeof(T);
+            var tableName = ToDbTableName(type.Name);
+
+            // WHERE koşulu dinamik olarak oluşturuluyor
+            var whereList = alanlar.Select(a => $"{ToDbColumnName(a)} = @{a}").ToList();
+            var whereSql = string.Join(" OR ", whereList);
+
+            string sql = $@"
+            SELECT COUNT(*) FROM {tableName}
+            WHERE ({whereSql})
+            AND {ToDbColumnName(idProperty)} <> @{idProperty}";
+
+            using var cmd = new NpgsqlCommand(sql, conn);
+
+            // Parametreleri ekle
+            foreach (var alan in alanlar.Append(idProperty))
+            {
+                var prop = type.GetProperty(alan);
+                if (prop != null)
+                {
+                    var value = prop.GetValue(entity) ?? DBNull.Value;
+                    cmd.Parameters.AddWithValue("@" + alan, value);
+                }
+            }
+
+            int count = Convert.ToInt32(cmd.ExecuteScalar());
+            return count > 0;
+        }
+
+
 
 
         public T GetById(int id)

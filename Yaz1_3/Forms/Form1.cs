@@ -86,7 +86,7 @@ namespace CompanyManagementSystem
                 return;
             }
 
-            
+
             var repo = new BaseRepository<Kullanici>();
 
             // Id 0 veya daha küçükse yeni kayıt
@@ -207,7 +207,7 @@ namespace CompanyManagementSystem
             textBox6.BackColor = Color.WhiteSmoke;
             textBox6.ForeColor = Color.Black;
 
-            this.BackColor = Color.FromArgb(255, 253, 208);
+            this.BackColor = Color.LightBlue;
 
             // Buton görsel ayarları
 
@@ -456,6 +456,11 @@ namespace CompanyManagementSystem
         }
 
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

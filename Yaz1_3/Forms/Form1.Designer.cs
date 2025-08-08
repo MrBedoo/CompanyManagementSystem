@@ -51,43 +51,43 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(529, 105);
+            textBox1.Location = new Point(37, 111);
             textBox1.Name = "textBox1";
             textBox1.PlaceholderText = "İsim";
-            textBox1.Size = new Size(120, 23);
+            textBox1.Size = new Size(106, 23);
             textBox1.TabIndex = 0;
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(655, 105);
+            textBox2.Location = new Point(149, 111);
             textBox2.Name = "textBox2";
             textBox2.PlaceholderText = "Soyisim";
-            textBox2.Size = new Size(121, 23);
+            textBox2.Size = new Size(104, 23);
             textBox2.TabIndex = 1;
             textBox2.TextChanged += textBox2_TextChanged;
             // 
             // textBox3
             // 
-            textBox3.Location = new Point(529, 162);
+            textBox3.Location = new Point(37, 168);
             textBox3.Name = "textBox3";
             textBox3.PlaceholderText = "Email";
-            textBox3.Size = new Size(247, 23);
+            textBox3.Size = new Size(216, 23);
             textBox3.TabIndex = 2;
             // 
             // textBox4
             // 
-            textBox4.Location = new Point(681, 191);
+            textBox4.Location = new Point(172, 197);
             textBox4.Name = "textBox4";
             textBox4.PlaceholderText = "Gelir";
-            textBox4.Size = new Size(95, 23);
+            textBox4.Size = new Size(81, 23);
             textBox4.TabIndex = 3;
             // 
             // textBox5
             // 
-            textBox5.Location = new Point(529, 191);
+            textBox5.Location = new Point(37, 197);
             textBox5.Name = "textBox5";
             textBox5.PlaceholderText = "Şifre";
-            textBox5.Size = new Size(146, 23);
+            textBox5.Size = new Size(129, 23);
             textBox5.TabIndex = 4;
             // 
             // comboBox1
@@ -95,23 +95,24 @@
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.FormattingEnabled = true;
             comboBox1.Items.AddRange(new object[] { "Erkek", "Kadın" });
-            comboBox1.Location = new Point(693, 133);
+            comboBox1.Location = new Point(179, 139);
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(83, 23);
+            comboBox1.Size = new Size(74, 23);
             comboBox1.TabIndex = 6;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // dateTimePicker1
             // 
-            dateTimePicker1.Location = new Point(529, 133);
+            dateTimePicker1.Location = new Point(37, 139);
             dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(158, 23);
+            dateTimePicker1.Size = new Size(136, 23);
             dateTimePicker1.TabIndex = 7;
             // 
             // Temizle
             // 
-            Temizle.Location = new Point(656, 299);
+            Temizle.Location = new Point(164, 267);
             Temizle.Name = "Temizle";
-            Temizle.Size = new Size(120, 38);
+            Temizle.Size = new Size(89, 30);
             Temizle.TabIndex = 10;
             Temizle.Text = "Temizle";
             Temizle.UseVisualStyleBackColor = true;
@@ -120,7 +121,7 @@
             // pictureBox1
             // 
             pictureBox1.BorderStyle = BorderStyle.FixedSingle;
-            pictureBox1.Location = new Point(529, 225);
+            pictureBox1.Location = new Point(37, 231);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(118, 112);
             pictureBox1.TabIndex = 11;
@@ -132,7 +133,7 @@
             // 
             // ResimYükle
             // 
-            ResimYükle.Location = new Point(529, 343);
+            ResimYükle.Location = new Point(37, 349);
             ResimYükle.Name = "ResimYükle";
             ResimYükle.Size = new Size(118, 23);
             ResimYükle.TabIndex = 12;
@@ -143,17 +144,17 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(12, 438);
+            dataGridView1.Location = new Point(156, 438);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(1346, 299);
+            dataGridView1.Size = new Size(1202, 299);
             dataGridView1.TabIndex = 13;
             dataGridView1.CellClick += dataGridView1_CellClick;
             // 
             // EkleGuncelle
             // 
-            EkleGuncelle.Location = new Point(656, 244);
+            EkleGuncelle.Location = new Point(164, 231);
             EkleGuncelle.Name = "EkleGuncelle";
-            EkleGuncelle.Size = new Size(120, 38);
+            EkleGuncelle.Size = new Size(89, 30);
             EkleGuncelle.TabIndex = 14;
             EkleGuncelle.Text = "Ekle/Güncelle";
             EkleGuncelle.UseVisualStyleBackColor = true;
@@ -161,7 +162,7 @@
             // 
             // textBox6
             // 
-            textBox6.Location = new Point(580, 76);
+            textBox6.Location = new Point(88, 82);
             textBox6.Name = "textBox6";
             textBox6.PlaceholderText = "Kullanıcı Id";
             textBox6.Size = new Size(150, 23);
@@ -170,20 +171,20 @@
             // 
             // button1
             // 
-            button1.Location = new Point(653, 343);
+            button1.Location = new Point(164, 303);
             button1.Name = "button1";
-            button1.Size = new Size(130, 23);
+            button1.Size = new Size(89, 40);
             button1.TabIndex = 16;
-            button1.Text = "Admin ekle/güncelle";
+            button1.Text = "Admin \r\nekle/güncelle";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click_1;
             // 
             // dataGridView2
             // 
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView2.Location = new Point(811, 225);
+            dataGridView2.Location = new Point(289, 140);
             dataGridView2.Name = "dataGridView2";
-            dataGridView2.Size = new Size(547, 150);
+            dataGridView2.Size = new Size(1069, 264);
             dataGridView2.TabIndex = 17;
             dataGridView2.CellContentClick += dataGridView2_CellContentClick;
             // 
