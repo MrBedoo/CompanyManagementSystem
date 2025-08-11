@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CompanyManagementSystem.Data
 {
@@ -22,7 +23,11 @@ namespace CompanyManagementSystem.Data
                 throw new Exception("Entity'de Id property bulunamadı.");
 
             var idValue = idProp.GetValue(entity);
-            bool isUpdate = idValue != null && Convert.ToInt32(idValue) > 0;
+            bool isUpdate = false;
+            if (idValue != null && int.TryParse(idValue.ToString(), out int idInt))
+            {
+                isUpdate = idInt > 0;
+            }
 
             using var conn = DbHelper.GetConnection();
             conn.Open();
@@ -58,7 +63,7 @@ namespace CompanyManagementSystem.Data
             {
                 // Insert sorgusu (KayitTarihi için DateTime.Now atanacak)
                 var insertProps = props.Where(p => !string.Equals(p.Name, "Id", StringComparison.OrdinalIgnoreCase) &&
-                                                   !string.Equals(p.Name, "KayitTarihi", StringComparison.OrdinalIgnoreCase)).ToList();
+                                                   !string.Equals(p.Name, "KayitZamani", StringComparison.OrdinalIgnoreCase)).ToList();
 
                 var columnList = insertProps.Select(p => ToDbColumnName(p.Name)).ToList();
                 columnList.Add("kayit_zamani");
@@ -70,19 +75,26 @@ namespace CompanyManagementSystem.Data
 
 
                 var sql = $"INSERT INTO {ToDbTableName(type.Name)} ({columns}) VALUES ({parameters})";
-
-                using var cmd = new NpgsqlCommand(sql, conn);
-
-                foreach (var p in insertProps)
+                try
                 {
-                    var paramName = "@" + p.Name.ToLower();
-                    var value = p.GetValue(entity) ?? DBNull.Value;
-                    cmd.Parameters.AddWithValue(paramName, value);
-                }
-                cmd.Parameters.AddWithValue("@kayit_zamani", DateTime.Now);
+                    using var cmd = new NpgsqlCommand(sql, conn);
 
-                cmd.ExecuteNonQuery();
-                return 0;
+                    foreach (var p in insertProps)
+                    {
+                        var paramName = "@" + p.Name.ToLower();
+                        var value = p.GetValue(entity) ?? DBNull.Value;
+                        cmd.Parameters.AddWithValue(paramName, value);
+                    }
+                    cmd.Parameters.AddWithValue("@kayit_zamani", DateTime.Now);
+
+                    cmd.ExecuteNonQuery();
+                    return 0;
+                }
+                catch (PostgresException ex) when (ex.SqlState == "23505")
+                {
+                    MessageBox.Show("eklenemez, bu email zaten var.");
+                    return -2;
+                }
             }
         }
 
@@ -151,41 +163,21 @@ namespace CompanyManagementSystem.Data
         }
 
 
-        public bool AdSoyadEmailVarMi<T>(T entity, string[] alanlar, string idProperty = "Id") where T : class
+        public void Sil<T>(int id)
         {
-            using var conn = DbHelper.GetConnection();
-            conn.Open();
-
             var type = typeof(T);
             var tableName = ToDbTableName(type.Name);
 
-            // WHERE koşulu dinamik olarak oluşturuluyor
-            var whereList = alanlar.Select(a => $"{ToDbColumnName(a)} = @{a}").ToList();
-            var whereSql = string.Join(" OR ", whereList);
+            using var conn = DbHelper.GetConnection();
+            conn.Open();
 
-            string sql = $@"
-            SELECT COUNT(*) FROM {tableName}
-            WHERE ({whereSql})
-            AND {ToDbColumnName(idProperty)} <> @{idProperty}";
+            string sql = $"DELETE FROM {tableName} WHERE id = @id";
 
             using var cmd = new NpgsqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@id", id);
 
-            // Parametreleri ekle
-            foreach (var alan in alanlar.Append(idProperty))
-            {
-                var prop = type.GetProperty(alan);
-                if (prop != null)
-                {
-                    var value = prop.GetValue(entity) ?? DBNull.Value;
-                    cmd.Parameters.AddWithValue("@" + alan, value);
-                }
-            }
-
-            int count = Convert.ToInt32(cmd.ExecuteScalar());
-            return count > 0;
+            cmd.ExecuteNonQuery();
         }
-
-
 
 
         public T GetById(int id)
@@ -233,17 +225,17 @@ namespace CompanyManagementSystem.Data
 
                 object value = propType switch
                 {
-                    Type t when t == typeof(int) => reader.GetInt32(ordinal),
-                    Type t when t == typeof(long) => reader.GetInt64(ordinal),
-                    Type t when t == typeof(decimal) => reader.GetDecimal(ordinal),
-                    Type t when t == typeof(double) => reader.GetDouble(ordinal),
-                    Type t when t == typeof(float) => reader.GetFloat(ordinal),
-                    Type t when t == typeof(bool) => reader.GetBoolean(ordinal),
-                    Type t when t == typeof(string) => reader.GetString(ordinal),
-                    Type t when t == typeof(DateTime) => reader.GetDateTime(ordinal),
-                    Type t when t == typeof(char) => reader.GetChar(ordinal),
-                    Type t when t == typeof(byte[]) => (byte[])reader[columnName],
-                    _ => reader.GetValue(ordinal)
+                    Type t when t == typeof(int) => reader.IsDBNull(ordinal) ? 0 : reader.GetInt32(ordinal),
+                    Type t when t == typeof(long) => reader.IsDBNull(ordinal) ? 0L : reader.GetInt64(ordinal),
+                    Type t when t == typeof(decimal) => reader.IsDBNull(ordinal) ? 0m : reader.GetDecimal(ordinal),
+                    Type t when t == typeof(double) => reader.IsDBNull(ordinal) ? 0d : reader.GetDouble(ordinal),
+                    Type t when t == typeof(float) => reader.IsDBNull(ordinal) ? 0f : reader.GetFloat(ordinal),
+                    Type t when t == typeof(bool) => reader.IsDBNull(ordinal) ? false : reader.GetBoolean(ordinal),
+                    Type t when t == typeof(string) => reader.IsDBNull(ordinal) ? null : reader.GetString(ordinal),
+                    Type t when t == typeof(DateTime) => reader.IsDBNull(ordinal) ? DateTime.MinValue : reader.GetDateTime(ordinal),
+                    Type t when t == typeof(char) => reader.IsDBNull(ordinal) ? '\0' : reader.GetChar(ordinal),
+                    Type t when t == typeof(byte[]) => reader.IsDBNull(ordinal) ? null : (byte[])reader[columnName],
+                    _ => reader.IsDBNull(ordinal) ? null : reader.GetValue(ordinal)
                 };
 
                 prop.SetValue(entity, value);
@@ -251,9 +243,6 @@ namespace CompanyManagementSystem.Data
 
             return entity;
         }
-
-
-
 
         // Sınıf adını tablo adına dönüştür (ör: Kullanici => kullanicilar)
         private string ToDbTableName(string className)
@@ -269,7 +258,6 @@ namespace CompanyManagementSystem.Data
                 i > 0 && char.IsUpper(ch) ? new[] { '_', char.ToLower(ch) } : new[] { char.ToLower(ch) }));
 
         }
-
 
     }
 }

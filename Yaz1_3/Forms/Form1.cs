@@ -12,10 +12,14 @@ namespace CompanyManagementSystem
     public partial class KullaniciKayit : Form
     {
         private readonly KullaniciRepository _repository = new KullaniciRepository();
+        
 
         public KullaniciKayit()
         {
             InitializeComponent();
+
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView2.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
             // Minimum boyut belirle
             this.MinimumSize = new Size(1000, 600);
@@ -28,17 +32,17 @@ namespace CompanyManagementSystem
 
         private void VerileriListele()
         {
-            var repo = new KullaniciRepository();
-            var liste = repo.Listele();
-            dataGridView1.DataSource = liste;
+            var repoBase = new BaseRepository<Kullanici>();
+            var kullaniciListe = repoBase.Listele<Kullanici>();
+            dataGridView1.DataSource = kullaniciListe;
 
         }
 
         private void AdminListele()
         {
-            var repoBase = new BaseRepository<Admin>();
-            var adminListe = repoBase.Listele<Admin>();
-            dataGridView2.DataSource = adminListe;
+            var repoBase = new BaseRepository<Yonetici>();
+            var yoneticiListe = repoBase.Listele<Yonetici>();
+            dataGridView2.DataSource = yoneticiListe;
         }
 
         private void AlanlariTemizle()
@@ -59,14 +63,6 @@ namespace CompanyManagementSystem
 
         private void EkleGuncelle_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(textBox1.Text) ||
-                string.IsNullOrWhiteSpace(textBox2.Text) ||
-                string.IsNullOrWhiteSpace(textBox3.Text) ||
-                string.IsNullOrWhiteSpace(textBox5.Text))
-            {
-                MessageBox.Show("Ad, Soyad, Email ve Şifre alanları boş bırakılamaz.");
-                return;
-            }
 
             if (!int.TryParse(textBox6.Text, out int parsedId))
             {
@@ -87,21 +83,6 @@ namespace CompanyManagementSystem
             }
 
 
-            var repo = new BaseRepository<Kullanici>();
-
-            // Id 0 veya daha küçükse yeni kayıt
-            bool yeniKayit = parsedId <= 0;
-
-            if (!yeniKayit)
-            {
-                // Güncelleme için, Id veritabanında var mı kontrol et
-                var mevcut = repo.GetById(parsedId);
-                if (mevcut == null)
-                {
-                    MessageBox.Show("Geçersiz Id girdiniz.");
-                    return;
-                }
-            }
 
             var kullanici = new Kullanici
             {
@@ -112,23 +93,11 @@ namespace CompanyManagementSystem
                 DogumTarihi = dateTimePicker1.Value,
                 Cinsiyet = comboBox1.SelectedItem.ToString()[0], // E/K gibi
                 Gelir = gelir,
-                Sifre = textBox5.Text,
+                SifreHash = textBox5.Text,
                 Resim = secilenResim
             };
 
-            var repoKullanici = new KullaniciRepository();
 
-            if (repoKullanici.BaskaKullanicidaVarMi(kullanici))
-            {
-                MessageBox.Show("Aynı ad, soyad veya email başka bir kullanıcıya ait.");
-                return;
-            }
-
-            if (kullanici.Gelir > 1000000)
-            {
-                MessageBox.Show("Gelir en fazla 1.000.000 olabilir.");
-                return;
-            }
 
             var repoBase = new BaseRepository<Kullanici>();
             var result = repoBase.RunInsertOrUpdate(kullanici);
@@ -139,15 +108,14 @@ namespace CompanyManagementSystem
                 MessageBox.Show("Yeni kullanıcı eklendi.");
             else if (result == -1)
                 MessageBox.Show("ID veritabanında bulunamadı. Güncelleme yapılamadı.");
+            else if (result == -2)
+                MessageBox.Show("Aynı ad, soyad veya email başka bir kullanıcıya ait.");
             else
                 MessageBox.Show("Bir hata oluştu.");
 
             AlanlariTemizle();
             VerileriListele();
         }
-
-
-
 
 
         private void ResimYükle_Click(object sender, EventArgs e)
@@ -165,32 +133,29 @@ namespace CompanyManagementSystem
 
         private void Temizle_Click(object sender, EventArgs e)
         {
+            MessageBox.Show($"Kullanıcı seçili satır sayısı: {dataGridView1.SelectedRows.Count}\nAdmin seçili satır sayısı: {dataGridView2.SelectedRows.Count}");
 
-
-            if (dataGridView1.CurrentRow == null)
+            if (dataGridView1.SelectedRows.Count > 0)
             {
-                MessageBox.Show("Silmek için lütfen kullanıcı seçiniz");
-                return;
-            }
-
-            var result = MessageBox.Show("Seçilen kullanıcı silinecek, emin misiniz?", "Onay", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (result != DialogResult.Yes)
-            {
-                return;
-            }
-
-            int secilenId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["Id"].Value);
-
-            try
-            {
-                _repository.sil(secilenId);
+                var repo = new BaseRepository<Kullanici>();
+                int id = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["Id"].Value);
+                repo.Sil<Kullanici>(id);
                 MessageBox.Show("Kullanıcı silindi.");
                 VerileriListele();
                 AlanlariTemizle();
             }
-            catch (Exception ex)
+            else if (dataGridView2.SelectedRows.Count > 0)
             {
-                MessageBox.Show("Hata oluştu: " + ex.Message);
+                var repo = new BaseRepository<Yonetici>();
+                int id = Convert.ToInt32(dataGridView2.SelectedRows[0].Cells["Id"].Value);
+                repo.Sil<Yonetici>(id);
+                MessageBox.Show("Yönetici silindi.");
+                AdminListele();
+                AlanlariTemizle();
+            }
+            else
+            {
+                MessageBox.Show("Lütfen silmek için bir satır seçiniz.");
             }
 
         }
@@ -224,142 +189,82 @@ namespace CompanyManagementSystem
         }
 
 
-        private void KullaniciBilgileriniDoldur(Kullanici kullanici)
+        private void BilgileriDoldur<T>(T entity) where T : class
         {
-            textBox1.Text = kullanici.Ad;
-            textBox2.Text = kullanici.Soyad;
-            textBox3.Text = kullanici.Email;
-            textBox4.Text = kullanici.Gelir.ToString();
-            textBox5.Text = kullanici.Sifre;
+            var type = typeof(T);
 
-            comboBox1.SelectedItem = kullanici.Cinsiyet == 'E' ? "Erkek" : "Kadın";
-
-            dateTimePicker1.Value = kullanici.DogumTarihi;
-
-            if (kullanici.Resim != null)
+            foreach (var prop in type.GetProperties())
             {
-                using var ms = new MemoryStream(kullanici.Resim);
-                pictureBox1.Image = Image.FromStream(ms);
+                var propName = prop.Name;
+                var value = prop.GetValue(entity);
 
-                secilenResim = kullanici.Resim;
-            }
-            else
-            {
-                pictureBox1.Image = null; // resim yoksa temizle
-                secilenResim = null;
-            }
-
-        }
-
-
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(textBox6.Text))
-            {
-                var repo = new BaseRepository<Kullanici>();
-
-                if (int.TryParse(textBox6.Text, out int secilenId))
+                switch (propName)
                 {
-                    var kullanici = repo.GetById(secilenId);
+                    case "Id":
+                        textBox6.Text = value?.ToString() ?? "";
+                        break;
+                    case "Ad":
+                        textBox1.Text = value?.ToString() ?? "";
+                        break;
+                    case "Soyad":
+                        textBox2.Text = value?.ToString() ?? "";
+                        break;
+                    case "Email":
+                        textBox3.Text = value?.ToString() ?? "";
+                        break;
+                    case "Gelir":
+                        textBox4.Text = value?.ToString() ?? "";
+                        break;
+                    case "Sifre":
+                        textBox5.Text = value?.ToString() ?? "";
+                        break;
+                    case "Cinsiyet":
+                        if (value is char c)
+                            comboBox1.SelectedItem = c == 'E' ? "Erkek" : "Kadın";
+                        break;
+                    case "DogumTarihi":
+                        if (value is DateTime dt)
+                            dateTimePicker1.Value = dt;
+                        break;
+                    case "Resim":
+                        if (value is byte[] bytes && bytes.Length > 0)
+                        {
+                            using var ms = new MemoryStream(bytes);
+                            pictureBox1.Image = Image.FromStream(ms);
+                            secilenResim = bytes;
+                        }
+                        else
+                        {
+                            pictureBox1.Image = null;
+                            secilenResim = null;
+                        }
+                        break;
 
-                    if (kullanici == null)
-                    {
-                        MessageBox.Show("Bu Id'ye sahip bir kullanıcı bulunmamaktadır.");
-
-                        AlanlariTemizle();
-                    }
-                    else
-                    {
-                        KullaniciBilgileriniDoldur(kullanici);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Geçerli bir ID girin.");
                 }
             }
         }
 
-
-
-        private void KullaniciDoldur_Click(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(textBox6.Text))
-            {
-                var repo = new BaseRepository<Kullanici>();
-
-                if (int.TryParse(textBox6.Text, out int secilenId))
-                {
-                    var kullanici = repo.GetById(secilenId);
-
-                    if (kullanici == null)
-                    {
-                        MessageBox.Show("Bu Id ye  sahip bir kullanıcı bulunmamaktadır lütfen tekrar kontrol ediniz.");
-                        AlanlariTemizle();
-                    }
-                    else
-                    {
-                        KullaniciBilgileriniDoldur(kullanici);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Geçerli bir ID girin.");
-                }
-            }
-        }
-
-
-        private bool AlanlarGecerliMi(out decimal gelir)
-        {
-            gelir = 0;
-
-            if (string.IsNullOrWhiteSpace(textBox1.Text) ||
-                string.IsNullOrWhiteSpace(textBox2.Text) ||
-                string.IsNullOrWhiteSpace(textBox3.Text) ||
-                string.IsNullOrWhiteSpace(textBox4.Text) ||
-                string.IsNullOrWhiteSpace(textBox5.Text) ||
-                comboBox1.SelectedIndex == -1 ||
-                secilenResim == null)
-            {
-                MessageBox.Show("Tüm alanları doldurmanız gerekmektedir.");
-                return false;
-            }
-
-            if (!decimal.TryParse(textBox4.Text, out gelir))
-            {
-                MessageBox.Show("Gelir sayısal olmalıdır.");
-                return false;
-            }
-
-            if (gelir < 0 || gelir > 1000000)
-            {
-                MessageBox.Show("Gelir 0 ile 1.000.000 arasında olmalıdır.");
-                return false;
-            }
-
-            return true;
-        }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+
+
+
             if (e.RowIndex >= 0)
             {
                 var row = dataGridView1.Rows[e.RowIndex];
                 int id = Convert.ToInt32(row.Cells["Id"].Value);
 
-                //textBox6.Text = id.ToString(); // ID'yi kutuya yaz
+                textBox6.Text = id.ToString(); // ID'yi kutuya yaz
 
                 var repo = new BaseRepository<Kullanici>();
                 var kullanici = repo.GetById(id);
 
                 if (kullanici != null)
                 {
-                    KullaniciBilgileriniDoldur(kullanici);
+                    BilgileriDoldur<Kullanici>(kullanici);
                 }
             }
-
 
         }
 
@@ -375,33 +280,20 @@ namespace CompanyManagementSystem
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-
-            if (string.IsNullOrWhiteSpace(textBox1.Text) ||
-            string.IsNullOrWhiteSpace(textBox3.Text) ||
-            string.IsNullOrWhiteSpace(textBox2.Text))
+            int parsedId = 0;
+            if (!string.IsNullOrWhiteSpace(textBox6.Text))
             {
-                MessageBox.Show("Ad, Soyad ve Email alanları boş bırakılamaz.");
-                return;
-            }
-
-            if (!int.TryParse(textBox6.Text, out int parsedId))
-            {
-                MessageBox.Show("Geçerli bir ID giriniz.");
-                return;
-            }
-
-            var repo = new BaseRepository<Admin>();
-
-            bool yeniKayit = parsedId <= 0;
-
-            if (!yeniKayit)
-            {
-                var mevcut = repo.GetById(parsedId);
-                if (mevcut == null)
+                if (!int.TryParse(textBox6.Text, out parsedId))
                 {
-                    MessageBox.Show("Geçersiz Id girdiniz.");
+                    MessageBox.Show("Geçerli bir ID giriniz.");
                     return;
                 }
+            }
+
+            if (!decimal.TryParse(textBox4.Text, out decimal gelir))
+            {
+                MessageBox.Show("Geçerli bir gelir değeri giriniz.");
+                return;
             }
 
             if (comboBox1.SelectedItem == null)
@@ -410,17 +302,9 @@ namespace CompanyManagementSystem
                 return;
             }
 
-            string secilenCinsiyet = comboBox1.SelectedItem.ToString();
-
-            if (string.IsNullOrEmpty(secilenCinsiyet))
+            var yonetici = new Yonetici
             {
-                MessageBox.Show("Geçerli bir cinsiyet seçiniz.");
-                return;
-            }
-
-
-            var admin = new Admin
-            {
+                Id = parsedId,
                 Ad = textBox1.Text,
                 Soyad = textBox2.Text,
                 DogumTarihi = dateTimePicker1.Value,
@@ -431,16 +315,8 @@ namespace CompanyManagementSystem
                 Resim = null
             };
 
-            var repoAdmin = new AdminRepository();
-
-            if (repoAdmin.BaskaAdmindeVarMi(admin))
-            {
-                MessageBox.Show("Aynı ad, soyad veya email başka bir kullanıcıya ait.");
-                return;
-            }
-
-            var repoBase = new BaseRepository<Admin>();
-            var result = repoBase.RunInsertOrUpdate(admin);
+            var repoBase = new BaseRepository<Yonetici>();
+            var result = repoBase.RunInsertOrUpdate(yonetici);
 
             if (result == 1)
                 MessageBox.Show("Güncelleme başarılı.");
@@ -448,6 +324,8 @@ namespace CompanyManagementSystem
                 MessageBox.Show("Yeni admin eklendi.");
             else if (result == -1)
                 MessageBox.Show("ID veritabanında bulunamadı. Güncelleme yapılamadı.");
+            else if (result == -2)
+                MessageBox.Show("Aynı ad, soyad veya email başka bir admin'e ait.");
             else
                 MessageBox.Show("Bir hata oluştu.");
 
@@ -458,13 +336,52 @@ namespace CompanyManagementSystem
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+            if (e.RowIndex >= 0)
+            {
+                var row = dataGridView2.Rows[e.RowIndex];
+                int id = Convert.ToInt32(row.Cells["Id"].Value);
+
+                textBox6.Text = id.ToString(); // ID'yi kutuya yaz
+
+                var repo = new BaseRepository<Yonetici>();
+                var yonetici = repo.GetById(id);
+
+                if (yonetici != null)
+                {
+                    BilgileriDoldur<Yonetici>(yonetici);
+                }
+            }
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
+
+        private void dataGridView2_SelectionChanged(object sender, EventArgs e)
+        {
+
+
+        }
+
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+
+            
+        }
+
+        private void dataGridView2_Enter(object sender, EventArgs e)
+        {
+            dataGridView1.ClearSelection();
+        }
+
+        private void dataGridView1_Enter(object sender, EventArgs e)
+        {
+            dataGridView2.ClearSelection();
+        }
+
     }
+
 }
 
 

@@ -1,3 +1,5 @@
+using CompanyManagementSystem.Forms;
+
 namespace CompanyManagementSystem
 {
     internal static class Program
@@ -11,7 +13,7 @@ namespace CompanyManagementSystem
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new KullaniciKayit());
+            Application.Run(new LoginForm());
         }
     }
 }

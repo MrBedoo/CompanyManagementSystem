@@ -41,9 +41,9 @@
             ResimYükle = new Button();
             dataGridView1 = new DataGridView();
             EkleGuncelle = new Button();
-            textBox6 = new TextBox();
             button1 = new Button();
             dataGridView2 = new DataGridView();
+            textBox6 = new TextBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
@@ -149,6 +149,8 @@
             dataGridView1.Size = new Size(1202, 299);
             dataGridView1.TabIndex = 13;
             dataGridView1.CellClick += dataGridView1_CellClick;
+            dataGridView1.SelectionChanged += dataGridView1_SelectionChanged;
+            dataGridView1.Enter += dataGridView1_Enter;
             // 
             // EkleGuncelle
             // 
@@ -159,15 +161,6 @@
             EkleGuncelle.Text = "Ekle/Güncelle";
             EkleGuncelle.UseVisualStyleBackColor = true;
             EkleGuncelle.Click += EkleGuncelle_Click;
-            // 
-            // textBox6
-            // 
-            textBox6.Location = new Point(88, 82);
-            textBox6.Name = "textBox6";
-            textBox6.PlaceholderText = "Kullanıcı Id";
-            textBox6.Size = new Size(150, 23);
-            textBox6.TabIndex = 15;
-            textBox6.TextChanged += textBox6_TextChanged;
             // 
             // button1
             // 
@@ -187,15 +180,25 @@
             dataGridView2.Size = new Size(1069, 264);
             dataGridView2.TabIndex = 17;
             dataGridView2.CellContentClick += dataGridView2_CellContentClick;
+            dataGridView2.SelectionChanged += dataGridView2_SelectionChanged;
+            dataGridView2.Enter += dataGridView2_Enter;
+            // 
+            // textBox6
+            // 
+            textBox6.Location = new Point(80, 82);
+            textBox6.Name = "textBox6";
+            textBox6.PlaceholderText = "Id";
+            textBox6.Size = new Size(133, 23);
+            textBox6.TabIndex = 18;
             // 
             // KullaniciKayit
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1370, 749);
+            Controls.Add(textBox6);
             Controls.Add(dataGridView2);
             Controls.Add(button1);
-            Controls.Add(textBox6);
             Controls.Add(EkleGuncelle);
             Controls.Add(dataGridView1);
             Controls.Add(ResimYükle);
@@ -235,8 +238,8 @@
         private Button ResimYükle;
         private DataGridView dataGridView1;
         private Button EkleGuncelle;
-        private TextBox textBox6;
         private Button button1;
         private DataGridView dataGridView2;
+        private TextBox textBox6;
     }
 }

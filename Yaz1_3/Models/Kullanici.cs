@@ -15,9 +15,12 @@ namespace CompanyManagementSystem.Models
         public DateTime DogumTarihi {  get; set; }
         public char Cinsiyet {  get; set; }
         public decimal Gelir {  get; set; }
-        public string Sifre {  get; set; }
-        public DateTime KayitTarihi { get; set; }
+        public string SifreHash {  get; set; }
+        public DateTime KayitZamani { get; set; }
         public byte[] Resim {  get; set; }
-        
+        public int YoneticiId { get; set; }   // Foreign key property // Yönetici foreign key
+        public int RolId { get; set; }  // Tek rol
+        public bool Durum { get; set; }
+
     }
 }

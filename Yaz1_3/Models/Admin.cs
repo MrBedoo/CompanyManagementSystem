@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CompanyManagementSystem.Models
 {
-    internal class Admin
+    public class Yonetici
     {
         public int Id { get; set; }
         public string Ad { get; set; }
@@ -16,7 +16,7 @@ namespace CompanyManagementSystem.Models
         public char Cinsiyet { get; set; }
         public decimal Gelir { get; set; }
         public string Sifre { get; set; }
-        public DateTime KayitTarihi { get; set; }
+        public DateTime KayitZamani { get; set; }
         public byte[] Resim { get; set; }
     }
 }
