@@ -43,5 +43,70 @@ namespace CompanyManagementSystem.Data
             }
             return null;
         }
+
+        public List<Kullanici> GetAktifKullanicilar()
+        {
+            var list = new List<Kullanici>();
+            using var conn = DbHelper.GetConnection();
+            conn.Open();
+
+            string sql = "SELECT id, ad, soyad, email FROM kullanici WHERE durum = true";
+            using var cmd = new NpgsqlCommand(sql, conn);
+            using var reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                list.Add(new Kullanici
+                {
+                    Id = reader.GetInt32(0),
+                    Ad = reader.GetString(1),
+                    Soyad = reader.GetString(2),
+                    Email = reader.GetString(3)
+                });
+            }
+            return list;
+        }
+
+        public void IncrementFailedLoginAttempts(int kullaniciId)
+        {
+            using var conn = DbHelper.GetConnection();
+            conn.Open();
+            var sql = @"
+            UPDATE kullanici 
+            SET failed_login_attempts = failed_login_attempts + 1 
+            WHERE id = @id";
+            using var cmd = new NpgsqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@id", kullaniciId);
+            cmd.ExecuteNonQuery();
+        }
+
+        public void ResetFailedLoginAttempts(int kullaniciId)
+        {
+            using var conn = DbHelper.GetConnection();
+            conn.Open();
+            var sql = @"
+            UPDATE kullanici 
+            SET failed_login_attempts = 0, lockout_end_time = NULL
+            WHERE id = @id";
+            using var cmd = new NpgsqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@id", kullaniciId);
+            cmd.ExecuteNonQuery();
+        }
+
+        public void SetLockout(int kullaniciId, DateTime lockoutEndTime)
+        {
+            using var conn = DbHelper.GetConnection();
+            conn.Open();
+            var sql = @"
+            UPDATE kullanici 
+            SET lockout_end_time = @lockoutEndTime
+            WHERE id = @id";
+            using var cmd = new NpgsqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@id", kullaniciId);
+            cmd.Parameters.AddWithValue("@lockoutEndTime", lockoutEndTime);
+            cmd.ExecuteNonQuery();
+        }
+
+
     }
 }

@@ -12,6 +12,8 @@ namespace CompanyManagementSystem.Data
     {
         private static readonly string connectionString = "REMOVED";
 
+        public static string ConnectionString => connectionString;
+
         public static NpgsqlConnection GetConnection()
         {
             return new NpgsqlConnection(connectionString);

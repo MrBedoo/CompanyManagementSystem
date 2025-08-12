@@ -28,33 +28,37 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
+            btnCikis = new Button();
+            btnToplantıListesi = new Button();
             SuspendLayout();
             // 
-            // guna2Button1
+            // btnCikis
             // 
-            guna2Button1.CustomizableEdges = customizableEdges1;
-            guna2Button1.DisabledState.BorderColor = Color.DarkGray;
-            guna2Button1.DisabledState.CustomBorderColor = Color.DarkGray;
-            guna2Button1.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            guna2Button1.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            guna2Button1.Font = new Font("Segoe UI", 9F);
-            guna2Button1.ForeColor = Color.White;
-            guna2Button1.Location = new Point(382, 185);
-            guna2Button1.Name = "guna2Button1";
-            guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            guna2Button1.Size = new Size(180, 45);
-            guna2Button1.TabIndex = 0;
-            guna2Button1.Text = "user";
+            btnCikis.Location = new Point(608, 320);
+            btnCikis.Name = "btnCikis";
+            btnCikis.Size = new Size(119, 39);
+            btnCikis.TabIndex = 0;
+            btnCikis.Text = "Çıkış";
+            btnCikis.UseVisualStyleBackColor = true;
+            btnCikis.Click += btnCikis_Click;
+            // 
+            // btnToplantıListesi
+            // 
+            btnToplantıListesi.Location = new Point(419, 83);
+            btnToplantıListesi.Name = "btnToplantıListesi";
+            btnToplantıListesi.Size = new Size(147, 43);
+            btnToplantıListesi.TabIndex = 1;
+            btnToplantıListesi.Text = "Toplantılar";
+            btnToplantıListesi.UseVisualStyleBackColor = true;
+            btnToplantıListesi.Click += btnToplantıListesi_Click;
             // 
             // UserMainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(guna2Button1);
+            Controls.Add(btnToplantıListesi);
+            Controls.Add(btnCikis);
             Name = "UserMainForm";
             Text = "UserMainForm";
             ResumeLayout(false);
@@ -62,6 +66,7 @@
 
         #endregion
 
-        private Guna.UI2.WinForms.Guna2Button guna2Button1;
+        private Button btnCikis;
+        private Button btnToplantıListesi;
     }
 }

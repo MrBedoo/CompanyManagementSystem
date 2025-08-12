@@ -21,6 +21,8 @@ namespace CompanyManagementSystem.Models
         public int YoneticiId { get; set; }   // Foreign key property // Yönetici foreign key
         public int RolId { get; set; }  // Tek rol
         public bool Durum { get; set; }
+        public int FailedLoginAttempts { get; set; }      // Yeni alan
+        public DateTime? LockoutEndTime { get; set; }
 
     }
 }

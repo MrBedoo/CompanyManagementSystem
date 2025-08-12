@@ -28,89 +28,58 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            txtEmail = new Guna.UI2.WinForms.Guna2TextBox();
-            txtSifre = new Guna.UI2.WinForms.Guna2TextBox();
-            BtnLogin = new Guna.UI2.WinForms.Guna2Button();
+            button1 = new Button();
+            txtEmail = new TextBox();
+            txtSifre = new TextBox();
             SuspendLayout();
+            // 
+            // button1
+            // 
+            button1.Location = new Point(336, 191);
+            button1.Name = "button1";
+            button1.Size = new Size(91, 28);
+            button1.TabIndex = 0;
+            button1.Text = "Giriş Yap";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // txtEmail
             // 
-            txtEmail.CustomizableEdges = customizableEdges1;
-            txtEmail.DefaultText = "";
-            txtEmail.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
-            txtEmail.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
-            txtEmail.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
-            txtEmail.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
-            txtEmail.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtEmail.Font = new Font("Segoe UI", 9F);
-            txtEmail.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtEmail.Location = new Point(294, 135);
+            txtEmail.Location = new Point(297, 133);
             txtEmail.Name = "txtEmail";
             txtEmail.PlaceholderText = "Email";
-            txtEmail.SelectedText = "";
-            txtEmail.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            txtEmail.Size = new Size(167, 31);
-            txtEmail.TabIndex = 0;
+            txtEmail.Size = new Size(179, 23);
+            txtEmail.TabIndex = 1;
+            txtEmail.TextChanged += txtEmail_TextChanged;
             // 
             // txtSifre
             // 
-            txtSifre.CustomizableEdges = customizableEdges3;
-            txtSifre.DefaultText = "";
-            txtSifre.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
-            txtSifre.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
-            txtSifre.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
-            txtSifre.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
-            txtSifre.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtSifre.Font = new Font("Segoe UI", 9F);
-            txtSifre.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtSifre.Location = new Point(294, 172);
+            txtSifre.Location = new Point(297, 162);
             txtSifre.Name = "txtSifre";
             txtSifre.PlaceholderText = "Şifre";
-            txtSifre.SelectedText = "";
-            txtSifre.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            txtSifre.Size = new Size(167, 31);
-            txtSifre.TabIndex = 1;
-            // 
-            // BtnLogin
-            // 
-            BtnLogin.CustomizableEdges = customizableEdges5;
-            BtnLogin.DisabledState.BorderColor = Color.DarkGray;
-            BtnLogin.DisabledState.CustomBorderColor = Color.DarkGray;
-            BtnLogin.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            BtnLogin.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            BtnLogin.Font = new Font("Segoe UI", 9F);
-            BtnLogin.ForeColor = Color.White;
-            BtnLogin.Location = new Point(316, 209);
-            BtnLogin.Name = "BtnLogin";
-            BtnLogin.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            BtnLogin.Size = new Size(131, 31);
-            BtnLogin.TabIndex = 2;
-            BtnLogin.Text = "Giriş Yap";
-            BtnLogin.Click += BtnLogin_Click;
+            txtSifre.Size = new Size(179, 23);
+            txtSifre.TabIndex = 2;
+            txtSifre.TextChanged += txtSifre_TextChanged;
             // 
             // LoginForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(BtnLogin);
             Controls.Add(txtSifre);
             Controls.Add(txtEmail);
+            Controls.Add(button1);
             Name = "LoginForm";
             Text = "LoginForm";
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        private Guna.UI2.WinForms.Guna2TextBox txtEmail;
-        private Guna.UI2.WinForms.Guna2TextBox txtSifre;
-        private Guna.UI2.WinForms.Guna2Button BtnLogin;
+
+        private Button button1;
+        private TextBox txtEmail;
+        private TextBox txtSifre;
     }
 }

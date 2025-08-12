@@ -4,13 +4,14 @@ using System.IO;
 using System.Windows.Forms;
 using Npgsql;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-
+using CompanyManagementSystem.Business.Service;
 
 
 namespace CompanyManagementSystem
 {
     public partial class KullaniciKayit : Form
     {
+        private readonly AuthService _authService = new AuthService();
         private readonly KullaniciRepository _repository = new KullaniciRepository();
         
 
@@ -82,6 +83,11 @@ namespace CompanyManagementSystem
                 return;
             }
 
+            if (gelir> 1000000)
+            {
+                MessageBox.Show("Gelir alanı en fazla 1 milyon değerindedir.");
+                return;
+            }
 
 
             var kullanici = new Kullanici
@@ -93,7 +99,7 @@ namespace CompanyManagementSystem
                 DogumTarihi = dateTimePicker1.Value,
                 Cinsiyet = comboBox1.SelectedItem.ToString()[0], // E/K gibi
                 Gelir = gelir,
-                SifreHash = textBox5.Text,
+                SifreHash = _authService.Hash(textBox5.Text),
                 Resim = secilenResim
             };
 

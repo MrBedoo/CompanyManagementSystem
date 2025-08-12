@@ -19,5 +19,29 @@ namespace CompanyManagementSystem.Forms
             InitializeComponent();
             _girisYapanKullanici = kullanici;
         }
+
+
+
+
+        private void btnCikis_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.UserToken = string.Empty;
+            Properties.Settings.Default.KullaniciId = 0;
+            Properties.Settings.Default.TokenGecerlilik = DateTime.MinValue;
+            Properties.Settings.Default.Save();
+
+            // Aktif oturumu sıfırla
+            Program.AktifOturum = null;
+
+            // Giriş formunu aç ve bu formu kapat
+            var loginForm = new LoginForm();
+            loginForm.Show();
+            this.Close();
+        }
+
+        private void btnToplantıListesi_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
