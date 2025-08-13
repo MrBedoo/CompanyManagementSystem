@@ -176,9 +176,14 @@ namespace CompanyManagementSystem.Forms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var AdminMainForm = new AdminMainForm(_currentUser);  // Yeni açmak istediğin formun ismi
-            AdminMainForm.Show();                // Formu gösterir (aynı anda her iki form da açık kalır)
+            Form anaForm;
 
+            if (_currentUser.RolId == 1)  // Admin
+                anaForm = new AdminMainForm(_currentUser);
+            else                           // Normal kullanıcı
+                anaForm = new UserMainForm(_currentUser);
+
+            anaForm.Show();
             this.Hide();
         }
 

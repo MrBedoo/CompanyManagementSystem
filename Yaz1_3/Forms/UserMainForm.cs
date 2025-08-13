@@ -18,10 +18,23 @@ namespace CompanyManagementSystem.Forms
         {
             InitializeComponent();
             _currentUser = kullanici;
+
+            // Kullanıcının atanan görevlerini al
+            var gorev = _currentUser.AtananGorevler.FirstOrDefault();
+            if (gorev != null)
+            {
+                txtGorevBaslik.Text = gorev.Baslik;
+                txtGorevAciklama.Text = gorev.Aciklama;
+                txtGorevBitisTarihi.Text = gorev.BitisTarihi?.ToString("g") ?? "";
+            }
+            else
+            {
+                txtGorevBaslik.Text = "";
+                txtGorevAciklama.Text = "";
+                txtGorevBitisTarihi.Text = "";
+            }
+
         }
-
-
-
 
         private void btnCikis_Click(object sender, EventArgs e)
         {

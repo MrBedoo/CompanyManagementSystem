@@ -34,11 +34,13 @@
             button4 = new Button();
             btnCikis = new Button();
             btnToplantilar = new Button();
+            button2 = new Button();
+            button5 = new Button();
             SuspendLayout();
             // 
             // button1
             // 
-            button1.Location = new Point(150, 51);
+            button1.Location = new Point(150, 207);
             button1.Name = "button1";
             button1.Size = new Size(155, 35);
             button1.TabIndex = 0;
@@ -48,7 +50,7 @@
             // 
             // btnToplantiPlanlama
             // 
-            btnToplantiPlanlama.Location = new Point(311, 51);
+            btnToplantiPlanlama.Location = new Point(150, 51);
             btnToplantiPlanlama.Name = "btnToplantiPlanlama";
             btnToplantiPlanlama.Size = new Size(155, 35);
             btnToplantiPlanlama.TabIndex = 1;
@@ -58,11 +60,11 @@
             // 
             // button3
             // 
-            button3.Location = new Point(311, 109);
+            button3.Location = new Point(311, 51);
             button3.Name = "button3";
             button3.Size = new Size(155, 35);
             button3.TabIndex = 2;
-            button3.Text = "Proje/Görev işlemleri";
+            button3.Text = "Proje oluştur";
             button3.UseVisualStyleBackColor = true;
             // 
             // button4
@@ -71,12 +73,13 @@
             button4.Name = "button4";
             button4.Size = new Size(155, 35);
             button4.TabIndex = 3;
-            button4.Text = "Proje/Görev oluşturma";
+            button4.Text = "Görev oluştur";
             button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
             // 
             // btnCikis
             // 
-            btnCikis.Location = new Point(595, 287);
+            btnCikis.Location = new Point(524, 284);
             btnCikis.Name = "btnCikis";
             btnCikis.Size = new Size(103, 37);
             btnCikis.TabIndex = 4;
@@ -94,11 +97,31 @@
             btnToplantilar.UseVisualStyleBackColor = true;
             btnToplantilar.Click += btnToplantilar_Click;
             // 
+            // button2
+            // 
+            button2.Location = new Point(311, 109);
+            button2.Name = "button2";
+            button2.Size = new Size(155, 35);
+            button2.TabIndex = 6;
+            button2.Text = "Projeler";
+            button2.UseVisualStyleBackColor = true;
+            // 
+            // button5
+            // 
+            button5.Location = new Point(472, 109);
+            button5.Name = "button5";
+            button5.Size = new Size(155, 35);
+            button5.TabIndex = 7;
+            button5.Text = "Görevler";
+            button5.UseVisualStyleBackColor = true;
+            // 
             // AdminMainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(button5);
+            Controls.Add(button2);
             Controls.Add(btnToplantilar);
             Controls.Add(btnCikis);
             Controls.Add(button4);
@@ -118,5 +141,7 @@
         private Button button4;
         private Button btnCikis;
         private Button btnToplantilar;
+        private Button button2;
+        private Button button5;
     }
 }

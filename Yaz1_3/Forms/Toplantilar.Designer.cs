@@ -162,7 +162,7 @@
             txtAdres.Location = new Point(105, 194);
             txtAdres.Name = "txtAdres";
             txtAdres.ReadOnly = true;
-            txtAdres.Size = new Size(135, 23);
+            txtAdres.Size = new Size(169, 23);
             txtAdres.TabIndex = 9;
             // 
             // txtBitisTarihi
@@ -170,7 +170,7 @@
             txtBitisTarihi.Location = new Point(105, 165);
             txtBitisTarihi.Name = "txtBitisTarihi";
             txtBitisTarihi.ReadOnly = true;
-            txtBitisTarihi.Size = new Size(135, 23);
+            txtBitisTarihi.Size = new Size(169, 23);
             txtBitisTarihi.TabIndex = 8;
             // 
             // txtBaslamaTarihi
@@ -178,7 +178,7 @@
             txtBaslamaTarihi.Location = new Point(105, 136);
             txtBaslamaTarihi.Name = "txtBaslamaTarihi";
             txtBaslamaTarihi.ReadOnly = true;
-            txtBaslamaTarihi.Size = new Size(135, 23);
+            txtBaslamaTarihi.Size = new Size(169, 23);
             txtBaslamaTarihi.TabIndex = 7;
             // 
             // txtAciklama

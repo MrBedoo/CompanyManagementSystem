@@ -57,9 +57,9 @@
             groupBox1.Controls.Add(dtpBaslama);
             groupBox1.Controls.Add(txtAciklama);
             groupBox1.Controls.Add(txtBaslik);
-            groupBox1.Location = new Point(12, 43);
+            groupBox1.Location = new Point(12, 35);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(321, 395);
+            groupBox1.Size = new Size(321, 403);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Toplantı Oluştur";
@@ -67,7 +67,7 @@
             // checkedListBox1
             // 
             checkedListBox1.FormattingEnabled = true;
-            checkedListBox1.Location = new Point(16, 313);
+            checkedListBox1.Location = new Point(21, 313);
             checkedListBox1.Name = "checkedListBox1";
             checkedListBox1.Size = new Size(184, 76);
             checkedListBox1.TabIndex = 10;
@@ -139,16 +139,16 @@
             // 
             // txtAciklama
             // 
-            txtAciklama.Location = new Point(16, 62);
+            txtAciklama.Location = new Point(16, 51);
             txtAciklama.Multiline = true;
             txtAciklama.Name = "txtAciklama";
             txtAciklama.PlaceholderText = "Açıklama";
-            txtAciklama.Size = new Size(246, 60);
+            txtAciklama.Size = new Size(265, 71);
             txtAciklama.TabIndex = 1;
             // 
             // txtBaslik
             // 
-            txtBaslik.Location = new Point(16, 33);
+            txtBaslik.Location = new Point(16, 22);
             txtBaslik.Name = "txtBaslik";
             txtBaslik.PlaceholderText = "Başlık";
             txtBaslik.Size = new Size(189, 23);
@@ -157,15 +157,15 @@
             // dgvToplantilar
             // 
             dgvToplantilar.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvToplantilar.Location = new Point(379, 24);
+            dgvToplantilar.Location = new Point(379, 12);
             dgvToplantilar.Name = "dgvToplantilar";
-            dgvToplantilar.Size = new Size(409, 395);
+            dgvToplantilar.Size = new Size(409, 426);
             dgvToplantilar.TabIndex = 1;
             dgvToplantilar.CellContentClick += dataGridView1_CellContentClick;
             // 
             // button1
             // 
-            button1.Location = new Point(130, 12);
+            button1.Location = new Point(159, 3);
             button1.Name = "button1";
             button1.Size = new Size(134, 34);
             button1.TabIndex = 2;

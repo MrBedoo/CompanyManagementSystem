@@ -33,22 +33,22 @@
             button1 = new Button();
             groupBox1 = new GroupBox();
             label3 = new Label();
-            comboBox1 = new ComboBox();
+            cmbGorevDurum = new ComboBox();
             label6 = new Label();
             label5 = new Label();
             label4 = new Label();
             label2 = new Label();
             label1 = new Label();
-            textBox7 = new TextBox();
-            textBox6 = new TextBox();
-            textBox5 = new TextBox();
-            textBox3 = new TextBox();
-            textBox2 = new TextBox();
+            txtGorevOlusturmaTarihi = new TextBox();
+            txtGorevBitisTarihi = new TextBox();
+            txtGorevOncelik = new TextBox();
+            txtGorevAciklama = new TextBox();
+            txtGorevBaslik = new TextBox();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
             tabPage2 = new TabPage();
-            textBox1 = new TextBox();
             button2 = new Button();
+            textBox1 = new TextBox();
             groupBox1.SuspendLayout();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -87,17 +87,17 @@
             // groupBox1
             // 
             groupBox1.Controls.Add(label3);
-            groupBox1.Controls.Add(comboBox1);
+            groupBox1.Controls.Add(cmbGorevDurum);
             groupBox1.Controls.Add(label6);
             groupBox1.Controls.Add(label5);
             groupBox1.Controls.Add(label4);
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(label1);
-            groupBox1.Controls.Add(textBox7);
-            groupBox1.Controls.Add(textBox6);
-            groupBox1.Controls.Add(textBox5);
-            groupBox1.Controls.Add(textBox3);
-            groupBox1.Controls.Add(textBox2);
+            groupBox1.Controls.Add(txtGorevOlusturmaTarihi);
+            groupBox1.Controls.Add(txtGorevBitisTarihi);
+            groupBox1.Controls.Add(txtGorevOncelik);
+            groupBox1.Controls.Add(txtGorevAciklama);
+            groupBox1.Controls.Add(txtGorevBaslik);
             groupBox1.Location = new Point(0, 0);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(341, 398);
@@ -114,14 +114,14 @@
             label3.TabIndex = 13;
             label3.Text = "Durum";
             // 
-            // comboBox1
+            // cmbGorevDurum
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Tamamlandı", "Tamamlanmadı", "Iptal" });
-            comboBox1.Location = new Point(111, 282);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(121, 23);
-            comboBox1.TabIndex = 12;
+            cmbGorevDurum.FormattingEnabled = true;
+            cmbGorevDurum.Items.AddRange(new object[] { "Tamamlandı", "Tamamlanmadı", "Iptal" });
+            cmbGorevDurum.Location = new Point(111, 282);
+            cmbGorevDurum.Name = "cmbGorevDurum";
+            cmbGorevDurum.Size = new Size(121, 23);
+            cmbGorevDurum.TabIndex = 12;
             // 
             // label6
             // 
@@ -170,46 +170,46 @@
             label1.Text = "Başlık";
             label1.Click += label1_Click;
             // 
-            // textBox7
+            // txtGorevOlusturmaTarihi
             // 
-            textBox7.Location = new Point(111, 177);
-            textBox7.Name = "textBox7";
-            textBox7.ReadOnly = true;
-            textBox7.Size = new Size(163, 23);
-            textBox7.TabIndex = 5;
+            txtGorevOlusturmaTarihi.Location = new Point(111, 177);
+            txtGorevOlusturmaTarihi.Name = "txtGorevOlusturmaTarihi";
+            txtGorevOlusturmaTarihi.ReadOnly = true;
+            txtGorevOlusturmaTarihi.Size = new Size(163, 23);
+            txtGorevOlusturmaTarihi.TabIndex = 5;
             // 
-            // textBox6
+            // txtGorevBitisTarihi
             // 
-            textBox6.Location = new Point(111, 206);
-            textBox6.Name = "textBox6";
-            textBox6.ReadOnly = true;
-            textBox6.Size = new Size(163, 23);
-            textBox6.TabIndex = 4;
+            txtGorevBitisTarihi.Location = new Point(111, 206);
+            txtGorevBitisTarihi.Name = "txtGorevBitisTarihi";
+            txtGorevBitisTarihi.ReadOnly = true;
+            txtGorevBitisTarihi.Size = new Size(163, 23);
+            txtGorevBitisTarihi.TabIndex = 4;
             // 
-            // textBox5
+            // txtGorevOncelik
             // 
-            textBox5.Location = new Point(111, 148);
-            textBox5.Name = "textBox5";
-            textBox5.ReadOnly = true;
-            textBox5.Size = new Size(121, 23);
-            textBox5.TabIndex = 3;
+            txtGorevOncelik.Location = new Point(111, 148);
+            txtGorevOncelik.Name = "txtGorevOncelik";
+            txtGorevOncelik.ReadOnly = true;
+            txtGorevOncelik.Size = new Size(121, 23);
+            txtGorevOncelik.TabIndex = 3;
             // 
-            // textBox3
+            // txtGorevAciklama
             // 
-            textBox3.Location = new Point(111, 64);
-            textBox3.Multiline = true;
-            textBox3.Name = "textBox3";
-            textBox3.ReadOnly = true;
-            textBox3.Size = new Size(204, 78);
-            textBox3.TabIndex = 1;
+            txtGorevAciklama.Location = new Point(111, 64);
+            txtGorevAciklama.Multiline = true;
+            txtGorevAciklama.Name = "txtGorevAciklama";
+            txtGorevAciklama.ReadOnly = true;
+            txtGorevAciklama.Size = new Size(204, 78);
+            txtGorevAciklama.TabIndex = 1;
             // 
-            // textBox2
+            // txtGorevBaslik
             // 
-            textBox2.Location = new Point(111, 35);
-            textBox2.Name = "textBox2";
-            textBox2.ReadOnly = true;
-            textBox2.Size = new Size(204, 23);
-            textBox2.TabIndex = 0;
+            txtGorevBaslik.Location = new Point(111, 35);
+            txtGorevBaslik.Name = "txtGorevBaslik";
+            txtGorevBaslik.ReadOnly = true;
+            txtGorevBaslik.Size = new Size(204, 23);
+            txtGorevBaslik.TabIndex = 0;
             // 
             // tabControl1
             // 
@@ -245,6 +245,15 @@
             tabPage2.Text = "Görev Rapor";
             tabPage2.UseVisualStyleBackColor = true;
             // 
+            // button2
+            // 
+            button2.Location = new Point(181, 349);
+            button2.Name = "button2";
+            button2.Size = new Size(85, 27);
+            button2.TabIndex = 1;
+            button2.Text = "Kaydet";
+            button2.UseVisualStyleBackColor = true;
+            // 
             // textBox1
             // 
             textBox1.Location = new Point(43, 30);
@@ -253,15 +262,6 @@
             textBox1.PlaceholderText = "Görev Raporu";
             textBox1.Size = new Size(251, 313);
             textBox1.TabIndex = 0;
-            // 
-            // button2
-            // 
-            button2.Location = new Point(209, 349);
-            button2.Name = "button2";
-            button2.Size = new Size(85, 27);
-            button2.TabIndex = 1;
-            button2.Text = "Kaydet";
-            button2.UseVisualStyleBackColor = true;
             // 
             // UserMainForm
             // 
@@ -297,14 +297,14 @@
         private Label label4;
         private Label label2;
         private Label label1;
-        private TextBox textBox7;
-        private TextBox textBox6;
-        private TextBox textBox5;
-        private TextBox textBox3;
-        private TextBox textBox2;
+        private TextBox txtGorevOlusturmaTarihi;
+        private TextBox txtGorevBitisTarihi;
+        private TextBox txtGorevOncelik;
+        private TextBox txtGorevAciklama;
+        private TextBox txtGorevBaslik;
         private TextBox textBox1;
         private Label label3;
-        private ComboBox comboBox1;
+        private ComboBox cmbGorevDurum;
         private Button button2;
     }
 }

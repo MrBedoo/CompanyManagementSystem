@@ -63,5 +63,13 @@ namespace CompanyManagementSystem.Forms
 
             this.Hide();                 // Mevcut formu gizler
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            var gorevForm = new GorevOlusturForm(_currentUser);  // Yeni açmak istediğin formun ismi
+            gorevForm.Show();                // Formu gösterir (aynı anda her iki form da açık kalır)
+
+            this.Hide();
+        }
     }
 }
