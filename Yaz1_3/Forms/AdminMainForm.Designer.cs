@@ -66,6 +66,7 @@
             button3.TabIndex = 2;
             button3.Text = "Proje oluştur";
             button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // button4
             // 

@@ -28,5 +28,44 @@ namespace CompanyManagementSystem.Data
         }
 
 
+        public List<Gorev> GetAll()
+        {
+            var list = new List<Gorev>();
+
+            using var conn = DbHelper.GetConnection();
+            conn.Open();
+
+            string sql = @"
+            SELECT id, projeid, atanankullaniciid, baslik, aciklama, durum, oncelik, olusturmatarihi, bitistarihi
+            FROM gorev
+            ORDER BY olusturmatarihi DESC";
+
+            using var cmd = new NpgsqlCommand(sql, conn);
+            using var reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                var gorev = new Gorev
+                {
+                    Id = reader.GetInt32(0),
+                    ProjeId = reader.IsDBNull(1) ? 0 : reader.GetInt32(1),
+                    AtananKullaniciId = reader.IsDBNull(2) ? (int?)null : reader.GetInt32(2),
+                    Baslik = reader.GetString(3),
+                    Aciklama = reader.IsDBNull(4) ? "" : reader.GetString(4),
+                    Durum = reader.IsDBNull(5) ? "Beklemede" : reader.GetString(5),
+                    Oncelik = reader.IsDBNull(6) ? "Normal" : reader.GetString(6),
+                    OlusturmaTarihi = reader.GetDateTime(7),
+                    BitisTarihi = reader.IsDBNull(8) ? (DateTime?)null : reader.GetDateTime(8)
+                };
+
+                list.Add(gorev);
+            }
+
+            return list;
+        }
+
+
+
+
     }
 }

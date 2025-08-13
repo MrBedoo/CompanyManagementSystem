@@ -71,5 +71,13 @@ namespace CompanyManagementSystem.Forms
 
             this.Hide();
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            var adminForm = new ProjeOlusturForm(_currentUser);  // Yeni açmak istediğin formun ismi
+            adminForm.Show();                // Formu gösterir (aynı anda her iki form da açık kalır)
+
+            this.Hide();
+        }
     }
 }

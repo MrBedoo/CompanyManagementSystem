@@ -39,6 +39,7 @@ namespace CompanyManagementSystem.Forms
             cmbProjeler.DataSource = projeler;
             cmbProjeler.DisplayMember = "Ad";
             cmbProjeler.ValueMember = "Id";
+            LoadGorevler();
         }
 
 
@@ -77,6 +78,51 @@ namespace CompanyManagementSystem.Forms
             {
                 MessageBox.Show("Görev eklenirken hata oluştu: " + ex.Message);
             }
+        }
+
+
+
+
+        private void LoadGorevler()
+        {
+            try
+            {
+                var gorevler = _gorevRepo.GetAll(); // Tüm görevleri çek
+
+                // DataTable oluştur
+                var dt = new DataTable();
+                dt.Columns.Add("Id", typeof(int));
+                dt.Columns.Add("Baslik", typeof(string));
+                dt.Columns.Add("Aciklama", typeof(string));
+                dt.Columns.Add("Durum", typeof(string));
+                dt.Columns.Add("BitisTarihi", typeof(string));
+
+                foreach (var g in gorevler)
+                {
+                    dt.Rows.Add(
+                        g.Id,
+                        g.Baslik,
+                        g.Aciklama ?? "",
+                        g.Durum ?? "",
+                        g.BitisTarihi.HasValue ? g.BitisTarihi.Value.ToString("g") : ""
+                    );
+                }
+
+                dataGridView1.DataSource = dt;
+                dataGridView1.Columns["Id"].Visible = false; // Id görünmesin
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Görevler yüklenirken hata oluştu: " + ex.Message);
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var mainForm = new AdminMainForm(_currentUser);  // Yeni açmak istediğin formun ismi
+            mainForm.Show();                // Formu gösterir (aynı anda her iki form da açık kalır)
+
+            this.Hide();
         }
     }
 }

@@ -29,18 +29,22 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
+            button1 = new Button();
+            cmbProjeler = new ComboBox();
             dtpBitis = new DateTimePicker();
             btnGorevKaydet = new Button();
             cmbAtananKullanici = new ComboBox();
             txtGorevBaslik = new TextBox();
             txtGorevDurum = new TextBox();
             txtGorevAciklama = new TextBox();
-            cmbProjeler = new ComboBox();
+            dataGridView1 = new DataGridView();
             groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(button1);
             groupBox1.Controls.Add(cmbProjeler);
             groupBox1.Controls.Add(dtpBitis);
             groupBox1.Controls.Add(btnGorevKaydet);
@@ -54,6 +58,25 @@
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Görev Oluştur";
+            // 
+            // button1
+            // 
+            button1.Location = new Point(249, 0);
+            button1.Name = "button1";
+            button1.Size = new Size(104, 34);
+            button1.TabIndex = 1;
+            button1.Text = "Anasayfaya Dön";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // cmbProjeler
+            // 
+            cmbProjeler.FormattingEnabled = true;
+            cmbProjeler.Location = new Point(43, 243);
+            cmbProjeler.Name = "cmbProjeler";
+            cmbProjeler.Size = new Size(121, 23);
+            cmbProjeler.TabIndex = 10;
+            cmbProjeler.Text = "Projeler";
             // 
             // dtpBitis
             // 
@@ -107,25 +130,27 @@
             txtGorevAciklama.Size = new Size(252, 105);
             txtGorevAciklama.TabIndex = 1;
             // 
-            // cmbProjeler
+            // dataGridView1
             // 
-            cmbProjeler.FormattingEnabled = true;
-            cmbProjeler.Location = new Point(43, 243);
-            cmbProjeler.Name = "cmbProjeler";
-            cmbProjeler.Size = new Size(121, 23);
-            cmbProjeler.TabIndex = 10;
-            cmbProjeler.Text = "Projeler";
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(389, 12);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.Size = new Size(399, 426);
+            dataGridView1.TabIndex = 1;
             // 
             // GorevOlusturForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(dataGridView1);
             Controls.Add(groupBox1);
             Name = "GorevOlusturForm";
             Text = "GorevOlusturForm";
+            Load += GorevOlusturForm_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
 
@@ -139,5 +164,7 @@
         private Button btnGorevKaydet;
         private DateTimePicker dtpBitis;
         private ComboBox cmbProjeler;
+        private Button button1;
+        private DataGridView dataGridView1;
     }
 }
