@@ -31,6 +31,7 @@
             splitContainer1 = new SplitContainer();
             dgvToplantilar = new DataGridView();
             groupBox1 = new GroupBox();
+            button1 = new Button();
             txtDurum = new TextBox();
             Durum = new Label();
             listBox1 = new ListBox();
@@ -68,8 +69,9 @@
             // 
             splitContainer1.Panel2.Controls.Add(groupBox1);
             splitContainer1.Size = new Size(800, 450);
-            splitContainer1.SplitterDistance = 300;
+            splitContainer1.SplitterDistance = 410;
             splitContainer1.TabIndex = 0;
+            splitContainer1.SplitterMoved += splitContainer1_SplitterMoved;
             // 
             // dgvToplantilar
             // 
@@ -79,13 +81,14 @@
             dgvToplantilar.Name = "dgvToplantilar";
             dgvToplantilar.ReadOnly = true;
             dgvToplantilar.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvToplantilar.Size = new Size(300, 450);
+            dgvToplantilar.Size = new Size(410, 450);
             dgvToplantilar.TabIndex = 0;
             dgvToplantilar.CellContentClick += dgvToplantilar_CellContentClick;
             dgvToplantilar.SelectionChanged += dgvToplantilar_SelectionChanged;
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(button1);
             groupBox1.Controls.Add(txtDurum);
             groupBox1.Controls.Add(Durum);
             groupBox1.Controls.Add(listBox1);
@@ -103,15 +106,26 @@
             groupBox1.Dock = DockStyle.Fill;
             groupBox1.Location = new Point(0, 0);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(496, 450);
+            groupBox1.Size = new Size(386, 450);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Toplantı Detayları";
+            // 
+            // button1
+            // 
+            button1.Location = new Point(283, 371);
+            button1.Name = "button1";
+            button1.Size = new Size(89, 39);
+            button1.TabIndex = 14;
+            button1.Text = "Anasayfaya dön";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // txtDurum
             // 
             txtDurum.Location = new Point(105, 371);
             txtDurum.Name = "txtDurum";
+            txtDurum.ReadOnly = true;
             txtDurum.Size = new Size(135, 23);
             txtDurum.TabIndex = 13;
             // 
@@ -132,6 +146,7 @@
             listBox1.Name = "listBox1";
             listBox1.Size = new Size(239, 94);
             listBox1.TabIndex = 11;
+            listBox1.SelectedIndexChanged += listBox1_SelectedIndexChanged;
             // 
             // label6
             // 
@@ -274,5 +289,6 @@
         private TextBox txtBaslik;
         private TextBox txtDurum;
         private Label Durum;
+        private Button button1;
     }
 }

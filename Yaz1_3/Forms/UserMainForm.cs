@@ -13,11 +13,11 @@ namespace CompanyManagementSystem.Forms
 {
     public partial class UserMainForm : Form
     {
-        private Kullanici _girisYapanKullanici;
+        private Kullanici _currentUser;
         public UserMainForm(Kullanici kullanici)
         {
             InitializeComponent();
-            _girisYapanKullanici = kullanici;
+            _currentUser = kullanici;
         }
 
 
@@ -25,21 +25,39 @@ namespace CompanyManagementSystem.Forms
 
         private void btnCikis_Click(object sender, EventArgs e)
         {
+            // Oturumu sıfırla
             Properties.Settings.Default.UserToken = string.Empty;
             Properties.Settings.Default.KullaniciId = 0;
             Properties.Settings.Default.TokenGecerlilik = DateTime.MinValue;
             Properties.Settings.Default.Save();
 
-            // Aktif oturumu sıfırla
             Program.AktifOturum = null;
 
-            // Giriş formunu aç ve bu formu kapat
+            // Login formunu aç ve mevcut formu kapat
             var loginForm = new LoginForm();
             loginForm.Show();
             this.Close();
         }
 
         private void btnToplantıListesi_Click(object sender, EventArgs e)
+        {
+            var toplantiForm = new Toplantilar(_currentUser);  // Yeni açmak istediğin formun ismi
+            toplantiForm.Show();                // Formu gösterir (aynı anda her iki form da açık kalır)
+
+            this.Hide();                 // Mevcut formu gizler
+        }
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
         {
 
         }

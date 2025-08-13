@@ -40,37 +40,27 @@ namespace CompanyManagementSystem.Forms
                 return;
             }
 
-            // Başarılı giriş
+            // Başarılı giriş → Oturumu kaydet
             Program.AktifOturum = new Oturum
             {
                 KullaniciId = kullanici.Id,
                 KullaniciAdi = kullanici.Ad,
-                GecerlilikTarihi = DateTime.Now.AddHours(8) // 8 saat geçerli olsun
+                GecerlilikTarihi = DateTime.Now.AddHours(8)
             };
 
-            // Gerekirse Settings’e kaydet
             Properties.Settings.Default.UserToken = Guid.NewGuid().ToString();
             Properties.Settings.Default.KullaniciId = kullanici.Id;
             Properties.Settings.Default.TokenGecerlilik = Program.AktifOturum.GecerlilikTarihi;
             Properties.Settings.Default.Save();
 
-            // Rol kontrolü ve sayfa yönlendirme
-            switch (kullanici.RolId)
-            {
-                case 1: // Admin
-                    var adminForm = new AdminMainForm(kullanici);
-                    adminForm.Show();
-                    break;
-                case 2: // Normal kullanıcı
-                    var userForm = new UserMainForm(kullanici);
-                    userForm.Show();
-                    break;
-                default:
-                    MessageBox.Show("Rol tanımlanamıyor.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-            }
+            // Rol bazlı yönlendirme
+            Form anaForm = kullanici.RolId == 1
+                ? new AdminMainForm(kullanici)
+                : new UserMainForm(kullanici);
 
             this.Hide();
+            anaForm.FormClosed += (s, args) => this.Close(); // Ana form kapanınca login formu da kapanır
+            anaForm.Show();
         }
 
         private void txtSifre_TextChanged(object sender, EventArgs e)

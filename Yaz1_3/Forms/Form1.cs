@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using Npgsql;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using CompanyManagementSystem.Business.Service;
+using CompanyManagementSystem.Forms;
 
 
 namespace CompanyManagementSystem
@@ -13,11 +14,13 @@ namespace CompanyManagementSystem
     {
         private readonly AuthService _authService = new AuthService();
         private readonly KullaniciRepository _repository = new KullaniciRepository();
-        
+        private Kullanici _currentUser;
 
-        public KullaniciKayit()
+
+        public KullaniciKayit(Kullanici kullanici)
         {
             InitializeComponent();
+            _currentUser = kullanici;
 
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView2.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -83,7 +86,7 @@ namespace CompanyManagementSystem
                 return;
             }
 
-            if (gelir> 1000000)
+            if (gelir > 1000000)
             {
                 MessageBox.Show("Gelir alanı en fazla 1 milyon değerindedir.");
                 return;
@@ -373,7 +376,7 @@ namespace CompanyManagementSystem
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
 
-            
+
         }
 
         private void dataGridView2_Enter(object sender, EventArgs e)
@@ -386,6 +389,13 @@ namespace CompanyManagementSystem
             dataGridView2.ClearSelection();
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            var AdminMainForm1 = new AdminMainForm(_currentUser);  // Yeni açmak istediğin formun ismi
+            AdminMainForm1.Show();                // Formu gösterir (aynı anda her iki form da açık kalır)
+
+            this.Hide();
+        }
     }
 
 }

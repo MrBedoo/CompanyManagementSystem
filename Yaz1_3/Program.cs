@@ -19,10 +19,14 @@ namespace CompanyManagementSystem
             var kullaniciId = Properties.Settings.Default.KullaniciId;
             var gecerlilik = Properties.Settings.Default.TokenGecerlilik;
 
+            Form anaForm = null;
+
+            // Oturum geçerli mi kontrol et
             if (!string.IsNullOrEmpty(token) && kullaniciId > 0 && gecerlilik > DateTime.Now)
             {
                 var kullaniciRepo = new KullaniciRepository();
                 var kullanici = kullaniciRepo.GetById(kullaniciId);
+
                 if (kullanici != null)
                 {
                     AktifOturum = new Oturum
@@ -31,12 +35,20 @@ namespace CompanyManagementSystem
                         KullaniciAdi = kullanici.Ad,
                         GecerlilikTarihi = gecerlilik
                     };
-                    Application.Run(new AdminMainForm(kullanici));
-                    return;
+
+                    // Rol bazlý form aç
+                    if (kullanici.RolId == 1)
+                        anaForm = new AdminMainForm(kullanici);
+                    else
+                        anaForm = new UserMainForm(kullanici);
                 }
             }
 
-            Application.Run(new LoginForm());
+            // Oturum yoksa login formunu aç
+            if (anaForm == null)
+                anaForm = new LoginForm();
+
+            Application.Run(anaForm);
 
         }
     }

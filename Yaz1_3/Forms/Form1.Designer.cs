@@ -44,6 +44,7 @@
             button1 = new Button();
             dataGridView2 = new DataGridView();
             textBox6 = new TextBox();
+            button2 = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
@@ -191,11 +192,22 @@
             textBox6.Size = new Size(133, 23);
             textBox6.TabIndex = 18;
             // 
+            // button2
+            // 
+            button2.Location = new Point(117, 26);
+            button2.Name = "button2";
+            button2.Size = new Size(118, 30);
+            button2.TabIndex = 19;
+            button2.Text = "Anasayfaya dön";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // KullaniciKayit
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1370, 749);
+            Controls.Add(button2);
             Controls.Add(textBox6);
             Controls.Add(dataGridView2);
             Controls.Add(button1);
@@ -241,5 +253,6 @@
         private Button button1;
         private DataGridView dataGridView2;
         private TextBox textBox6;
+        private Button button2;
     }
 }

@@ -14,13 +14,35 @@ namespace CompanyManagementSystem.Forms
 {
     public partial class ToplantıPlanlama : Form
     {
-        private ToplantiRepository _repo;
 
-        public ToplantıPlanlama()
+        private Kullanici _currentUser;
+        private ToplantiRepository _repo;
+        private readonly ToplantiKatilimciRepository _katilimciRepo;
+        private readonly KullaniciRepository _kullaniciRepo;
+
+       
+
+        public ToplantıPlanlama(Kullanici kullanici)
         {
             InitializeComponent();
-
+            _currentUser = kullanici;
+            _katilimciRepo = new ToplantiKatilimciRepository();
             _repo = new ToplantiRepository();
+            _kullaniciRepo = new KullaniciRepository();
+
+            // Tarih ve saat seçimi için ayarlar
+            dtpBaslama.Format = DateTimePickerFormat.Custom;
+            dtpBaslama.CustomFormat = "dd.MM.yyyy HH:mm";
+            dtpBaslama.ShowUpDown = false;
+
+            dtpBitis.Format = DateTimePickerFormat.Custom;
+            dtpBitis.CustomFormat = "dd.MM.yyyy HH:mm";
+            dtpBitis.ShowUpDown = false;
+
+
+            checkedListBox1.DataSource = _kullaniciRepo.GetAll(); // Kullanıcıları çek
+            checkedListBox1.DisplayMember = "Ad";  // Listede görünen isim
+            checkedListBox1.ValueMember = "Id";    // Seçilen değerde Id
 
             LoadKatilimcilar();
             LoadToplantilar();
@@ -74,7 +96,7 @@ namespace CompanyManagementSystem.Forms
                 return;
             }
 
-            if (lstKatilimcilar.SelectedItems.Count == 0)
+            if (checkedListBox1.SelectedItems.Count == 0)
             {
                 MessageBox.Show("En az bir katılımcı seçiniz!");
                 return;
@@ -87,14 +109,15 @@ namespace CompanyManagementSystem.Forms
                 BaslamaTarihi = dtpBaslama.Value,
                 BitisTarihi = dtpBitis.Value,
                 ToplantiTuru = cmbToplantiTuru.SelectedItem.ToString(),
-                Adres = txtAdres.Text.Trim()
+                Adres = txtAdres.Text.Trim(),
+                OlusturanId = _currentUser.Id
             };
 
             try
             {
+                // 2️⃣ Toplantıyı ekle, Id otomatik güncellenecek
                 _repo.Add(yeniToplanti);
 
-                // Katılımcıları eklemek için ayrı bir metot yazabilirsiniz, örn: _repo.AddKatilimcilar(yeniToplanti.Id, seçilenKatılımcılar)
 
                 MessageBox.Show("Toplantı başarıyla kaydedildi!");
 
@@ -107,7 +130,7 @@ namespace CompanyManagementSystem.Forms
             }
         }
 
-        
+
         private void TemizleFormu()
         {
             txtBaslik.Clear();
@@ -116,7 +139,7 @@ namespace CompanyManagementSystem.Forms
             dtpBitis.Value = DateTime.Now;
             cmbToplantiTuru.SelectedIndex = -1;
             txtAdres.Clear();
-            lstKatilimcilar.ClearSelected();
+            checkedListBox1.ClearSelected();
         }
 
 
@@ -125,14 +148,85 @@ namespace CompanyManagementSystem.Forms
         {
             var repoKullanici = new KullaniciRepository();
             var kullanicilar = repoKullanici.GetAktifKullanicilar();
-            lstKatilimcilar.DataSource = kullanicilar;
-            lstKatilimcilar.DisplayMember = "AdSoyad"; // Bu property’yi Kullanici modelinde oluşturalım
-            lstKatilimcilar.ValueMember = "Id";
+            checkedListBox1.DataSource = kullanicilar;
+            checkedListBox1.DisplayMember = "AdSoyad"; // Bu property’yi Kullanici modelinde oluşturalım
+            checkedListBox1.ValueMember = "Id";
         }
 
         private void btnTemizle_Click_1(object sender, EventArgs e)
         {
             TemizleFormu();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var AdminMainForm = new AdminMainForm(_currentUser);  // Yeni açmak istediğin formun ismi
+            AdminMainForm.Show();                // Formu gösterir (aynı anda her iki form da açık kalır)
+
+            this.Hide();
+        }
+
+        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var secilenKullanici = checkedListBox1.SelectedItem as Kullanici;
+
+            if (secilenKullanici != null)
+            {
+                string isim = secilenKullanici.Ad;   // Görünen isim
+                int id = secilenKullanici.Id;        // Id
+                                                     // İstersen textbox veya label’a yazabilirsin
+
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            // 1️⃣ Seçili toplantıyı al
+            if (dgvToplantilar.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Lütfen önce bir toplantı seçin.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int toplantıId = Convert.ToInt32(dgvToplantilar.SelectedRows[0].Cells["Id"].Value);
+
+            // 2️⃣ CheckedListBox'tan seçilen katılımcıları al
+            var secilenKatilimcilar = checkedListBox1.CheckedItems
+                .Cast<Kullanici>()
+                .ToList();
+
+            if (!secilenKatilimcilar.Any())
+            {
+                MessageBox.Show("Lütfen en az bir katılımcı seçin.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 3️⃣ Katılımcıları veritabanına ekle
+            foreach (var kullanici in secilenKatilimcilar)
+            {
+                _katilimciRepo.AddKatilimci(
+                    toplantıId,
+                    kullanici.Id,
+                    "Katılıyor",   // Katılım durumu
+                    "Katılımcı"    // Rol
+                );
+            }
+
+            MessageBox.Show("Katılımcılar başarıyla eklendi!", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            // 4️⃣ İşlem sonrası seçimleri temizle
+            for (int i = 0; i < checkedListBox1.Items.Count; i++)
+                checkedListBox1.SetItemChecked(i, false);
+        }
+
+        private void dtpBaslama_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dtpBitis_ValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

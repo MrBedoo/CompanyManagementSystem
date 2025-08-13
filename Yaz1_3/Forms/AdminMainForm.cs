@@ -17,24 +17,24 @@ namespace CompanyManagementSystem.Forms
 {
     public partial class AdminMainForm : Form
     {
-        private Kullanici _girisYapanKullanici;
+        private Kullanici _currentUser;
 
         public AdminMainForm(Kullanici kullanici)
         {
             InitializeComponent();
-            _girisYapanKullanici = kullanici;
+            _currentUser = kullanici;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var form = new KullaniciKayit();
+            var form = new KullaniciKayit(_currentUser);
             form.Show();
             this.Hide();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            var toplantiForm = new ToplantıPlanlama();
+            var toplantiForm = new ToplantıPlanlama(_currentUser);
             toplantiForm.Show();
 
             this.Hide();
@@ -42,18 +42,26 @@ namespace CompanyManagementSystem.Forms
 
         private void btnCikis_Click(object sender, EventArgs e)
         {
+            // Oturumu sıfırla
             Properties.Settings.Default.UserToken = string.Empty;
             Properties.Settings.Default.KullaniciId = 0;
             Properties.Settings.Default.TokenGecerlilik = DateTime.MinValue;
             Properties.Settings.Default.Save();
 
-            // Aktif oturumu sıfırla
             Program.AktifOturum = null;
 
-            // Giriş formunu aç ve bu formu kapat
+            // Login formunu aç ve mevcut formu kapat
             var loginForm = new LoginForm();
             loginForm.Show();
             this.Close();
+        }
+
+        private void btnToplantilar_Click(object sender, EventArgs e)
+        {
+            var toplantiForm = new Toplantilar(_currentUser);  // Yeni açmak istediğin formun ismi
+            toplantiForm.Show();                // Formu gösterir (aynı anda her iki form da açık kalır)
+
+            this.Hide();                 // Mevcut formu gizler
         }
     }
 }

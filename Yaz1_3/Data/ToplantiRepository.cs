@@ -18,7 +18,7 @@ namespace CompanyManagementSystem.Data
             using var conn = DbHelper.GetConnection();
             conn.Open();
 
-            string sql = "SELECT id, baslik, aciklama, baslama_tarihi, bitis_tarihi, durum FROM toplanti ORDER BY baslama_tarihi DESC";
+            string sql = "SELECT id, baslik, aciklama, baslama_tarihi, adres, olusturanid, bitis_tarihi, toplanti_turu, durum, olusturmatarihi FROM toplanti ORDER BY baslama_tarihi DESC";
 
             using var cmd = new NpgsqlCommand(sql, conn);
             using var reader = cmd.ExecuteReader();
@@ -31,13 +31,12 @@ namespace CompanyManagementSystem.Data
                     Baslik = reader.GetString(1),
                     Aciklama = reader.IsDBNull(2) ? "" : reader.GetString(2),
                     BaslamaTarihi = reader.GetDateTime(3),
-                    BitisTarihi = reader.IsDBNull(4) ? (DateTime?)null : reader.GetDateTime(4),
-                    Konum = reader.IsDBNull(5) ? "" : reader.GetString(5),
-                    ToplantiTuru = reader.IsDBNull(6) ? "" : reader.GetString(6),
-                    Durum = reader.IsDBNull(7) ? "Planlandı" : reader.GetString(7),
-                    OlusturmaTarihi = reader.IsDBNull(8) ? DateTime.Now : reader.GetDateTime(8),
-                    OlusturanId = reader.IsDBNull(9) ? 0 : reader.GetInt32(9),
-                    Adres = reader.IsDBNull(10) ? "" : reader.GetString(10)
+                    Adres = reader.IsDBNull(4) ? "" : reader.GetString(4),
+                    OlusturanId = reader.IsDBNull(5) ? 0 : reader.GetInt32(5),
+                    BitisTarihi = reader.IsDBNull(6) ? (DateTime?)null : reader.GetDateTime(6),
+                    ToplantiTuru = reader.IsDBNull(7) ? "" : reader.GetString(7),
+                    Durum = reader.IsDBNull(8) ? "Planlandı" : reader.GetString(8),
+                    OlusturmaTarihi = reader.IsDBNull(9) ? DateTime.Now : reader.GetDateTime(9),
                 };
                 list.Add(toplantı);
             }
@@ -80,8 +79,8 @@ namespace CompanyManagementSystem.Data
 
             var sql = @"
             INSERT INTO toplanti 
-            (baslik, aciklama, baslama_tarihi, bitis_tarihi, toplanti_turu, adres) 
-            VALUES (@baslik, @aciklama, @baslama, @bitis, @tur, @adres)";
+            (baslik, aciklama, baslama_tarihi, adres, olusturanid, bitis_tarihi, toplanti_turu) 
+            VALUES (@baslik, @aciklama, @baslama, @adres, @olusturanid, @bitis, @tur)";
 
             using var cmd = new NpgsqlCommand(sql, conn);
 
@@ -91,6 +90,7 @@ namespace CompanyManagementSystem.Data
             cmd.Parameters.AddWithValue("@bitis", t.BitisTarihi);
             cmd.Parameters.AddWithValue("@tur", t.ToplantiTuru);
             cmd.Parameters.AddWithValue("@adres", (object?)t.Adres ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@olusturanid", t.OlusturanId);
 
             cmd.ExecuteNonQuery();
 
@@ -116,15 +116,14 @@ namespace CompanyManagementSystem.Data
                 {
                     Id = reader.GetInt32(0),
                     Baslik = reader.GetString(1),
-                    Aciklama = reader.GetString(2),
+                    Aciklama = reader.IsDBNull(2) ? "" : reader.GetString(2),
                     BaslamaTarihi = reader.GetDateTime(3),
-                    BitisTarihi = reader.IsDBNull(4) ? (DateTime?)null : reader.GetDateTime(4),
-                    Konum = reader.IsDBNull(5) ? null : reader.GetString(5),
-                    ToplantiTuru = reader.IsDBNull(6) ? null : reader.GetString(6),
-                    Durum = reader.IsDBNull(7) ? null : reader.GetString(7),
-                    OlusturmaTarihi = reader.IsDBNull(8) ? DateTime.MinValue : reader.GetDateTime(8),
-                    OlusturanId = reader.IsDBNull(9) ? 0 : reader.GetInt32(9),
-                    Adres = reader.IsDBNull(10) ? null : reader.GetString(10),
+                    Adres = reader.IsDBNull(4) ? "" : reader.GetString(4),
+                    OlusturanId = reader.IsDBNull(5) ? 0 : reader.GetInt32(5),
+                    BitisTarihi = reader.IsDBNull(6) ? (DateTime?)null : reader.GetDateTime(6),
+                    ToplantiTuru = reader.IsDBNull(7) ? "" : reader.GetString(7),
+                    Durum = reader.IsDBNull(8) ? "Planlandı" : reader.GetString(8),
+                    OlusturmaTarihi = reader.IsDBNull(9) ? DateTime.Now : reader.GetDateTime(9)
                 };
             }
 

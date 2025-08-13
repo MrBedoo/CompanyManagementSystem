@@ -33,6 +33,7 @@
             button3 = new Button();
             button4 = new Button();
             btnCikis = new Button();
+            btnToplantilar = new Button();
             SuspendLayout();
             // 
             // button1
@@ -83,11 +84,22 @@
             btnCikis.UseVisualStyleBackColor = true;
             btnCikis.Click += btnCikis_Click;
             // 
+            // btnToplantilar
+            // 
+            btnToplantilar.Location = new Point(150, 109);
+            btnToplantilar.Name = "btnToplantilar";
+            btnToplantilar.Size = new Size(155, 35);
+            btnToplantilar.TabIndex = 5;
+            btnToplantilar.Text = "Toplantılar";
+            btnToplantilar.UseVisualStyleBackColor = true;
+            btnToplantilar.Click += btnToplantilar_Click;
+            // 
             // AdminMainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(btnToplantilar);
             Controls.Add(btnCikis);
             Controls.Add(button4);
             Controls.Add(button3);
@@ -105,5 +117,6 @@
         private Button button3;
         private Button button4;
         private Button btnCikis;
+        private Button btnToplantilar;
     }
 }

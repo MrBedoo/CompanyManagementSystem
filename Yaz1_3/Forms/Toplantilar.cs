@@ -1,4 +1,5 @@
 ﻿using CompanyManagementSystem.Data;
+using CompanyManagementSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,12 +16,17 @@ namespace CompanyManagementSystem.Forms
     {
         private readonly ToplantiRepository _toplantiRepo;
         private DataTable _dtToplantilar;
+        private readonly ToplantiKatilimciRepository _katilimciRepo;
+        private Kullanici _currentUser;
 
-        public Toplantilar()
+
+        public Toplantilar(Kullanici aktifKullanici)
         {
             InitializeComponent();
 
             _toplantiRepo = new ToplantiRepository();
+            _katilimciRepo = new ToplantiKatilimciRepository();
+            _currentUser = aktifKullanici;
 
             // SplitContainer ayarları (kodla da yapabilirsiniz)
             splitContainer1.Dock = DockStyle.Fill;
@@ -34,6 +40,13 @@ namespace CompanyManagementSystem.Forms
 
             // Kolonlar
             dgvToplantilar.Columns.Clear();
+
+            dgvToplantilar.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                DataPropertyName = "Id", // DataTable’daki kolon
+                Name = "Id",             // Cells["Id"] ile erişim için gerekli
+                Visible = false
+            });
 
             dgvToplantilar.Columns.Add(new DataGridViewTextBoxColumn()
             {
@@ -85,6 +98,11 @@ namespace CompanyManagementSystem.Forms
             }
 
             dgvToplantilar.DataSource = _dtToplantilar;
+
+            // Id kolonunu görünmez yap
+            if (dgvToplantilar.Columns.Contains("Id"))
+                dgvToplantilar.Columns["Id"].Visible = false;
+
             if (dgvToplantilar.Rows.Count > 0)
                 dgvToplantilar.Rows[0].Selected = true;
         }
@@ -109,6 +127,12 @@ namespace CompanyManagementSystem.Forms
                 return;
             }
 
+            if (!dgvToplantilar.Columns.Contains("Id"))
+            {
+                ClearDetails();
+                return;
+            }
+
             int id = Convert.ToInt32(dgvToplantilar.SelectedRows[0].Cells["Id"].Value);
 
             var toplantı = _toplantiRepo.GetById(id);
@@ -125,6 +149,14 @@ namespace CompanyManagementSystem.Forms
             txtBitisTarihi.Text = toplantı.BitisTarihi.HasValue ? toplantı.BitisTarihi.Value.ToString("g") : "";
             txtDurum.Text = toplantı.Durum;
 
+
+            listBox1.Items.Clear();
+            var katilimcilar = _katilimciRepo.GetByToplantiId(id);
+            foreach (var k in katilimcilar)
+            {
+                listBox1.Items.Add($"{k.KullaniciId} - {k.Rol} ({k.KatilimDurumu})");
+            }
+
         }
 
         private void ClearDetails()
@@ -137,6 +169,22 @@ namespace CompanyManagementSystem.Forms
             txtDurum.Text = "";
         }
 
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var AdminMainForm = new AdminMainForm(_currentUser);  // Yeni açmak istediğin formun ismi
+            AdminMainForm.Show();                // Formu gösterir (aynı anda her iki form da açık kalır)
+
+            this.Hide();
+        }
+
+        private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
+        {
+
+        }
     }
 }
