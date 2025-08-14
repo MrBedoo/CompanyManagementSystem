@@ -34,7 +34,7 @@ namespace CompanyManagementSystem.Forms
 
         private void button2_Click(object sender, EventArgs e)
         {
-            var toplantiForm = new ToplantıPlanlama(_currentUser);
+            var toplantiForm = new ToplantıPlanlamaForm(_currentUser);
             toplantiForm.Show();
 
             this.Hide();
@@ -58,7 +58,7 @@ namespace CompanyManagementSystem.Forms
 
         private void btnToplantilar_Click(object sender, EventArgs e)
         {
-            var toplantiForm = new Toplantilar(_currentUser);  // Yeni açmak istediğin formun ismi
+            var toplantiForm = new ToplantilarForm(_currentUser);  // Yeni açmak istediğin formun ismi
             toplantiForm.Show();                // Formu gösterir (aynı anda her iki form da açık kalır)
 
             this.Hide();                 // Mevcut formu gizler
@@ -82,7 +82,7 @@ namespace CompanyManagementSystem.Forms
 
         private void button6_Click(object sender, EventArgs e)
         {
-            var NotForm = new KullaniciNotu();  // Yeni açmak istediğin formun ismi
+            var NotForm = new KullaniciNotListeForm(_currentUser);  // Yeni açmak istediğin formun ismi
             NotForm.Show();                // Formu gösterir (aynı anda her iki form da açık kalır)
 
             this.Hide();

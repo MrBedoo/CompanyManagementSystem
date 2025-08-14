@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace CompanyManagementSystem.Forms
 {
-    public partial class Toplantilar : Form
+    public partial class ToplantilarForm : Form
     {
         private readonly ToplantiRepository _toplantiRepo;
         private DataTable _dtToplantilar;
@@ -20,7 +20,7 @@ namespace CompanyManagementSystem.Forms
         private Kullanici _currentUser;
 
 
-        public Toplantilar(Kullanici aktifKullanici)
+        public ToplantilarForm(Kullanici aktifKullanici)
         {
             InitializeComponent();
 

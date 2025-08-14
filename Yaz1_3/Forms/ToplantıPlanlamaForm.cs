@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace CompanyManagementSystem.Forms
 {
-    public partial class ToplantıPlanlama : Form
+    public partial class ToplantıPlanlamaForm : Form
     {
 
         private Kullanici _currentUser;
@@ -22,7 +22,7 @@ namespace CompanyManagementSystem.Forms
 
        
 
-        public ToplantıPlanlama(Kullanici kullanici)
+        public ToplantıPlanlamaForm(Kullanici kullanici)
         {
             InitializeComponent();
             _currentUser = kullanici;

@@ -14,11 +14,10 @@ namespace CompanyManagementSystem.Data
         public List<KullaniciNot> GetByKullaniciId(int kullaniciId)
         {
             var notlar = new List<KullaniciNot>();
-
             using var conn = DbHelper.GetConnection();
             conn.Open();
 
-            string query = "SELECT Id, KullaniciId, NotTarihi, NotMetni FROM KullaniciNotlari WHERE KullaniciId = @KullaniciId ORDER BY NotTarihi DESC";
+            string query = "SELECT Id, KullaniciId, NotTarihi, NotMetni, Turu FROM KullaniciNotlari WHERE KullaniciId = @KullaniciId ORDER BY NotTarihi DESC";
             using var cmd = new NpgsqlCommand(query, conn);
             cmd.Parameters.AddWithValue("@KullaniciId", kullaniciId);
 
@@ -30,10 +29,10 @@ namespace CompanyManagementSystem.Data
                     Id = reader.GetInt32(0),
                     KullaniciId = reader.GetInt32(1),
                     NotTarihi = reader.GetDateTime(2),
-                    NotMetni = reader.GetString(3)
+                    NotMetni = reader.GetString(3),
+                    Turu = Enum.Parse<NotTuru>(reader.GetString(4))
                 });
             }
-
             return notlar;
         }
 
@@ -42,11 +41,13 @@ namespace CompanyManagementSystem.Data
             using var conn = DbHelper.GetConnection();
             conn.Open();
 
-            string query = "INSERT INTO KullaniciNotlari (KullaniciId, NotTarihi, NotMetni) VALUES (@KullaniciId, @NotTarihi, @NotMetni)";
+            string query = @"INSERT INTO KullaniciNotlari (KullaniciId, NotTarihi, NotMetni, Turu)
+                         VALUES (@KullaniciId, @NotTarihi, @NotMetni, @Turu)";
             using var cmd = new NpgsqlCommand(query, conn);
             cmd.Parameters.AddWithValue("@KullaniciId", not.KullaniciId);
             cmd.Parameters.AddWithValue("@NotTarihi", not.NotTarihi);
             cmd.Parameters.AddWithValue("@NotMetni", not.NotMetni);
+            cmd.Parameters.AddWithValue("@Turu", not.Turu.ToString());
             cmd.ExecuteNonQuery();
         }
 

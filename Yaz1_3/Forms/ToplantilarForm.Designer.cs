@@ -1,6 +1,6 @@
 ﻿namespace CompanyManagementSystem.Forms
 {
-    partial class Toplantilar
+    partial class ToplantilarForm
     {
         /// <summary>
         /// Required designer variable.

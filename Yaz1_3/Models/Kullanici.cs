@@ -24,6 +24,13 @@ namespace CompanyManagementSystem.Models
         public int FailedLoginAttempts { get; set; }      // Yeni alan
         public DateTime? LockoutEndTime { get; set; }
         public List<Gorev> AtananGorevler { get; set; } = new List<Gorev>();
+        public string AdSoyad
+        {
+            get
+            {
+                return $"{Ad ?? ""} {Soyad ?? ""}".Trim();
+            }
+        }
 
     }
 }

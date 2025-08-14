@@ -1,6 +1,6 @@
 ﻿namespace CompanyManagementSystem.Forms
 {
-    partial class ToplantıPlanlama
+    partial class ToplantıPlanlamaForm
     {
         /// <summary>
         /// Required designer variable.

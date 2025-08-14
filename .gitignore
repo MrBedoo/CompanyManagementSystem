@@ -361,3 +361,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Hassas dosyalar (veritabani, API anahtarlari vb.)
+appsettings.json
+*.env
+dbhelper.cs

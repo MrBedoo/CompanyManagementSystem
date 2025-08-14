@@ -67,7 +67,7 @@ namespace CompanyManagementSystem.Forms
 
         private void btnToplantıListesi_Click(object sender, EventArgs e)
         {
-            var toplantiForm = new Toplantilar(_currentUser);  // Yeni açmak istediğin formun ismi
+            var toplantiForm = new ToplantilarForm(_currentUser);  // Yeni açmak istediğin formun ismi
             toplantiForm.Show();                // Formu gösterir (aynı anda her iki form da açık kalır)
 
             this.Hide();                 // Mevcut formu gizler
@@ -91,8 +91,10 @@ namespace CompanyManagementSystem.Forms
         private void button1_Click(object sender, EventArgs e)
         {
             // UserMainForm'dan Gorevler formunu aç
-            var gorevlerForm = new Gorevler(_currentUser, this); // this = UserMainForm referansı
+            var gorevlerForm = new GorevlerForm(_currentUser, this); // this = UserMainForm referansı
             gorevlerForm.Show(); // Show() ile formu aç
+
+            this.Hide(); // Mevcut formu gizle
         }
     }
 }

@@ -32,8 +32,6 @@
             btnToplantıListesi = new Button();
             button1 = new Button();
             groupBox1 = new GroupBox();
-            label3 = new Label();
-            cmbGorevDurum = new ComboBox();
             label6 = new Label();
             label5 = new Label();
             label4 = new Label();
@@ -44,6 +42,8 @@
             txtGorevOncelik = new TextBox();
             txtGorevAciklama = new TextBox();
             txtGorevBaslik = new TextBox();
+            label3 = new Label();
+            cmbGorevDurum = new ComboBox();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
             tabPage2 = new TabPage();
@@ -104,6 +104,94 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Görevin";
             // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(45, 268);
+            label6.Name = "label6";
+            label6.Size = new Size(61, 15);
+            label6.TabIndex = 11;
+            label6.Text = "Bitiş Tarihi";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(11, 237);
+            label5.Name = "label5";
+            label5.Size = new Size(95, 15);
+            label5.TabIndex = 10;
+            label5.Text = "Oluşturma Tarihi";
+            label5.Click += label5_Click;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(59, 205);
+            label4.Name = "label4";
+            label4.Size = new Size(47, 15);
+            label4.TabIndex = 9;
+            label4.Text = "Öncelik";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(50, 51);
+            label2.Name = "label2";
+            label2.Size = new Size(56, 15);
+            label2.TabIndex = 7;
+            label2.Text = "Açıklama";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(69, 25);
+            label1.Name = "label1";
+            label1.Size = new Size(37, 15);
+            label1.TabIndex = 6;
+            label1.Text = "Başlık";
+            label1.Click += label1_Click;
+            // 
+            // txtGorevOlusturmaTarihi
+            // 
+            txtGorevOlusturmaTarihi.Location = new Point(112, 234);
+            txtGorevOlusturmaTarihi.Name = "txtGorevOlusturmaTarihi";
+            txtGorevOlusturmaTarihi.ReadOnly = true;
+            txtGorevOlusturmaTarihi.Size = new Size(163, 23);
+            txtGorevOlusturmaTarihi.TabIndex = 5;
+            // 
+            // txtGorevBitisTarihi
+            // 
+            txtGorevBitisTarihi.Location = new Point(112, 265);
+            txtGorevBitisTarihi.Name = "txtGorevBitisTarihi";
+            txtGorevBitisTarihi.ReadOnly = true;
+            txtGorevBitisTarihi.Size = new Size(163, 23);
+            txtGorevBitisTarihi.TabIndex = 4;
+            // 
+            // txtGorevOncelik
+            // 
+            txtGorevOncelik.Location = new Point(112, 202);
+            txtGorevOncelik.Name = "txtGorevOncelik";
+            txtGorevOncelik.ReadOnly = true;
+            txtGorevOncelik.Size = new Size(121, 23);
+            txtGorevOncelik.TabIndex = 3;
+            // 
+            // txtGorevAciklama
+            // 
+            txtGorevAciklama.Location = new Point(112, 51);
+            txtGorevAciklama.Multiline = true;
+            txtGorevAciklama.Name = "txtGorevAciklama";
+            txtGorevAciklama.ReadOnly = true;
+            txtGorevAciklama.Size = new Size(204, 145);
+            txtGorevAciklama.TabIndex = 1;
+            // 
+            // txtGorevBaslik
+            // 
+            txtGorevBaslik.Location = new Point(112, 22);
+            txtGorevBaslik.Name = "txtGorevBaslik";
+            txtGorevBaslik.ReadOnly = true;
+            txtGorevBaslik.Size = new Size(204, 23);
+            txtGorevBaslik.TabIndex = 0;
+            // 
             // label3
             // 
             label3.AutoSize = true;
@@ -121,94 +209,6 @@
             cmbGorevDurum.Name = "cmbGorevDurum";
             cmbGorevDurum.Size = new Size(121, 23);
             cmbGorevDurum.TabIndex = 12;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new Point(44, 281);
-            label6.Name = "label6";
-            label6.Size = new Size(61, 15);
-            label6.TabIndex = 11;
-            label6.Text = "Bitiş Tarihi";
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(10, 250);
-            label5.Name = "label5";
-            label5.Size = new Size(95, 15);
-            label5.TabIndex = 10;
-            label5.Text = "Oluşturma Tarihi";
-            label5.Click += label5_Click;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(58, 218);
-            label4.Name = "label4";
-            label4.Size = new Size(47, 15);
-            label4.TabIndex = 9;
-            label4.Text = "Öncelik";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(49, 64);
-            label2.Name = "label2";
-            label2.Size = new Size(56, 15);
-            label2.TabIndex = 7;
-            label2.Text = "Açıklama";
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(68, 38);
-            label1.Name = "label1";
-            label1.Size = new Size(37, 15);
-            label1.TabIndex = 6;
-            label1.Text = "Başlık";
-            label1.Click += label1_Click;
-            // 
-            // txtGorevOlusturmaTarihi
-            // 
-            txtGorevOlusturmaTarihi.Location = new Point(111, 247);
-            txtGorevOlusturmaTarihi.Name = "txtGorevOlusturmaTarihi";
-            txtGorevOlusturmaTarihi.ReadOnly = true;
-            txtGorevOlusturmaTarihi.Size = new Size(163, 23);
-            txtGorevOlusturmaTarihi.TabIndex = 5;
-            // 
-            // txtGorevBitisTarihi
-            // 
-            txtGorevBitisTarihi.Location = new Point(111, 278);
-            txtGorevBitisTarihi.Name = "txtGorevBitisTarihi";
-            txtGorevBitisTarihi.ReadOnly = true;
-            txtGorevBitisTarihi.Size = new Size(163, 23);
-            txtGorevBitisTarihi.TabIndex = 4;
-            // 
-            // txtGorevOncelik
-            // 
-            txtGorevOncelik.Location = new Point(111, 215);
-            txtGorevOncelik.Name = "txtGorevOncelik";
-            txtGorevOncelik.ReadOnly = true;
-            txtGorevOncelik.Size = new Size(121, 23);
-            txtGorevOncelik.TabIndex = 3;
-            // 
-            // txtGorevAciklama
-            // 
-            txtGorevAciklama.Location = new Point(111, 64);
-            txtGorevAciklama.Multiline = true;
-            txtGorevAciklama.Name = "txtGorevAciklama";
-            txtGorevAciklama.ReadOnly = true;
-            txtGorevAciklama.Size = new Size(204, 145);
-            txtGorevAciklama.TabIndex = 1;
-            // 
-            // txtGorevBaslik
-            // 
-            txtGorevBaslik.Location = new Point(111, 35);
-            txtGorevBaslik.Name = "txtGorevBaslik";
-            txtGorevBaslik.ReadOnly = true;
-            txtGorevBaslik.Size = new Size(204, 23);
-            txtGorevBaslik.TabIndex = 0;
             // 
             // tabControl1
             // 

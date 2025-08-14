@@ -12,13 +12,13 @@ using System.Windows.Forms;
 
 namespace CompanyManagementSystem.Forms
 {
-    public partial class Gorevler : Form
+    public partial class GorevlerForm : Form
     {
         private readonly Kullanici _currentUser;
         private readonly UserMainForm _anasayfa;
         private readonly GorevRepository _gorevRepo = new GorevRepository();
 
-        public Gorevler(Kullanici kullanici, UserMainForm anasayfa)
+        public GorevlerForm(Kullanici kullanici, UserMainForm anasayfa)
         {
             InitializeComponent();
             _currentUser = kullanici;
@@ -51,6 +51,19 @@ namespace CompanyManagementSystem.Forms
             _anasayfa.SetAnasayfaGorev(seciliGorev);
 
             MessageBox.Show("Görev anasayfada gösterilecek.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            var UserMainForm1 = new UserMainForm(_currentUser);  // Yeni açmak istediğin formun ismi
+            UserMainForm1.Show();                // Formu gösterir (aynı anda her iki form da açık kalır)
+
+            this.Hide();
+        }
+
+        private void GorevlerForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
