@@ -49,6 +49,7 @@
             tabPage2 = new TabPage();
             button2 = new Button();
             textBox1 = new TextBox();
+            button3 = new Button();
             groupBox1.SuspendLayout();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -99,7 +100,7 @@
             groupBox1.Controls.Add(txtGorevBaslik);
             groupBox1.Location = new Point(0, 0);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(341, 398);
+            groupBox1.Size = new Size(343, 398);
             groupBox1.TabIndex = 3;
             groupBox1.TabStop = false;
             groupBox1.Text = "Görevin";
@@ -217,7 +218,7 @@
             tabControl1.Location = new Point(12, 12);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(349, 426);
+            tabControl1.Size = new Size(351, 426);
             tabControl1.TabIndex = 4;
             // 
             // tabPage1
@@ -226,7 +227,7 @@
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(341, 398);
+            tabPage1.Size = new Size(343, 398);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Görev Detay";
             tabPage1.UseVisualStyleBackColor = true;
@@ -241,7 +242,7 @@
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(341, 398);
+            tabPage2.Size = new Size(343, 398);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Görev Rapor";
             tabPage2.UseVisualStyleBackColor = true;
@@ -264,11 +265,22 @@
             textBox1.Size = new Size(311, 313);
             textBox1.TabIndex = 0;
             // 
+            // button3
+            // 
+            button3.Location = new Point(545, 183);
+            button3.Name = "button3";
+            button3.Size = new Size(147, 34);
+            button3.TabIndex = 5;
+            button3.Text = "Notlar";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
             // UserMainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(button3);
             Controls.Add(tabControl1);
             Controls.Add(button1);
             Controls.Add(btnToplantıListesi);
@@ -307,5 +319,6 @@
         private Label label3;
         private ComboBox cmbGorevDurum;
         private Button button2;
+        private Button button3;
     }
 }

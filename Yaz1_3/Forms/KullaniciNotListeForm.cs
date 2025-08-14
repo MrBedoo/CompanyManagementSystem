@@ -47,7 +47,7 @@ namespace CompanyManagementSystem.Forms
             var secilenKullanici = (Kullanici)dgvKullanicilar.Rows[e.RowIndex].DataBoundItem;
             if (secilenKullanici != null)
             {
-                var notForm = new KullaniciNotForm(secilenKullanici);
+                var notForm = new KullaniciNotForm(secilenKullanici, _currentUser);
                 notForm.ShowDialog();
             }
         }
@@ -80,7 +80,7 @@ namespace CompanyManagementSystem.Forms
                 var secilenKullanici = (Kullanici)dgvKullanicilar.Rows[e.RowIndex].DataBoundItem;
                 if (secilenKullanici != null)
                 {
-                    var notForm = new KullaniciNotForm(secilenKullanici);
+                    var notForm = new KullaniciNotForm(secilenKullanici, _currentUser);
                     notForm.ShowDialog();
                 }
             }

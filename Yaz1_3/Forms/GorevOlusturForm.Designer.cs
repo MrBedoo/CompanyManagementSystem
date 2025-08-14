@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
+            label1 = new Label();
             txtGorevOncelik = new TextBox();
             button1 = new Button();
             cmbProjeler = new ComboBox();
@@ -39,7 +40,6 @@
             txtGorevDurum = new TextBox();
             txtGorevAciklama = new TextBox();
             dataGridView1 = new DataGridView();
-            label1 = new Label();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
@@ -63,6 +63,15 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Görev Oluştur";
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(212, 217);
+            label1.Name = "label1";
+            label1.Size = new Size(83, 15);
+            label1.TabIndex = 12;
+            label1.Text = "(Öncelikli, vb.)";
+            // 
             // txtGorevOncelik
             // 
             txtGorevOncelik.Location = new Point(43, 214);
@@ -73,9 +82,9 @@
             // 
             // button1
             // 
-            button1.Location = new Point(249, 0);
+            button1.Location = new Point(31, 393);
             button1.Name = "button1";
-            button1.Size = new Size(104, 34);
+            button1.Size = new Size(104, 27);
             button1.TabIndex = 1;
             button1.Text = "Anasayfaya Dön";
             button1.UseVisualStyleBackColor = true;
@@ -149,15 +158,6 @@
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(399, 426);
             dataGridView1.TabIndex = 1;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(212, 217);
-            label1.Name = "label1";
-            label1.Size = new Size(83, 15);
-            label1.TabIndex = 12;
-            label1.Text = "(Öncelikli, vb.)";
             // 
             // GorevOlusturForm
             // 

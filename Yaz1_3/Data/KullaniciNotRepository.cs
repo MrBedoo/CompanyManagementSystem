@@ -17,7 +17,8 @@ namespace CompanyManagementSystem.Data
             using var conn = DbHelper.GetConnection();
             conn.Open();
 
-            string query = "SELECT Id, KullaniciId, NotTarihi, NotMetni, Turu FROM KullaniciNotlari WHERE KullaniciId = @KullaniciId ORDER BY NotTarihi DESC";
+            string query = "SELECT Id, GonderenId, HedefKullaniciId, NotTarihi, NotMetni, Turu " +
+                           "FROM KullaniciNotlari WHERE HedefKullaniciId = @KullaniciId ORDER BY NotTarihi DESC";
             using var cmd = new NpgsqlCommand(query, conn);
             cmd.Parameters.AddWithValue("@KullaniciId", kullaniciId);
 
@@ -26,13 +27,15 @@ namespace CompanyManagementSystem.Data
             {
                 notlar.Add(new KullaniciNot
                 {
-                    Id = reader.GetInt32(0),
-                    KullaniciId = reader.GetInt32(1),
-                    NotTarihi = reader.GetDateTime(2),
-                    NotMetni = reader.GetString(3),
-                    Turu = Enum.Parse<NotTuru>(reader.GetString(4))
+                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                    GonderenId = reader.GetInt32(reader.GetOrdinal("GonderenId")),
+                    HedefKullaniciId = reader.GetInt32(reader.GetOrdinal("HedefKullaniciId")),
+                    NotTarihi = reader.GetDateTime(reader.GetOrdinal("NotTarihi")),
+                    NotMetni = reader.GetString(reader.GetOrdinal("NotMetni")),
+                    Turu = (NotTuru)reader.GetInt16(reader.GetOrdinal("Turu")),
                 });
             }
+
             return notlar;
         }
 
@@ -41,15 +44,46 @@ namespace CompanyManagementSystem.Data
             using var conn = DbHelper.GetConnection();
             conn.Open();
 
-            string query = @"INSERT INTO KullaniciNotlari (KullaniciId, NotTarihi, NotMetni, Turu)
-                         VALUES (@KullaniciId, @NotTarihi, @NotMetni, @Turu)";
+            string query = "INSERT INTO KullaniciNotlari (GonderenId, HedefKullaniciId, NotTarihi, NotMetni, Turu) " +
+                           "VALUES (@GonderenId, @HedefKullaniciId, @NotTarihi, @NotMetni, @Turu)";
             using var cmd = new NpgsqlCommand(query, conn);
-            cmd.Parameters.AddWithValue("@KullaniciId", not.KullaniciId);
+            cmd.Parameters.AddWithValue("@GonderenId", not.GonderenId);
+            cmd.Parameters.AddWithValue("@HedefKullaniciId", not.HedefKullaniciId);
             cmd.Parameters.AddWithValue("@NotTarihi", not.NotTarihi);
             cmd.Parameters.AddWithValue("@NotMetni", not.NotMetni);
-            cmd.Parameters.AddWithValue("@Turu", not.Turu.ToString());
+            cmd.Parameters.AddWithValue("@Turu", (short)not.Turu);  // <-- enum'u smallint olarak gönder
+
             cmd.ExecuteNonQuery();
         }
+
+
+        public List<KullaniciNot> GetAll()
+        {
+            var notlar = new List<KullaniciNot>();
+            using var conn = DbHelper.GetConnection();
+            conn.Open();
+
+            string query = "SELECT Id, GonderenId, HedefKullaniciId, NotTarihi, NotMetni, Turu FROM KullaniciNotlari ORDER BY NotTarihi DESC";
+            using var cmd = new NpgsqlCommand(query, conn);
+
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                notlar.Add(new KullaniciNot
+                {
+                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                    GonderenId = reader.GetInt32(reader.GetOrdinal("GonderenId")),
+                    HedefKullaniciId = reader.GetInt32(reader.GetOrdinal("HedefKullaniciId")),
+                    NotTarihi = reader.GetDateTime(reader.GetOrdinal("NotTarihi")),
+                    NotMetni = reader.GetString(reader.GetOrdinal("NotMetni")),
+                    Turu = (NotTuru)reader.GetInt16(reader.GetOrdinal("Turu")),
+                });
+            }
+
+            return notlar;
+        }
+
+
 
 
     }

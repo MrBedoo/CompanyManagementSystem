@@ -14,14 +14,15 @@ namespace CompanyManagementSystem.Forms
 {
     public partial class KullaniciNotForm : Form
     {
-        private readonly Kullanici _kullanici;
+        private readonly Kullanici _hedefKullanici;   // Notu alacak kişi
+        private readonly Kullanici _currentUser;       // Notu gönderen kişi
         private readonly KullaniciNotRepository _notRepo = new KullaniciNotRepository();
 
-
-        public KullaniciNotForm(Kullanici kullanici)
+        public KullaniciNotForm(Kullanici hedefKullanici, Kullanici currentUser)
         {
             InitializeComponent();
-            _kullanici = kullanici;
+            _hedefKullanici = hedefKullanici;
+            _currentUser = currentUser;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -35,12 +36,19 @@ namespace CompanyManagementSystem.Forms
                 return;
             }
 
+            if (string.IsNullOrEmpty(cmbNotTuru.Text))
+            {
+                MessageBox.Show("Not türü boş olamaz!");
+                return;
+            }
+
             var yeniNot = new KullaniciNot
             {
-                KullaniciId = _kullanici.Id,
+                HedefKullaniciId = _hedefKullanici.Id,   // Notu alacak kullanıcı
+                GonderenId = _currentUser.Id,             // Notu gönderen kullanıcı
                 NotMetni = notMetni,
                 Turu = secilenTuru,
-                NotTarihi = DateTime.Today
+                NotTarihi = DateTime.Now
             };
 
             _notRepo.Add(yeniNot);
@@ -50,7 +58,7 @@ namespace CompanyManagementSystem.Forms
 
         private void KullaniciNotForm_Load(object sender, EventArgs e)
         {
-            lblKullanici.Text = _kullanici.AdSoyad;
+            lblKullanici.Text = _hedefKullanici.AdSoyad;  // Gösterilecek kişi
             cmbNotTuru.DataSource = Enum.GetValues(typeof(NotTuru));
         }
 

@@ -10,7 +10,7 @@ namespace CompanyManagementSystem.Data
 {
     internal class DbHelper
     {
-        private static readonly string connectionString = "REMOVED";
+        private static readonly string connectionString = "*******";
 
         public static string ConnectionString => connectionString;
 

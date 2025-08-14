@@ -96,5 +96,13 @@ namespace CompanyManagementSystem.Forms
 
             this.Hide(); // Mevcut formu gizle
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            var notlarForm = new Notlar(_currentUser); // this = UserMainForm referansı
+            notlarForm.Show(); // Show() ile formu aç
+
+            this.Hide(); // Mevcut formu gizle
+        }
     }
 }
