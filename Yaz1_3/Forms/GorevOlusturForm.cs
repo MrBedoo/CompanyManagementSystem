@@ -63,6 +63,7 @@ namespace CompanyManagementSystem.Forms
                 Baslik = txtGorevBaslik.Text.Trim(),
                 Aciklama = txtGorevAciklama.Text.Trim(),
                 BitisTarihi = dtpBitis.Value,
+                Oncelik = txtGorevOncelik.Text,
                 Durum = "Beklemede",
                 AtananKullaniciId = (int?)cmbAtananKullanici.SelectedValue, // opsiyonel
                 ProjeId = secilenProjeId
@@ -123,6 +124,11 @@ namespace CompanyManagementSystem.Forms
             mainForm.Show();                // Formu gösterir (aynı anda her iki form da açık kalır)
 
             this.Hide();
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

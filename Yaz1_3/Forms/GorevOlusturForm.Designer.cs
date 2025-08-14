@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
+            txtGorevOncelik = new TextBox();
             button1 = new Button();
             cmbProjeler = new ComboBox();
             dtpBitis = new DateTimePicker();
@@ -38,12 +39,15 @@
             txtGorevDurum = new TextBox();
             txtGorevAciklama = new TextBox();
             dataGridView1 = new DataGridView();
+            label1 = new Label();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(label1);
+            groupBox1.Controls.Add(txtGorevOncelik);
             groupBox1.Controls.Add(button1);
             groupBox1.Controls.Add(cmbProjeler);
             groupBox1.Controls.Add(dtpBitis);
@@ -59,6 +63,14 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Görev Oluştur";
             // 
+            // txtGorevOncelik
+            // 
+            txtGorevOncelik.Location = new Point(43, 214);
+            txtGorevOncelik.Name = "txtGorevOncelik";
+            txtGorevOncelik.PlaceholderText = "Öncelik Durumu";
+            txtGorevOncelik.Size = new Size(167, 23);
+            txtGorevOncelik.TabIndex = 11;
+            // 
             // button1
             // 
             button1.Location = new Point(249, 0);
@@ -72,7 +84,7 @@
             // cmbProjeler
             // 
             cmbProjeler.FormattingEnabled = true;
-            cmbProjeler.Location = new Point(43, 243);
+            cmbProjeler.Location = new Point(43, 272);
             cmbProjeler.Name = "cmbProjeler";
             cmbProjeler.Size = new Size(121, 23);
             cmbProjeler.TabIndex = 10;
@@ -98,7 +110,7 @@
             // cmbAtananKullanici
             // 
             cmbAtananKullanici.FormattingEnabled = true;
-            cmbAtananKullanici.Location = new Point(43, 273);
+            cmbAtananKullanici.Location = new Point(43, 301);
             cmbAtananKullanici.Name = "cmbAtananKullanici";
             cmbAtananKullanici.Size = new Size(121, 23);
             cmbAtananKullanici.TabIndex = 6;
@@ -115,7 +127,7 @@
             // 
             // txtGorevDurum
             // 
-            txtGorevDurum.Location = new Point(43, 214);
+            txtGorevDurum.Location = new Point(43, 243);
             txtGorevDurum.Name = "txtGorevDurum";
             txtGorevDurum.PlaceholderText = "Durum";
             txtGorevDurum.Size = new Size(121, 23);
@@ -137,6 +149,15 @@
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(399, 426);
             dataGridView1.TabIndex = 1;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(212, 217);
+            label1.Name = "label1";
+            label1.Size = new Size(83, 15);
+            label1.TabIndex = 12;
+            label1.Text = "(Öncelikli, vb.)";
             // 
             // GorevOlusturForm
             // 
@@ -166,5 +187,7 @@
         private ComboBox cmbProjeler;
         private Button button1;
         private DataGridView dataGridView1;
+        private TextBox txtGorevOncelik;
+        private Label label1;
     }
 }

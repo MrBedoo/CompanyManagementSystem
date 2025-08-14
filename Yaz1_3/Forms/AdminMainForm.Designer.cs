@@ -36,15 +36,16 @@
             btnToplantilar = new Button();
             button2 = new Button();
             button5 = new Button();
+            button6 = new Button();
             SuspendLayout();
             // 
             // button1
             // 
-            button1.Location = new Point(150, 207);
+            button1.Location = new Point(150, 277);
             button1.Name = "button1";
             button1.Size = new Size(155, 35);
             button1.TabIndex = 0;
-            button1.Text = "Kullanıcı yönetim";
+            button1.Text = "Kullanıcı Kayıt";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
@@ -116,11 +117,22 @@
             button5.Text = "Görevler";
             button5.UseVisualStyleBackColor = true;
             // 
+            // button6
+            // 
+            button6.Location = new Point(150, 178);
+            button6.Name = "button6";
+            button6.Size = new Size(166, 35);
+            button6.TabIndex = 8;
+            button6.Text = "Kullanıcı Bilgilendirme\\Uyarı";
+            button6.UseVisualStyleBackColor = true;
+            button6.Click += button6_Click;
+            // 
             // AdminMainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(button6);
             Controls.Add(button5);
             Controls.Add(button2);
             Controls.Add(btnToplantilar);
@@ -144,5 +156,6 @@
         private Button btnToplantilar;
         private Button button2;
         private Button button5;
+        private Button button6;
     }
 }

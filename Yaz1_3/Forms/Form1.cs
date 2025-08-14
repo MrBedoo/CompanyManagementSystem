@@ -23,7 +23,6 @@ namespace CompanyManagementSystem
             _currentUser = kullanici;
 
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView2.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
             // Minimum boyut belirle
             this.MinimumSize = new Size(1000, 600);
@@ -46,7 +45,6 @@ namespace CompanyManagementSystem
         {
             var repoBase = new BaseRepository<Yonetici>();
             var yoneticiListe = repoBase.Listele<Yonetici>();
-            dataGridView2.DataSource = yoneticiListe;
         }
 
         private void AlanlariTemizle()
@@ -142,7 +140,7 @@ namespace CompanyManagementSystem
 
         private void Temizle_Click(object sender, EventArgs e)
         {
-            MessageBox.Show($"Kullanıcı seçili satır sayısı: {dataGridView1.SelectedRows.Count}\nAdmin seçili satır sayısı: {dataGridView2.SelectedRows.Count}");
+            MessageBox.Show($"Kullanıcı seçili satır sayısı: {dataGridView1.SelectedRows.Count}\n");
 
             if (dataGridView1.SelectedRows.Count > 0)
             {
@@ -151,15 +149,6 @@ namespace CompanyManagementSystem
                 repo.Sil<Kullanici>(id);
                 MessageBox.Show("Kullanıcı silindi.");
                 VerileriListele();
-                AlanlariTemizle();
-            }
-            else if (dataGridView2.SelectedRows.Count > 0)
-            {
-                var repo = new BaseRepository<Yonetici>();
-                int id = Convert.ToInt32(dataGridView2.SelectedRows[0].Cells["Id"].Value);
-                repo.Sil<Yonetici>(id);
-                MessageBox.Show("Yönetici silindi.");
-                AdminListele();
                 AlanlariTemizle();
             }
             else
@@ -287,80 +276,8 @@ namespace CompanyManagementSystem
 
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            int parsedId = 0;
-            if (!string.IsNullOrWhiteSpace(textBox6.Text))
-            {
-                if (!int.TryParse(textBox6.Text, out parsedId))
-                {
-                    MessageBox.Show("Geçerli bir ID giriniz.");
-                    return;
-                }
-            }
+       
 
-            if (!decimal.TryParse(textBox4.Text, out decimal gelir))
-            {
-                MessageBox.Show("Geçerli bir gelir değeri giriniz.");
-                return;
-            }
-
-            if (comboBox1.SelectedItem == null)
-            {
-                MessageBox.Show("Lütfen cinsiyet seçiniz.");
-                return;
-            }
-
-            var yonetici = new Yonetici
-            {
-                Id = parsedId,
-                Ad = textBox1.Text,
-                Soyad = textBox2.Text,
-                DogumTarihi = dateTimePicker1.Value,
-                Cinsiyet = comboBox1.SelectedItem.ToString()[0],
-                Email = textBox3.Text,
-                Sifre = textBox5.Text,
-                Gelir = decimal.Parse(textBox4.Text),
-                Resim = null
-            };
-
-            var repoBase = new BaseRepository<Yonetici>();
-            var result = repoBase.RunInsertOrUpdate(yonetici);
-
-            if (result == 1)
-                MessageBox.Show("Güncelleme başarılı.");
-            else if (result == 0)
-                MessageBox.Show("Yeni admin eklendi.");
-            else if (result == -1)
-                MessageBox.Show("ID veritabanında bulunamadı. Güncelleme yapılamadı.");
-            else if (result == -2)
-                MessageBox.Show("Aynı ad, soyad veya email başka bir admin'e ait.");
-            else
-                MessageBox.Show("Bir hata oluştu.");
-
-            AlanlariTemizle();
-            AdminListele();
-        }
-
-        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-            if (e.RowIndex >= 0)
-            {
-                var row = dataGridView2.Rows[e.RowIndex];
-                int id = Convert.ToInt32(row.Cells["Id"].Value);
-
-                textBox6.Text = id.ToString(); // ID'yi kutuya yaz
-
-                var repo = new BaseRepository<Yonetici>();
-                var yonetici = repo.GetById(id);
-
-                if (yonetici != null)
-                {
-                    BilgileriDoldur<Yonetici>(yonetici);
-                }
-            }
-        }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -379,14 +296,11 @@ namespace CompanyManagementSystem
 
         }
 
-        private void dataGridView2_Enter(object sender, EventArgs e)
-        {
-            dataGridView1.ClearSelection();
-        }
+       
 
         private void dataGridView1_Enter(object sender, EventArgs e)
         {
-            dataGridView2.ClearSelection();
+            
         }
 
         private void button2_Click(object sender, EventArgs e)

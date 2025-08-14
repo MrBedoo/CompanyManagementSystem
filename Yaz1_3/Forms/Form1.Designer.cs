@@ -41,13 +41,10 @@
             ResimYükle = new Button();
             dataGridView1 = new DataGridView();
             EkleGuncelle = new Button();
-            button1 = new Button();
-            dataGridView2 = new DataGridView();
             textBox6 = new TextBox();
             button2 = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             SuspendLayout();
             // 
             // textBox1
@@ -145,9 +142,9 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(156, 438);
+            dataGridView1.Location = new Point(314, 62);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(1202, 299);
+            dataGridView1.Size = new Size(1044, 652);
             dataGridView1.TabIndex = 13;
             dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.SelectionChanged += dataGridView1_SelectionChanged;
@@ -163,27 +160,6 @@
             EkleGuncelle.UseVisualStyleBackColor = true;
             EkleGuncelle.Click += EkleGuncelle_Click;
             // 
-            // button1
-            // 
-            button1.Location = new Point(164, 303);
-            button1.Name = "button1";
-            button1.Size = new Size(89, 40);
-            button1.TabIndex = 16;
-            button1.Text = "Admin \r\nekle/güncelle";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click_1;
-            // 
-            // dataGridView2
-            // 
-            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView2.Location = new Point(289, 140);
-            dataGridView2.Name = "dataGridView2";
-            dataGridView2.Size = new Size(1069, 264);
-            dataGridView2.TabIndex = 17;
-            dataGridView2.CellContentClick += dataGridView2_CellContentClick;
-            dataGridView2.SelectionChanged += dataGridView2_SelectionChanged;
-            dataGridView2.Enter += dataGridView2_Enter;
-            // 
             // textBox6
             // 
             textBox6.Location = new Point(80, 82);
@@ -194,9 +170,9 @@
             // 
             // button2
             // 
-            button2.Location = new Point(117, 26);
+            button2.Location = new Point(80, 22);
             button2.Name = "button2";
-            button2.Size = new Size(118, 30);
+            button2.Size = new Size(133, 30);
             button2.TabIndex = 19;
             button2.Text = "Anasayfaya dön";
             button2.UseVisualStyleBackColor = true;
@@ -209,8 +185,6 @@
             ClientSize = new Size(1370, 749);
             Controls.Add(button2);
             Controls.Add(textBox6);
-            Controls.Add(dataGridView2);
-            Controls.Add(button1);
             Controls.Add(EkleGuncelle);
             Controls.Add(dataGridView1);
             Controls.Add(ResimYükle);
@@ -230,7 +204,6 @@
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -250,8 +223,6 @@
         private Button ResimYükle;
         private DataGridView dataGridView1;
         private Button EkleGuncelle;
-        private Button button1;
-        private DataGridView dataGridView2;
         private TextBox textBox6;
         private Button button2;
     }

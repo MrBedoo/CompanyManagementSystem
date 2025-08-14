@@ -79,5 +79,13 @@ namespace CompanyManagementSystem.Forms
 
             this.Hide();
         }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            var NotForm = new KullaniciNotu();  // Yeni açmak istediğin formun ismi
+            NotForm.Show();                // Formu gösterir (aynı anda her iki form da açık kalır)
+
+            this.Hide();
+        }
     }
 }
