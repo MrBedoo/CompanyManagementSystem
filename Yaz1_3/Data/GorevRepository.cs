@@ -65,6 +65,51 @@ namespace CompanyManagementSystem.Data
         }
 
 
+        public List<Gorev> GetByAtananKullaniciId(int kullaniciId)
+        {
+            var gorevler = new List<Gorev>();
+
+            using (var conn = DbHelper.GetConnection())
+            {
+                conn.Open();
+                string sql = "SELECT * FROM Gorev WHERE AtananKullaniciId = @kullaniciId";
+
+                using (var cmd = new NpgsqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@kullaniciId", kullaniciId);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            gorevler.Add(new Gorev
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                ProjeId = reader.GetInt32(reader.GetOrdinal("ProjeId")),
+                                AtananKullaniciId = reader.IsDBNull(reader.GetOrdinal("AtananKullaniciId"))
+                                                     ? null
+                                                     : reader.GetInt32(reader.GetOrdinal("AtananKullaniciId")),
+                                Baslik = reader.GetString(reader.GetOrdinal("Baslik")),
+                                Aciklama = reader.GetString(reader.GetOrdinal("Aciklama")),
+                                Durum = reader.GetString(reader.GetOrdinal("Durum")),
+                                Oncelik = reader.IsDBNull(reader.GetOrdinal("Oncelik"))
+                                          ? null
+                                          : reader.GetString(reader.GetOrdinal("Oncelik")),
+                                OlusturmaTarihi = reader.GetDateTime(reader.GetOrdinal("OlusturmaTarihi")),
+                                BitisTarihi = reader.IsDBNull(reader.GetOrdinal("BitisTarihi"))
+                                              ? (DateTime?)null
+                                              : reader.GetDateTime(reader.GetOrdinal("BitisTarihi"))
+                            });
+                        }
+                    }
+                }
+            }
+
+            return gorevler;
+        }
+
+
+
 
 
     }

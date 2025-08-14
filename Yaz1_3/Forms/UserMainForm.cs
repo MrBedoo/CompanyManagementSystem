@@ -14,6 +14,8 @@ namespace CompanyManagementSystem.Forms
     public partial class UserMainForm : Form
     {
         private Kullanici _currentUser;
+        private Gorev _anasayfaGorev;
+
         public UserMainForm(Kullanici kullanici)
         {
             InitializeComponent();
@@ -35,6 +37,17 @@ namespace CompanyManagementSystem.Forms
             }
 
         }
+
+        public void SetAnasayfaGorev(Gorev gorev)
+        {
+            _anasayfaGorev = gorev;
+
+            txtGorevBaslik.Text = _anasayfaGorev.Baslik;
+            txtGorevAciklama.Text = _anasayfaGorev.Aciklama;
+            txtGorevBitisTarihi.Text = _anasayfaGorev.BitisTarihi?.ToString("g") ?? "";
+        }
+
+
 
         private void btnCikis_Click(object sender, EventArgs e)
         {
@@ -73,6 +86,13 @@ namespace CompanyManagementSystem.Forms
         private void label5_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // UserMainForm'dan Gorevler formunu aç
+            var gorevlerForm = new Gorevler(_currentUser, this); // this = UserMainForm referansı
+            gorevlerForm.Show(); // Show() ile formu aç
         }
     }
 }

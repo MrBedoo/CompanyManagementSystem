@@ -83,11 +83,10 @@
             button1.TabIndex = 2;
             button1.Text = "Görevler";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(label3);
-            groupBox1.Controls.Add(cmbGorevDurum);
             groupBox1.Controls.Add(label6);
             groupBox1.Controls.Add(label5);
             groupBox1.Controls.Add(label4);
@@ -108,7 +107,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(61, 285);
+            label3.Location = new Point(15, 345);
             label3.Name = "label3";
             label3.Size = new Size(44, 15);
             label3.TabIndex = 13;
@@ -118,7 +117,7 @@
             // 
             cmbGorevDurum.FormattingEnabled = true;
             cmbGorevDurum.Items.AddRange(new object[] { "Tamamlandı", "Tamamlanmadı", "Iptal" });
-            cmbGorevDurum.Location = new Point(111, 282);
+            cmbGorevDurum.Location = new Point(64, 342);
             cmbGorevDurum.Name = "cmbGorevDurum";
             cmbGorevDurum.Size = new Size(121, 23);
             cmbGorevDurum.TabIndex = 12;
@@ -126,7 +125,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(44, 209);
+            label6.Location = new Point(44, 281);
             label6.Name = "label6";
             label6.Size = new Size(61, 15);
             label6.TabIndex = 11;
@@ -135,7 +134,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(10, 180);
+            label5.Location = new Point(10, 250);
             label5.Name = "label5";
             label5.Size = new Size(95, 15);
             label5.TabIndex = 10;
@@ -145,7 +144,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(58, 151);
+            label4.Location = new Point(58, 218);
             label4.Name = "label4";
             label4.Size = new Size(47, 15);
             label4.TabIndex = 9;
@@ -172,7 +171,7 @@
             // 
             // txtGorevOlusturmaTarihi
             // 
-            txtGorevOlusturmaTarihi.Location = new Point(111, 177);
+            txtGorevOlusturmaTarihi.Location = new Point(111, 247);
             txtGorevOlusturmaTarihi.Name = "txtGorevOlusturmaTarihi";
             txtGorevOlusturmaTarihi.ReadOnly = true;
             txtGorevOlusturmaTarihi.Size = new Size(163, 23);
@@ -180,7 +179,7 @@
             // 
             // txtGorevBitisTarihi
             // 
-            txtGorevBitisTarihi.Location = new Point(111, 206);
+            txtGorevBitisTarihi.Location = new Point(111, 278);
             txtGorevBitisTarihi.Name = "txtGorevBitisTarihi";
             txtGorevBitisTarihi.ReadOnly = true;
             txtGorevBitisTarihi.Size = new Size(163, 23);
@@ -188,7 +187,7 @@
             // 
             // txtGorevOncelik
             // 
-            txtGorevOncelik.Location = new Point(111, 148);
+            txtGorevOncelik.Location = new Point(111, 215);
             txtGorevOncelik.Name = "txtGorevOncelik";
             txtGorevOncelik.ReadOnly = true;
             txtGorevOncelik.Size = new Size(121, 23);
@@ -200,7 +199,7 @@
             txtGorevAciklama.Multiline = true;
             txtGorevAciklama.Name = "txtGorevAciklama";
             txtGorevAciklama.ReadOnly = true;
-            txtGorevAciklama.Size = new Size(204, 78);
+            txtGorevAciklama.Size = new Size(204, 145);
             txtGorevAciklama.TabIndex = 1;
             // 
             // txtGorevBaslik
@@ -235,8 +234,10 @@
             // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(label3);
             tabPage2.Controls.Add(button2);
             tabPage2.Controls.Add(textBox1);
+            tabPage2.Controls.Add(cmbGorevDurum);
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
@@ -247,7 +248,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(181, 349);
+            button2.Location = new Point(225, 338);
             button2.Name = "button2";
             button2.Size = new Size(85, 27);
             button2.TabIndex = 1;
@@ -256,11 +257,11 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(43, 30);
+            textBox1.Location = new Point(15, 6);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
             textBox1.PlaceholderText = "Görev Raporu";
-            textBox1.Size = new Size(251, 313);
+            textBox1.Size = new Size(311, 313);
             textBox1.TabIndex = 0;
             // 
             // UserMainForm
