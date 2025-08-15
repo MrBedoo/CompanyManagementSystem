@@ -12,14 +12,14 @@ using System.Windows.Forms;
 
 namespace CompanyManagementSystem.Forms
 {
-    public partial class Notlar : Form
+    public partial class NotlarForm : Form
     {
         private readonly KullaniciNotRepository _notRepo = new KullaniciNotRepository();
         private readonly KullaniciRepository _kullaniciRepo = new KullaniciRepository();
         private List<KullaniciNot> _tumNotlar;
         private readonly Kullanici _currentUser;
 
-        public Notlar(Kullanici kullanici)
+        public NotlarForm(Kullanici kullanici)
         {
             InitializeComponent();
             _currentUser = kullanici; // Oturum açan kullanıcıyı sakla

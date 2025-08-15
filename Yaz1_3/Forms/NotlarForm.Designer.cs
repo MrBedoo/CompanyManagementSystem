@@ -1,6 +1,6 @@
 ﻿namespace CompanyManagementSystem.Forms
 {
-    partial class Notlar
+    partial class NotlarForm
     {
         /// <summary>
         /// Required designer variable.
@@ -33,6 +33,7 @@
             lblGonderen = new Label();
             txtNotTarihi = new TextBox();
             button1 = new Button();
+            txtNotTuru = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dgvNotlar).BeginInit();
             SuspendLayout();
             // 
@@ -58,7 +59,7 @@
             // lblGonderen
             // 
             lblGonderen.AutoSize = true;
-            lblGonderen.Location = new Point(46, 26);
+            lblGonderen.Location = new Point(262, 26);
             lblGonderen.Name = "lblGonderen";
             lblGonderen.Size = new Size(38, 15);
             lblGonderen.TabIndex = 2;
@@ -81,17 +82,25 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
-            // Notlar
+            // txtNotTuru
+            // 
+            txtNotTuru.Location = new Point(46, 18);
+            txtNotTuru.Name = "txtNotTuru";
+            txtNotTuru.Size = new Size(100, 23);
+            txtNotTuru.TabIndex = 5;
+            // 
+            // NotlarForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(txtNotTuru);
             Controls.Add(button1);
             Controls.Add(txtNotTarihi);
             Controls.Add(lblGonderen);
             Controls.Add(txtNotMetni);
             Controls.Add(dgvNotlar);
-            Name = "Notlar";
+            Name = "NotlarForm";
             Text = "Notlar";
             ((System.ComponentModel.ISupportInitialize)dgvNotlar).EndInit();
             ResumeLayout(false);
@@ -105,5 +114,6 @@
         private Label lblGonderen;
         private TextBox txtNotTarihi;
         private Button button1;
+        private TextBox txtNotTuru;
     }
 }
