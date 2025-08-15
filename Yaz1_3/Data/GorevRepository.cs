@@ -112,6 +112,8 @@ namespace CompanyManagementSystem.Data
                                 Baslik = reader.GetString(reader.GetOrdinal("Baslik")),
                                 Aciklama = reader.GetString(reader.GetOrdinal("Aciklama")),
                                 Durum = reader.GetString(reader.GetOrdinal("Durum")),
+                                Rapor = reader.IsDBNull(reader.GetOrdinal("Rapor")) ? "" : reader.GetString(reader.GetOrdinal("Rapor")),
+                                Mesaj = reader.IsDBNull(reader.GetOrdinal("Mesaj")) ? "" : reader.GetString(reader.GetOrdinal("Mesaj")),
                                 Oncelik = reader.IsDBNull(reader.GetOrdinal("Oncelik"))
                                           ? null
                                           : reader.GetString(reader.GetOrdinal("Oncelik")),

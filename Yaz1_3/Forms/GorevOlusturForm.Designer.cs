@@ -66,7 +66,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(212, 217);
+            label1.Location = new Point(212, 233);
             label1.Name = "label1";
             label1.Size = new Size(83, 15);
             label1.TabIndex = 12;
@@ -74,7 +74,7 @@
             // 
             // txtGorevOncelik
             // 
-            txtGorevOncelik.Location = new Point(43, 214);
+            txtGorevOncelik.Location = new Point(43, 230);
             txtGorevOncelik.Name = "txtGorevOncelik";
             txtGorevOncelik.PlaceholderText = "Öncelik Durumu";
             txtGorevOncelik.Size = new Size(167, 23);
@@ -93,7 +93,7 @@
             // cmbProjeler
             // 
             cmbProjeler.FormattingEnabled = true;
-            cmbProjeler.Location = new Point(43, 272);
+            cmbProjeler.Location = new Point(43, 288);
             cmbProjeler.Name = "cmbProjeler";
             cmbProjeler.Size = new Size(121, 23);
             cmbProjeler.TabIndex = 10;
@@ -102,7 +102,7 @@
             // 
             // dtpBitis
             // 
-            dtpBitis.Location = new Point(43, 185);
+            dtpBitis.Location = new Point(43, 201);
             dtpBitis.Name = "dtpBitis";
             dtpBitis.Size = new Size(200, 23);
             dtpBitis.TabIndex = 9;
@@ -120,7 +120,7 @@
             // cmbAtananKullanici
             // 
             cmbAtananKullanici.FormattingEnabled = true;
-            cmbAtananKullanici.Location = new Point(43, 301);
+            cmbAtananKullanici.Location = new Point(43, 317);
             cmbAtananKullanici.Name = "cmbAtananKullanici";
             cmbAtananKullanici.Size = new Size(121, 23);
             cmbAtananKullanici.TabIndex = 6;
@@ -128,7 +128,7 @@
             // 
             // txtGorevBaslik
             // 
-            txtGorevBaslik.Location = new Point(43, 45);
+            txtGorevBaslik.Location = new Point(43, 35);
             txtGorevBaslik.Name = "txtGorevBaslik";
             txtGorevBaslik.PlaceholderText = "Başlık";
             txtGorevBaslik.Size = new Size(167, 23);
@@ -137,7 +137,7 @@
             // 
             // txtGorevDurum
             // 
-            txtGorevDurum.Location = new Point(43, 243);
+            txtGorevDurum.Location = new Point(43, 259);
             txtGorevDurum.Name = "txtGorevDurum";
             txtGorevDurum.PlaceholderText = "Durum";
             txtGorevDurum.Size = new Size(121, 23);
@@ -145,11 +145,11 @@
             // 
             // txtGorevAciklama
             // 
-            txtGorevAciklama.Location = new Point(43, 74);
+            txtGorevAciklama.Location = new Point(43, 64);
             txtGorevAciklama.Multiline = true;
             txtGorevAciklama.Name = "txtGorevAciklama";
             txtGorevAciklama.PlaceholderText = "Açıklama";
-            txtGorevAciklama.Size = new Size(252, 105);
+            txtGorevAciklama.Size = new Size(289, 131);
             txtGorevAciklama.TabIndex = 1;
             // 
             // dataGridView1

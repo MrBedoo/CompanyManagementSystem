@@ -45,7 +45,7 @@
             button1.Name = "button1";
             button1.Size = new Size(155, 35);
             button1.TabIndex = 0;
-            button1.Text = "Kullanıcı Kayıt";
+            button1.Text = "Kullanıcı Bilgi/Kayıt";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 

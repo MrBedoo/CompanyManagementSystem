@@ -167,6 +167,7 @@
             textBox6.PlaceholderText = "Id";
             textBox6.Size = new Size(133, 23);
             textBox6.TabIndex = 18;
+            textBox6.Visible = false;
             // 
             // button2
             // 

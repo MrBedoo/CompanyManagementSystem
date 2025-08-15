@@ -31,6 +31,7 @@ namespace CompanyManagementSystem.Forms
             var gorevler = _gorevRepo.GetByAtananKullaniciId(_currentUser.Id);
 
             var devamEden = gorevler.Where(g => g.Durum != "Tamamlandı").ToList();
+            dgvDevamEden.DataSource = null; // Önce DataSource'u temizle
             dgvDevamEden.DataSource = devamEden;
             dgvDevamEden.Columns["Id"].Visible = false;
         }
