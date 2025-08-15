@@ -98,6 +98,7 @@
             cmbProjeler.Size = new Size(121, 23);
             cmbProjeler.TabIndex = 10;
             cmbProjeler.Text = "Projeler";
+            cmbProjeler.SelectedIndexChanged += cmbProjeler_SelectedIndexChanged;
             // 
             // dtpBitis
             // 

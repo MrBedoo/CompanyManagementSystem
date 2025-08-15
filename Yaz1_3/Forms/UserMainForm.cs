@@ -21,34 +21,9 @@ namespace CompanyManagementSystem.Forms
             InitializeComponent();
             _currentUser = kullanici;
 
-            // Kullanıcının atanan görevlerini al
-            var gorev = _currentUser.AtananGorevler.FirstOrDefault();
-            if (gorev != null)
-            {
-                txtGorevBaslik.Text = gorev.Baslik;
-                txtGorevAciklama.Text = gorev.Aciklama;
-                txtGorevBitisTarihi.Text = gorev.BitisTarihi?.ToString("g") ?? "";
-            }
-            else
-            {
-                txtGorevBaslik.Text = "";
-                txtGorevAciklama.Text = "";
-                txtGorevBitisTarihi.Text = "";
-            }
-
         }
 
-        public void SetAnasayfaGorev(Gorev gorev)
-        {
-            _anasayfaGorev = gorev;
-
-            txtGorevBaslik.Text = _anasayfaGorev.Baslik;
-            txtGorevAciklama.Text = _anasayfaGorev.Aciklama;
-            txtGorevBitisTarihi.Text = _anasayfaGorev.BitisTarihi?.ToString("g") ?? "";
-        }
-
-
-
+        
         private void btnCikis_Click(object sender, EventArgs e)
         {
             // Oturumu sıfırla
@@ -91,7 +66,7 @@ namespace CompanyManagementSystem.Forms
         private void button1_Click(object sender, EventArgs e)
         {
             // UserMainForm'dan Gorevler formunu aç
-            var gorevlerForm = new GorevlerForm(_currentUser, this); // this = UserMainForm referansı
+            var gorevlerForm = new GorevlerForm(_currentUser); // this = UserMainForm referansı
             gorevlerForm.Show(); // Show() ile formu aç
 
             this.Hide(); // Mevcut formu gizle
@@ -104,5 +79,7 @@ namespace CompanyManagementSystem.Forms
 
             this.Hide(); // Mevcut formu gizle
         }
+
+
     }
 }

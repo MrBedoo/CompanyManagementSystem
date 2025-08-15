@@ -15,17 +15,37 @@ namespace CompanyManagementSystem.Data
             using var conn = DbHelper.GetConnection();
             conn.Open();
 
-            string sql = @"INSERT INTO gorev (baslik, aciklama, bitistarihi, atanankullaniciid)
-                       VALUES (@baslik, @aciklama, @bitis, @atanan)";
+            string sql = @"INSERT INTO gorev (baslik, aciklama, bitistarihi, atanankullaniciid, projeid)
+                       VALUES (@baslik, @aciklama, @bitis, @atanan, @projeid)";
 
             using var cmd = new NpgsqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("@baslik", gorev.Baslik);
             cmd.Parameters.AddWithValue("@aciklama", gorev.Aciklama ?? "");
             cmd.Parameters.AddWithValue("@bitis", gorev.BitisTarihi);
             cmd.Parameters.AddWithValue("@atanan", gorev.AtananKullaniciId);
+            cmd.Parameters.AddWithValue("@projeid", gorev.ProjeId);
 
             cmd.ExecuteNonQuery();
         }
+
+        public void Update(Gorev gorev)
+        {
+            using var conn = DbHelper.GetConnection();
+            conn.Open();
+
+            string sql = @"UPDATE gorev
+                   SET rapor = @rapor,
+                       durum = @durum
+                   WHERE id = @id";
+
+            using var cmd = new NpgsqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@rapor", (object?)gorev.Rapor ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@durum", gorev.Durum);
+            cmd.Parameters.AddWithValue("@id", gorev.Id);
+
+            cmd.ExecuteNonQuery();
+        }
+
 
 
         public List<Gorev> GetAll()

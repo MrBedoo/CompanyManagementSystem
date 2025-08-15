@@ -23,14 +23,13 @@ namespace CompanyManagementSystem.Forms
         {
             InitializeComponent();
             _currentUser = kullanici;
-            _gorevRepo = new GorevRepository();
             _kullaniciRepo = new KullaniciRepository();
+            _gorevRepo = new GorevRepository(); // GorevRepository örneğini oluştur
 
             // Kullanıcıları comboBox’a doldur
             cmbAtananKullanici.DataSource = _kullaniciRepo.GetAll();
             cmbAtananKullanici.DisplayMember = "Ad";
             cmbAtananKullanici.ValueMember = "Id";
-
         }
 
         private void GorevOlusturForm_Load(object sender, EventArgs e)
@@ -50,13 +49,13 @@ namespace CompanyManagementSystem.Forms
 
         private void btnGorevKaydet_Click(object sender, EventArgs e)
         {
-            if (cmbProjeler.SelectedItem == null)
+            if (cmbProjeler.SelectedValue == null)
             {
                 MessageBox.Show("Lütfen bir proje seçin!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            var secilenProjeId = (int)cmbProjeler.SelectedValue;
+            int secilenProjeId = (int)cmbProjeler.SelectedValue;
 
             var yeniGorev = new Gorev
             {
@@ -69,19 +68,28 @@ namespace CompanyManagementSystem.Forms
                 ProjeId = secilenProjeId
             };
 
+
             try
             {
                 _gorevRepo.Add(yeniGorev);
+
+                if (yeniGorev.AtananKullaniciId.HasValue)
+                {
+                    Kullanici kullanici1 = _kullaniciRepo.GetById(yeniGorev.AtananKullaniciId.Value);
+                    kullanici1.AtananGorevler ??= new List<Gorev>();
+                    var gorevler = _gorevRepo.GetByAtananKullaniciId(yeniGorev.AtananKullaniciId.Value);
+                    var sonGorev = gorevler.OrderByDescending(g => g.OlusturmaTarihi).FirstOrDefault();
+                    kullanici1.AtananGorevler.Add(sonGorev);
+                }
+
                 MessageBox.Show("Görev başarıyla eklendi!");
-                this.Close();
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Görev eklenirken hata oluştu: " + ex.Message);
             }
         }
-
-
 
 
         private void LoadGorevler()
@@ -127,6 +135,11 @@ namespace CompanyManagementSystem.Forms
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmbProjeler_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

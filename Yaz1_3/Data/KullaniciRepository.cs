@@ -44,6 +44,37 @@ namespace CompanyManagementSystem.Data
             return null;
         }
 
+        public Kullanici? GetById(int id)
+        {
+            using var conn = DbHelper.GetConnection();
+            conn.Open();
+
+            var sql = "SELECT * FROM kullanici WHERE id = @Id";
+            using var cmd = new NpgsqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@Id", id);
+
+            using var reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                return new Kullanici
+                {
+                    Id = Convert.ToInt32(reader["id"]),
+                    Ad = reader["ad"].ToString() ?? "",
+                    Soyad = reader["soyad"].ToString() ?? "",
+                    Email = reader["email"].ToString() ?? "",
+                    DogumTarihi = Convert.ToDateTime(reader["dogum_tarihi"]),
+                    Cinsiyet = Convert.ToChar(reader["cinsiyet"]),
+                    Gelir = Convert.ToDecimal(reader["gelir"]),
+                    SifreHash = reader["sifre_hash"].ToString() ?? "",
+                    Durum = reader["durum"] == DBNull.Value ? false : Convert.ToBoolean(reader["durum"]),
+                    KayitZamani = Convert.ToDateTime(reader["kayit_zamani"]),
+                    Resim = reader["resim"] as byte[],
+                    RolId = reader["rol_id"] == DBNull.Value ? 0 : Convert.ToInt32(reader["rol_id"]),
+                };
+            }
+            return null;
+        }
+
 
         public List<Kullanici> GetAll()
         {
@@ -69,7 +100,6 @@ namespace CompanyManagementSystem.Data
 
             return list;
         }
-
 
 
         public List<Kullanici> GetAktifKullanicilar()

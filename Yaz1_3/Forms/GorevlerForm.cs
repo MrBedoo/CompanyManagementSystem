@@ -15,19 +15,15 @@ namespace CompanyManagementSystem.Forms
     public partial class GorevlerForm : Form
     {
         private readonly Kullanici _currentUser;
-        private readonly UserMainForm _anasayfa;
         private readonly GorevRepository _gorevRepo = new GorevRepository();
 
-        public GorevlerForm(Kullanici kullanici, UserMainForm anasayfa)
+        public GorevlerForm(Kullanici kullanici)
         {
             InitializeComponent();
             _currentUser = kullanici;
-            _anasayfa = anasayfa;
             LoadGorevler();
 
         }
-
-
 
 
         private void LoadGorevler()
@@ -39,19 +35,7 @@ namespace CompanyManagementSystem.Forms
             dgvDevamEden.Columns["Id"].Visible = false;
         }
 
-        private int seciliGorevId;
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (dgvDevamEden.CurrentRow == null) return;
-
-            var seciliGorev = (Gorev)dgvDevamEden.CurrentRow.DataBoundItem;
-
-            // Ana sayfadaki _anasayfaGorev'e ata ve textboxları güncelle
-            _anasayfa.SetAnasayfaGorev(seciliGorev);
-
-            MessageBox.Show("Görev anasayfada gösterilecek.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -63,6 +47,54 @@ namespace CompanyManagementSystem.Forms
 
         private void GorevlerForm_Load(object sender, EventArgs e)
         {
+            cmbGorevDurum.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbGorevDurum.Items.AddRange(new string[] { "Beklemede", "Devam Ediyor", "Tamamlandı" });
+
+            dgvDevamEden.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvDevamEden.MultiSelect = false; // İstersen tek satır seçimi
+
+        }
+
+        private void dgvDevamEden_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dgvDevamEden_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+            if (dgvDevamEden.CurrentRow == null) return;
+            Gorev seciliGorev = (Gorev)dgvDevamEden.CurrentRow.DataBoundItem;
+
+            txtGorevBaslik.Text = seciliGorev.Baslik;
+            txtGorevAciklama.Text = seciliGorev.Aciklama;
+            txtGorevOncelik.Text = seciliGorev.Oncelik ?? "Belirtilmemiş";
+            txtGorevBaslama.Text = seciliGorev.OlusturmaTarihi.ToString("g");
+            txtGorevBitis.Text = seciliGorev.BitisTarihi.HasValue ? seciliGorev.BitisTarihi.Value.ToString("g") : "Belirtilmemiş";
+            txtGorevMesaj.Text = seciliGorev.Mesaj ?? "Belirtilmemiş";
+            txtGorevRapor.Text = seciliGorev.Rapor ?? "";
+            cmbGorevDurum.SelectedItem = seciliGorev.Durum ?? "Beklemede"; // Varsayılan olarak "Beklemede" seçili olsun
+
+        }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnKaydet_Click(object sender, EventArgs e)
+        {
+            if (dgvDevamEden.CurrentRow == null) return;
+            Gorev seciliGorev = (Gorev)dgvDevamEden.CurrentRow.DataBoundItem;
+
+            seciliGorev.Rapor = txtGorevRapor.Text;
+            seciliGorev.Durum = cmbGorevDurum.Text;
+
+            _gorevRepo.Update(seciliGorev);
+
+            MessageBox.Show("Görev Raporu ve Durumu güncellendi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            LoadGorevler(); // Güncellemeleri yansıtmak için görevleri yeniden yükle
+
 
         }
     }

@@ -13,6 +13,8 @@ namespace CompanyManagementSystem.Models
         public int? AtananKullaniciId { get; set; }
         public string Baslik { get; set; }
         public string Aciklama { get; set; }
+        public string Mesaj { get; set; }
+        public string Rapor { get; set; }
         public string Durum { get; set; }
         public string Oncelik { get; set; }
         public DateTime OlusturmaTarihi { get; set; }
