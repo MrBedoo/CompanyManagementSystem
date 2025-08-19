@@ -71,12 +71,12 @@ namespace CompanyManagementSystem.Data
             {
                 notlar.Add(new KullaniciNot
                 {
-                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                    GonderenId = reader.GetInt32(reader.GetOrdinal("GonderenId")),
-                    HedefKullaniciId = reader.GetInt32(reader.GetOrdinal("HedefKullaniciId")),
-                    NotTarihi = reader.GetDateTime(reader.GetOrdinal("NotTarihi")),
-                    NotMetni = reader.GetString(reader.GetOrdinal("NotMetni")),
-                    Turu = (NotTuru)reader.GetInt16(reader.GetOrdinal("Turu")),
+                    Id = reader.GetInt32(reader.GetOrdinal("id")),
+                    GonderenId = reader.GetInt32(reader.GetOrdinal("gonderenid")),
+                    HedefKullaniciId = reader.GetInt32(reader.GetOrdinal("hedefkullaniciid")),
+                    NotTarihi = reader.GetDateTime(reader.GetOrdinal("nottarihi")),
+                    NotMetni = reader.GetString(reader.GetOrdinal("notmetni")),
+                    Turu = (NotTuru)reader.GetInt16(reader.GetOrdinal("turu")),
                 });
             }
 

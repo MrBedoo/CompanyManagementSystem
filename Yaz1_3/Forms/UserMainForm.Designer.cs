@@ -32,12 +32,11 @@
             btnToplantıListesi = new Button();
             button1 = new Button();
             button3 = new Button();
-            button2 = new Button();
             SuspendLayout();
             // 
             // btnCikis
             // 
-            btnCikis.Location = new Point(573, 286);
+            btnCikis.Location = new Point(72, 399);
             btnCikis.Name = "btnCikis";
             btnCikis.Size = new Size(119, 39);
             btnCikis.TabIndex = 0;
@@ -47,7 +46,7 @@
             // 
             // btnToplantıListesi
             // 
-            btnToplantıListesi.Location = new Point(545, 120);
+            btnToplantıListesi.Location = new Point(72, 101);
             btnToplantıListesi.Name = "btnToplantıListesi";
             btnToplantıListesi.Size = new Size(147, 43);
             btnToplantıListesi.TabIndex = 1;
@@ -57,7 +56,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(545, 71);
+            button1.Location = new Point(72, 52);
             button1.Name = "button1";
             button1.Size = new Size(147, 43);
             button1.TabIndex = 2;
@@ -67,29 +66,19 @@
             // 
             // button3
             // 
-            button3.Location = new Point(545, 183);
+            button3.Location = new Point(225, 52);
             button3.Name = "button3";
-            button3.Size = new Size(147, 34);
+            button3.Size = new Size(147, 43);
             button3.TabIndex = 5;
             button3.Text = "Notlar";
             button3.UseVisualStyleBackColor = true;
             button3.Click += button3_Click;
-            // 
-            // button2
-            // 
-            button2.Location = new Point(155, 98);
-            button2.Name = "button2";
-            button2.Size = new Size(117, 38);
-            button2.TabIndex = 6;
-            button2.Text = "Projeler";
-            button2.UseVisualStyleBackColor = true;
             // 
             // UserMainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(button2);
             Controls.Add(button3);
             Controls.Add(button1);
             Controls.Add(btnToplantıListesi);
@@ -105,6 +94,5 @@
         private Button btnToplantıListesi;
         private Button button1;
         private Button button3;
-        private Button button2;
     }
 }

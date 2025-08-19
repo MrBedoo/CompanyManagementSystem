@@ -59,26 +59,27 @@
             // dgvDevamEden
             // 
             dgvDevamEden.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDevamEden.Location = new Point(396, 27);
+            dgvDevamEden.Location = new Point(370, 27);
             dgvDevamEden.Name = "dgvDevamEden";
-            dgvDevamEden.Size = new Size(390, 235);
+            dgvDevamEden.Size = new Size(416, 235);
             dgvDevamEden.TabIndex = 0;
             dgvDevamEden.CellClick += dgvDevamEden_CellClick;
             dgvDevamEden.CellContentClick += dgvDevamEden_CellContentClick;
             // 
             // txtGorevMesaj
             // 
-            txtGorevMesaj.Location = new Point(350, 297);
+            txtGorevMesaj.Location = new Point(370, 297);
             txtGorevMesaj.Multiline = true;
             txtGorevMesaj.Name = "txtGorevMesaj";
             txtGorevMesaj.ReadOnly = true;
-            txtGorevMesaj.Size = new Size(438, 141);
+            txtGorevMesaj.Size = new Size(418, 141);
             txtGorevMesaj.TabIndex = 1;
+            txtGorevMesaj.TextChanged += txtGorevMesaj_TextChanged;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(398, 9);
+            label1.Location = new Point(370, 9);
             label1.Name = "label1";
             label1.Size = new Size(121, 15);
             label1.TabIndex = 2;
@@ -87,7 +88,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(350, 279);
+            label2.Location = new Point(370, 279);
             label2.Name = "label2";
             label2.Size = new Size(206, 15);
             label2.TabIndex = 3;

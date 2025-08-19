@@ -58,8 +58,8 @@ namespace CompanyManagementSystem.Forms
 
         private void KullaniciNotForm_Load(object sender, EventArgs e)
         {
-            lblKullanici.Text = _hedefKullanici.AdSoyad;  // Gösterilecek kişi
-            cmbNotTuru.DataSource = Enum.GetValues(typeof(NotTuru));
+            //lblKullanici.Text = _hedefKullanici.AdSoyad;  // Gösterilecek kişi
+            //cmbNotTuru.DataSource = Enum.GetValues(typeof(NotTuru));
         }
 
         private void cmbNotTuru_SelectedIndexChanged(object sender, EventArgs e)

@@ -48,6 +48,7 @@ namespace CompanyManagementSystem
             if (anaForm == null)
                 anaForm = new LoginForm();
 
+            //Form anaForm = new KullaniciKayit();
             Application.Run(anaForm);
 
         }

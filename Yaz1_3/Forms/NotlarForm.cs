@@ -18,6 +18,7 @@ namespace CompanyManagementSystem.Forms
         private readonly KullaniciRepository _kullaniciRepo = new KullaniciRepository();
         private List<KullaniciNot> _tumNotlar;
         private readonly Kullanici _currentUser;
+        private List<KullaniciNot> _girisKullaniciNotlari;
 
         public NotlarForm(Kullanici kullanici)
         {
@@ -25,20 +26,16 @@ namespace CompanyManagementSystem.Forms
             _currentUser = kullanici; // Oturum açan kullanıcıyı sakla
         }
 
-        private void KullaniciNotlariForm_Load(object sender, EventArgs e)
-        {
-            LoadNotlar();
-            dgvNotlar.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvNotlar.MultiSelect = false;
-
-            dgvNotlar.CellDoubleClick += dgvNotlar_CellDoubleClick;
-        }
 
         private void LoadNotlar()
         {
             _tumNotlar = _notRepo.GetAll();
 
-            dgvNotlar.DataSource = _tumNotlar.Select(n => new
+            _girisKullaniciNotlari = _tumNotlar
+                .Where(n => n.HedefKullaniciId == _currentUser.Id)
+                .ToList();
+
+            dgvNotlar.DataSource = _girisKullaniciNotlari.Select(n => new
             {
                 n.Id,
                 n.GonderenId,
@@ -54,8 +51,6 @@ namespace CompanyManagementSystem.Forms
             dgvNotlar.Columns["GonderenId"].Visible = false;
             dgvNotlar.Columns["HedefKullaniciId"].Visible = false;
         }
-
-       
 
 
         private void button1_Click(object sender, EventArgs e)
@@ -73,18 +68,26 @@ namespace CompanyManagementSystem.Forms
 
         private void dgvNotlar_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 || e.RowIndex >= _tumNotlar.Count) return;
+            //if (e.RowIndex < 0 || e.RowIndex >= _girisKullaniciNotlari.Count) return;
 
-            var secilenNot = _tumNotlar[e.RowIndex];
+            //var secilenNot = _girisKullaniciNotlari[e.RowIndex];
 
-            // RichTextBox ve TextBox
-            txtNotMetni.Text = secilenNot.NotMetni;
-            txtNotTarihi.Text = secilenNot.NotTarihi.ToString("g");
+            //txtNotMetni.Text = secilenNot.NotMetni;
+            //txtNotTarihi.Text = secilenNot.NotTarihi.ToString("g");
+            //txtNotTuru.Text = secilenNot.Turu.ToString(); // <- buraya ekle
 
-            // Gönderen
-            var gonderen = _kullaniciRepo.GetById(secilenNot.GonderenId);
-            lblGonderen.Text = gonderen != null ? gonderen.AdSoyad : "Bilinmiyor";
+            //var gonderen = _kullaniciRepo.GetById(secilenNot.GonderenId);
+            //lblGonderen.Text = gonderen != null ? gonderen.AdSoyad : "Bilinmiyor";
 
+        }
+
+        private void NotlarForm_Load(object sender, EventArgs e)
+        {
+            LoadNotlar();
+            dgvNotlar.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvNotlar.MultiSelect = false;
+
+            dgvNotlar.CellDoubleClick += dgvNotlar_CellDoubleClick;
         }
     }
 }

@@ -23,7 +23,7 @@ namespace CompanyManagementSystem.Forms
 
         }
 
-        
+
         private void btnCikis_Click(object sender, EventArgs e)
         {
             // Oturumu sıfırla
@@ -80,6 +80,12 @@ namespace CompanyManagementSystem.Forms
             this.Hide(); // Mevcut formu gizle
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            var projelerForm = new ProjelerForm(_currentUser);
+            projelerForm.Show();
 
+            this.Hide();
+        }
     }
 }

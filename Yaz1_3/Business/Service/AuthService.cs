@@ -60,10 +60,7 @@ namespace CompanyManagementSystem.Business.Service
             return (kullanici, null);
         }
 
-        public bool KullaniciYoneticiMi(Kullanici kullanici)
-        {
-            return kullanici.RolId == 1;
-        }
+       
 
         public string Hash(string input)
         {

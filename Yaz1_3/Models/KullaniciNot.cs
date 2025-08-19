@@ -17,7 +17,6 @@ namespace CompanyManagementSystem.Models
         Diger
     }
 
-
     internal class KullaniciNot
     {
         public int Id { get; set; }

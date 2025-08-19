@@ -49,46 +49,46 @@ namespace CompanyManagementSystem.Forms
 
         private void btnGorevKaydet_Click(object sender, EventArgs e)
         {
-            if (cmbProjeler.SelectedValue == null)
-            {
-                MessageBox.Show("Lütfen bir proje seçin!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            //if (cmbProjeler.SelectedValue == null)
+            //{
+            //    MessageBox.Show("Lütfen bir proje seçin!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    return;
+            //}
 
-            int secilenProjeId = (int)cmbProjeler.SelectedValue;
+            //int secilenProjeId = (int)cmbProjeler.SelectedValue;
 
-            var yeniGorev = new Gorev
-            {
-                Baslik = txtGorevBaslik.Text.Trim(),
-                Aciklama = txtGorevAciklama.Text.Trim(),
-                BitisTarihi = dtpBitis.Value,
-                Oncelik = txtGorevOncelik.Text,
-                Durum = "Beklemede",
-                AtananKullaniciId = (int?)cmbAtananKullanici.SelectedValue, // opsiyonel
-                ProjeId = secilenProjeId
-            };
+            //var yeniGorev = new Gorev
+            //{
+            //    Baslik = txtGorevBaslik.Text.Trim(),
+            //    Aciklama = txtGorevAciklama.Text.Trim(),
+            //    BitisTarihi = dtpBitis.Value,
+            //    Oncelik = txtGorevOncelik.Text,
+            //    Durum = "Beklemede",
+            //    AtananKullaniciId = (int?)cmbAtananKullanici.SelectedValue, // opsiyonel
+            //    ProjeId = secilenProjeId
+            //};
 
 
-            try
-            {
-                _gorevRepo.Add(yeniGorev);
+            //try
+            //{
+            //    _gorevRepo.Add(yeniGorev);
 
-                if (yeniGorev.AtananKullaniciId.HasValue)
-                {
-                    Kullanici kullanici1 = _kullaniciRepo.GetById(yeniGorev.AtananKullaniciId.Value);
-                    kullanici1.AtananGorevler ??= new List<Gorev>();
-                    var gorevler = _gorevRepo.GetByAtananKullaniciId(yeniGorev.AtananKullaniciId.Value);
-                    var sonGorev = gorevler.OrderByDescending(g => g.OlusturmaTarihi).FirstOrDefault();
-                    kullanici1.AtananGorevler.Add(sonGorev);
-                }
+            //    if (yeniGorev.AtananKullaniciId.HasValue)
+            //    {
+            //        Kullanici kullanici1 = _kullaniciRepo.GetById(yeniGorev.AtananKullaniciId.Value);
+            //        kullanici1.AtananGorevler ??= new List<Gorev>();
+            //        var gorevler = _gorevRepo.GetByAtananKullaniciId(yeniGorev.AtananKullaniciId.Value);
+            //        var sonGorev = gorevler.OrderByDescending(g => g.OlusturmaTarihi).FirstOrDefault();
+            //        kullanici1.AtananGorevler.Add(sonGorev);
+            //    }
 
-                MessageBox.Show("Görev başarıyla eklendi!");
+            //    MessageBox.Show("Görev başarıyla eklendi!");
 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Görev eklenirken hata oluştu: " + ex.Message);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("Görev eklenirken hata oluştu: " + ex.Message);
+            //}
         }
 
 

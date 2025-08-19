@@ -3,6 +3,7 @@ using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,88 +16,68 @@ namespace CompanyManagementSystem.Data
         public int RunInsertOrUpdate(T entity)
         {
             var type = typeof(T);
-            var props = type.GetProperties();
+            var tableName = type.Name.ToLower();
+            var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                            .Where(p => p.CanRead)
+                            .ToList();
 
-            // Id property'sini bul ve değerini al
             var idProp = props.FirstOrDefault(p => string.Equals(p.Name, "Id", StringComparison.OrdinalIgnoreCase));
             if (idProp == null)
-                throw new Exception("Entity'de Id property bulunamadı.");
+                throw new Exception("Entity'de 'Id' property bulunamadı.");
 
             var idValue = idProp.GetValue(entity);
-            bool isUpdate = false;
-            if (idValue != null && int.TryParse(idValue.ToString(), out int idInt))
+            bool isInsert = idValue == null || Convert.ToInt32(idValue) == 0;
+
+            try
             {
-                isUpdate = idInt > 0;
+                using var conn = DbHelper.GetConnection();
+                conn.Open();
+                using var cmd = new NpgsqlCommand { Connection = conn };
+
+                if (isInsert)
+                {
+                    var columns = props.Where(p => p != idProp)
+                                       .Select(p => "\"" + p.Name.ToLower() + "\"")
+                                       .ToList();
+                    var parameters = columns.Select(c => "@" + c.Trim('"')).ToList();
+
+                    cmd.CommandText = $"INSERT INTO \"{tableName}\" ({string.Join(", ", columns)}) " +
+                                      $"VALUES ({string.Join(", ", parameters)}) RETURNING \"{idProp.Name.ToLower()}\";";
+
+                    foreach (var prop in props.Where(p => p != idProp))
+                        cmd.Parameters.AddWithValue("@" + prop.Name.ToLower(), prop.GetValue(entity) ?? DBNull.Value);
+
+                    var result = cmd.ExecuteScalar();
+                    idProp.SetValue(entity, Convert.ToInt32(result));
+                    return Convert.ToInt32(result);
+                }
+                else
+                {
+                    var setClauses = props.Where(p => p != idProp)
+                                          .Select(p => $"\"{p.Name.ToLower()}\" = @{p.Name.ToLower()}")
+                                          .ToList();
+
+                    cmd.CommandText = $"UPDATE \"{tableName}\" SET {string.Join(", ", setClauses)} " +
+                                      $"WHERE \"{idProp.Name.ToLower()}\" = @{idProp.Name.ToLower()}";
+
+                    foreach (var prop in props)
+                        cmd.Parameters.AddWithValue("@" + prop.Name.ToLower(), prop.GetValue(entity) ?? DBNull.Value);
+
+                    return cmd.ExecuteNonQuery();
+                }
             }
-
-            using var conn = DbHelper.GetConnection();
-            conn.Open();
-
-            if (isUpdate)
+            catch (Npgsql.PostgresException ex) when (ex.SqlState == "23505") // unique_violation
             {
-                // Update sorgusu dinamik oluşturuluyor (KayitTarihi hariç)
-                var setClause = string.Join(", ", props
-                    .Where(p => !string.Equals(p.Name, "Id", StringComparison.OrdinalIgnoreCase) &&
-                                !string.Equals(p.Name, "KayitTarihi", StringComparison.OrdinalIgnoreCase))
-                    .Select(p => $"{ToDbColumnName(p.Name)} = @{p.Name.ToLower()}"));
-
-                var sql = $"UPDATE {ToDbTableName(type.Name)} SET {setClause} WHERE id = @id";
-
-                using var cmd = new NpgsqlCommand(sql, conn);
-
-                foreach (var p in props)
-                {
-                    if (string.Equals(p.Name, "KayitTarihi", StringComparison.OrdinalIgnoreCase) ||
-                        string.Equals(p.Name, "Id", StringComparison.OrdinalIgnoreCase))
-                        continue;
-
-                    var paramName = "@" + p.Name.ToLower();
-                    var value = p.GetValue(entity) ?? DBNull.Value;
-                    cmd.Parameters.AddWithValue(paramName, value);
-                }
-                cmd.Parameters.AddWithValue("@id", idValue);
-
-                int affected = cmd.ExecuteNonQuery();
-                return affected > 0 ? 1 : -1;
+                // Hata mesajını kullanıcıya gösterebilirsin
+                throw new Exception("Unique constraint ihlali: " + ex.Detail);
             }
-            else
+            catch (Exception ex)
             {
-                // Insert sorgusu (KayitTarihi için DateTime.Now atanacak)
-                var insertProps = props.Where(p => !string.Equals(p.Name, "Id", StringComparison.OrdinalIgnoreCase) &&
-                                                   !string.Equals(p.Name, "KayitZamani", StringComparison.OrdinalIgnoreCase)).ToList();
-
-                var columnList = insertProps.Select(p => ToDbColumnName(p.Name)).ToList();
-                columnList.Add("kayit_zamani");
-                var columns = string.Join(", ", columnList);
-
-                var parameterList = insertProps.Select(p => "@" + p.Name.ToLower()).ToList();
-                parameterList.Add("@kayit_zamani");
-                var parameters = string.Join(", ", parameterList);
-
-
-                var sql = $"INSERT INTO {ToDbTableName(type.Name)} ({columns}) VALUES ({parameters})";
-                try
-                {
-                    using var cmd = new NpgsqlCommand(sql, conn);
-
-                    foreach (var p in insertProps)
-                    {
-                        var paramName = "@" + p.Name.ToLower();
-                        var value = p.GetValue(entity) ?? DBNull.Value;
-                        cmd.Parameters.AddWithValue(paramName, value);
-                    }
-                    cmd.Parameters.AddWithValue("@kayit_zamani", DateTime.Now);
-
-                    cmd.ExecuteNonQuery();
-                    return 0;
-                }
-                catch (PostgresException ex) when (ex.SqlState == "23505")
-                {
-                    MessageBox.Show("eklenemez, bu email zaten var.");
-                    return -2;
-                }
+                throw; // diğer hatalar için tekrar fırlat
             }
         }
+
+
 
         public List<T> Listele<T>() where T : new()
         {
@@ -196,12 +177,12 @@ namespace CompanyManagementSystem.Data
             if (!reader.Read())
                 return default;
 
-            var entity = new T();
-            var props = typeof(T).GetProperties();
+            var entity = Activator.CreateInstance<T>();
+            var props = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
             foreach (var prop in props)
             {
-                // Kolon adını dönüştür (PascalCase -> snake_case gibi)
+                // Kolon adını dönüştür
                 var columnName = ToDbColumnName(prop.Name);
 
                 int ordinal;
@@ -221,28 +202,90 @@ namespace CompanyManagementSystem.Data
                     continue;
                 }
 
-                var propType = Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType;
+                var value = reader.GetValue(ordinal);
 
-                object value = propType switch
+                // Nullable desteği
+                var targetType = Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType;
+
+                try
                 {
-                    Type t when t == typeof(int) => reader.IsDBNull(ordinal) ? 0 : reader.GetInt32(ordinal),
-                    Type t when t == typeof(long) => reader.IsDBNull(ordinal) ? 0L : reader.GetInt64(ordinal),
-                    Type t when t == typeof(decimal) => reader.IsDBNull(ordinal) ? 0m : reader.GetDecimal(ordinal),
-                    Type t when t == typeof(double) => reader.IsDBNull(ordinal) ? 0d : reader.GetDouble(ordinal),
-                    Type t when t == typeof(float) => reader.IsDBNull(ordinal) ? 0f : reader.GetFloat(ordinal),
-                    Type t when t == typeof(bool) => reader.IsDBNull(ordinal) ? false : reader.GetBoolean(ordinal),
-                    Type t when t == typeof(string) => reader.IsDBNull(ordinal) ? null : reader.GetString(ordinal),
-                    Type t when t == typeof(DateTime) => reader.IsDBNull(ordinal) ? DateTime.MinValue : reader.GetDateTime(ordinal),
-                    Type t when t == typeof(char) => reader.IsDBNull(ordinal) ? '\0' : reader.GetChar(ordinal),
-                    Type t when t == typeof(byte[]) => reader.IsDBNull(ordinal) ? null : (byte[])reader[columnName],
-                    _ => reader.IsDBNull(ordinal) ? null : reader.GetValue(ordinal)
-                };
-
-                prop.SetValue(entity, value);
+                    var safeValue = Convert.ChangeType(value, targetType);
+                    prop.SetValue(entity, safeValue);
+                }
+                catch
+                {
+                    // Tip uyuşmazlığı olursa direkt raw value set edilir
+                    prop.SetValue(entity, value);
+                }
             }
 
             return entity;
         }
+
+
+        public List<T> GetAll()
+        {
+            using var conn = DbHelper.GetConnection();
+            conn.Open();
+
+            var tableName = ToDbTableName(typeof(T).Name);
+
+            var sql = $"SELECT * FROM {tableName}";
+            using var cmd = new NpgsqlCommand(sql, conn);
+
+            using var reader = cmd.ExecuteReader();
+            var entities = new List<T>();
+            var props = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+            while (reader.Read())
+            {
+                var entity = Activator.CreateInstance<T>();
+
+                foreach (var prop in props)
+                {
+                    var columnName = ToDbColumnName(prop.Name);
+
+                    int ordinal;
+                    try
+                    {
+                        ordinal = reader.GetOrdinal(columnName);
+                    }
+                    catch (IndexOutOfRangeException)
+                    {
+
+                        continue;
+                    }
+
+                    if (reader.IsDBNull(ordinal))
+                    {
+                        prop.SetValue(entity, null);
+                        continue;
+                    }
+
+                    var value = reader.GetValue(ordinal);
+                    var targetType = Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType;
+
+                    try
+                    {
+                        var safeValue = Convert.ChangeType(value, targetType);
+                        prop.SetValue(entity, safeValue);
+                    }
+                    catch
+                    {
+                        prop.SetValue(entity, value);
+                    }
+
+                }
+                entities.Add(entity);
+
+            }
+
+            return entities;
+        }
+
+
+
+
 
         // Sınıf adını tablo adına dönüştür (ör: Kullanici => kullanicilar)
         private string ToDbTableName(string className)
@@ -258,6 +301,12 @@ namespace CompanyManagementSystem.Data
                 i > 0 && char.IsUpper(ch) ? new[] { '_', char.ToLower(ch) } : new[] { char.ToLower(ch) }));
 
         }
+
+
+
+
+
+
 
     }
 }

@@ -133,9 +133,18 @@ namespace CompanyManagementSystem.Forms
                 return;
             }
 
-            int id = Convert.ToInt32(dgvToplantilar.SelectedRows[0].Cells["Id"].Value);
+            var cellValue = dgvToplantilar.SelectedRows[0].Cells["Id"].Value;
 
-            var toplantı = _toplantiRepo.GetById(id);
+            if (cellValue == null || cellValue == DBNull.Value)
+            {
+                ClearDetails();
+                return;
+            }
+
+            int id = Convert.ToInt32(cellValue);
+
+            var _toplantiBaseRepo = new BaseRepository<Toplanti>();
+            var toplantı = _toplantiBaseRepo.GetById(id);
             if (toplantı == null)
             {
                 ClearDetails();
@@ -148,7 +157,6 @@ namespace CompanyManagementSystem.Forms
             txtBaslamaTarihi.Text = toplantı.BaslamaTarihi.ToString("g");
             txtBitisTarihi.Text = toplantı.BitisTarihi.HasValue ? toplantı.BitisTarihi.Value.ToString("g") : "";
             txtDurum.Text = toplantı.Durum;
-
 
             listBox1.Items.Clear();
             var katilimcilar = _katilimciRepo.GetByToplantiId(id);
@@ -188,6 +196,11 @@ namespace CompanyManagementSystem.Forms
         }
 
         private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
         {
 
         }

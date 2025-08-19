@@ -34,10 +34,10 @@ namespace CompanyManagementSystem.Forms
 
         private void Filtrele()
         {
-            string filtre = txtArama.Text.ToLower();
-            dgvKullanicilar.DataSource = _tumKullanicilar
-                .Where(k => k.AdSoyad.ToLower().Contains(filtre))
-                .ToList();
+            //string filtre = txtArama.Text.ToLower();
+            //dgvKullanicilar.DataSource = _tumKullanicilar
+            //    .Where(k => k.AdSoyad.ToLower().Contains(filtre))
+            //    .ToList();
         }
 
         private void dataGridViewKullanicilar_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

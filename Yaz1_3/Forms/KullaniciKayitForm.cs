@@ -1,11 +1,12 @@
-﻿using CompanyManagementSystem.Data;
-using CompanyManagementSystem.Models;
-using System.IO;
-using System.Windows.Forms;
-using Npgsql;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using CompanyManagementSystem.Business.Service;
+﻿using CompanyManagementSystem.Business.Service;
+using CompanyManagementSystem.Data;
 using CompanyManagementSystem.Forms;
+using CompanyManagementSystem.Models;
+using Npgsql;
+using System.IO;
+using System.Reflection;
+using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 
 namespace CompanyManagementSystem
@@ -66,11 +67,15 @@ namespace CompanyManagementSystem
         private void EkleGuncelle_Click(object sender, EventArgs e)
         {
 
-            if (!int.TryParse(textBox6.Text, out int parsedId))
+            string input = textBox6.Text;
+            int parsedId = 0; // varsayılan 0
+
+            if (!string.IsNullOrWhiteSpace(input) && !int.TryParse(input, out parsedId))
             {
                 MessageBox.Show("Geçerli bir ID giriniz.");
                 return;
             }
+
 
             if (!decimal.TryParse(textBox4.Text, out decimal gelir))
             {
@@ -189,57 +194,58 @@ namespace CompanyManagementSystem
 
         private void BilgileriDoldur<T>(T entity) where T : class
         {
-            var type = typeof(T);
+            
 
-            foreach (var prop in type.GetProperties())
+            var row = dataGridView1.SelectedRows[0];
+
+            // TextBox’lara değerler
+            textBox6.Text = row.Cells["Id"].Value?.ToString() ?? "";
+            textBox1.Text = row.Cells["Ad"].Value?.ToString() ?? "";
+            textBox2.Text = row.Cells["Soyad"].Value?.ToString() ?? "";
+            textBox3.Text = row.Cells["Email"].Value?.ToString() ?? "";
+            textBox4.Text = row.Cells["Gelir"].Value?.ToString() ?? "";
+            textBox5.Text = row.Cells["Sifrehash"].Value?.ToString() ?? "";
+
+            // Cinsiyet ComboBox
+            if (row.Cells["Cinsiyet"].Value != null)
             {
-                var propName = prop.Name;
-                var value = prop.GetValue(entity);
-
-                switch (propName)
-                {
-                    case "Id":
-                        textBox6.Text = value?.ToString() ?? "";
-                        break;
-                    case "Ad":
-                        textBox1.Text = value?.ToString() ?? "";
-                        break;
-                    case "Soyad":
-                        textBox2.Text = value?.ToString() ?? "";
-                        break;
-                    case "Email":
-                        textBox3.Text = value?.ToString() ?? "";
-                        break;
-                    case "Gelir":
-                        textBox4.Text = value?.ToString() ?? "";
-                        break;
-                    case "Sifre":
-                        textBox5.Text = value?.ToString() ?? "";
-                        break;
-                    case "Cinsiyet":
-                        if (value is char c)
-                            comboBox1.SelectedItem = c == 'E' ? "Erkek" : "Kadın";
-                        break;
-                    case "DogumTarihi":
-                        if (value is DateTime dt)
-                            dateTimePicker1.Value = dt;
-                        break;
-                    case "Resim":
-                        if (value is byte[] bytes && bytes.Length > 0)
-                        {
-                            using var ms = new MemoryStream(bytes);
-                            pictureBox1.Image = Image.FromStream(ms);
-                            secilenResim = bytes;
-                        }
-                        else
-                        {
-                            pictureBox1.Image = null;
-                            secilenResim = null;
-                        }
-                        break;
-
-                }
+                var c = row.Cells["Cinsiyet"].Value.ToString();
+                comboBox1.SelectedItem = c == "E" ? "Erkek" : "Kadın";
             }
+            else
+            {
+                comboBox1.SelectedIndex = -1;
+            }
+
+            // Doğum Tarihi DateTimePicker
+            if (row.Cells["DogumTarihi"].Value != null
+                && DateTime.TryParse(row.Cells["DogumTarihi"].Value.ToString(), out var dt))
+            {
+                // DateTimePicker'ın izin verdiği aralıkta mı kontrol et
+                if (dt < dateTimePicker1.MinDate || dt > dateTimePicker1.MaxDate)
+                    dt = DateTime.Today;
+
+                dateTimePicker1.Value = dt;
+            }
+            else
+            {
+                dateTimePicker1.Value = DateTime.Today;
+            }
+
+
+            // Resim PictureBox
+            if (row.Cells["Resim"].Value != null && row.Cells["Resim"].Value is byte[] bytes && bytes.Length > 0)
+            {
+                using var ms = new MemoryStream(bytes);
+                pictureBox1.Image = Image.FromStream(ms);
+                secilenResim = bytes;
+            }
+            else
+            {
+                pictureBox1.Image = null;
+                secilenResim = null;
+            }
+
         }
 
 

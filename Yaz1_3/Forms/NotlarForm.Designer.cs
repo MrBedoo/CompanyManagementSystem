@@ -34,6 +34,8 @@
             txtNotTarihi = new TextBox();
             button1 = new Button();
             txtNotTuru = new TextBox();
+            label1 = new Label();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvNotlar).BeginInit();
             SuspendLayout();
             // 
@@ -59,7 +61,7 @@
             // lblGonderen
             // 
             lblGonderen.AutoSize = true;
-            lblGonderen.Location = new Point(262, 26);
+            lblGonderen.Location = new Point(242, 26);
             lblGonderen.Name = "lblGonderen";
             lblGonderen.Size = new Size(38, 15);
             lblGonderen.TabIndex = 2;
@@ -69,6 +71,7 @@
             // 
             txtNotTarihi.Location = new Point(210, 359);
             txtNotTarihi.Name = "txtNotTarihi";
+            txtNotTarihi.ReadOnly = true;
             txtNotTarihi.Size = new Size(116, 23);
             txtNotTarihi.TabIndex = 3;
             // 
@@ -84,16 +87,37 @@
             // 
             // txtNotTuru
             // 
-            txtNotTuru.Location = new Point(46, 18);
+            txtNotTuru.Location = new Point(98, 18);
             txtNotTuru.Name = "txtNotTuru";
+            txtNotTuru.ReadOnly = true;
             txtNotTuru.Size = new Size(100, 23);
             txtNotTuru.TabIndex = 5;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(46, 21);
+            label1.Name = "label1";
+            label1.Size = new Size(55, 15);
+            label1.TabIndex = 6;
+            label1.Text = "Not türü:";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(142, 362);
+            label2.Name = "label2";
+            label2.Size = new Size(62, 15);
+            label2.TabIndex = 7;
+            label2.Text = "Not Tarihi:";
             // 
             // NotlarForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(label2);
+            Controls.Add(label1);
             Controls.Add(txtNotTuru);
             Controls.Add(button1);
             Controls.Add(txtNotTarihi);
@@ -102,6 +126,7 @@
             Controls.Add(dgvNotlar);
             Name = "NotlarForm";
             Text = "Notlar";
+            Load += NotlarForm_Load;
             ((System.ComponentModel.ISupportInitialize)dgvNotlar).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -115,5 +140,7 @@
         private TextBox txtNotTarihi;
         private Button button1;
         private TextBox txtNotTuru;
+        private Label label1;
+        private Label label2;
     }
 }

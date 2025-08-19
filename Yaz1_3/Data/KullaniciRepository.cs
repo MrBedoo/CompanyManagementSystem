@@ -31,49 +31,20 @@ namespace CompanyManagementSystem.Data
                     Ad = reader["ad"].ToString() ?? "",
                     Soyad = reader["soyad"].ToString() ?? "",
                     Email = reader["email"].ToString() ?? "",
-                    DogumTarihi = Convert.ToDateTime(reader["dogum_tarihi"]),
+                    DogumTarihi = Convert.ToDateTime(reader["dogumtarihi"]),
                     Cinsiyet = Convert.ToChar(reader["cinsiyet"]),
                     Gelir = Convert.ToDecimal(reader["gelir"]),
-                    SifreHash = reader["sifre_hash"].ToString() ?? "",
+                    SifreHash = reader["sifrehash"].ToString() ?? "",
                     Durum = reader["durum"] == DBNull.Value ? false : Convert.ToBoolean(reader["durum"]),
-                    KayitZamani = Convert.ToDateTime(reader["kayit_zamani"]),
+                    KayitZamani = Convert.ToDateTime(reader["kayitzamani"]),
                     Resim = reader["resim"] as byte[],
-                    RolId = reader["rol_id"] == DBNull.Value ? 0 : Convert.ToInt32(reader["rol_id"]),
+                    RolId = reader["rolid"] == DBNull.Value ? 0 : Convert.ToInt32(reader["rolid"]),
                 };
             }
             return null;
         }
 
-        public Kullanici? GetById(int id)
-        {
-            using var conn = DbHelper.GetConnection();
-            conn.Open();
-
-            var sql = "SELECT * FROM kullanici WHERE id = @Id";
-            using var cmd = new NpgsqlCommand(sql, conn);
-            cmd.Parameters.AddWithValue("@Id", id);
-
-            using var reader = cmd.ExecuteReader();
-            if (reader.Read())
-            {
-                return new Kullanici
-                {
-                    Id = Convert.ToInt32(reader["id"]),
-                    Ad = reader["ad"].ToString() ?? "",
-                    Soyad = reader["soyad"].ToString() ?? "",
-                    Email = reader["email"].ToString() ?? "",
-                    DogumTarihi = Convert.ToDateTime(reader["dogum_tarihi"]),
-                    Cinsiyet = Convert.ToChar(reader["cinsiyet"]),
-                    Gelir = Convert.ToDecimal(reader["gelir"]),
-                    SifreHash = reader["sifre_hash"].ToString() ?? "",
-                    Durum = reader["durum"] == DBNull.Value ? false : Convert.ToBoolean(reader["durum"]),
-                    KayitZamani = Convert.ToDateTime(reader["kayit_zamani"]),
-                    Resim = reader["resim"] as byte[],
-                    RolId = reader["rol_id"] == DBNull.Value ? 0 : Convert.ToInt32(reader["rol_id"]),
-                };
-            }
-            return null;
-        }
+        
 
 
         public List<Kullanici> GetAll()
@@ -83,7 +54,7 @@ namespace CompanyManagementSystem.Data
             using var conn = DbHelper.GetConnection();
             conn.Open();
 
-            string sql = "SELECT id, ad, soyad, rol_id FROM kullanici ORDER BY ad";
+            string sql = "SELECT id, ad, soyad, rolid FROM kullanici ORDER BY ad";
             using var cmd = new NpgsqlCommand(sql, conn);
             using var reader = cmd.ExecuteReader();
 
@@ -131,7 +102,7 @@ namespace CompanyManagementSystem.Data
             conn.Open();
             var sql = @"
             UPDATE kullanici 
-            SET failed_login_attempts = failed_login_attempts + 1 
+            SET failedloginattempts = failedloginattempts + 1 
             WHERE id = @id";
             using var cmd = new NpgsqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("@id", kullaniciId);
@@ -144,7 +115,7 @@ namespace CompanyManagementSystem.Data
             conn.Open();
             var sql = @"
             UPDATE kullanici 
-            SET failed_login_attempts = 0, lockout_end_time = NULL
+            SET failedloginattempts = 0, lockoutendtime = NULL
             WHERE id = @id";
             using var cmd = new NpgsqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("@id", kullaniciId);
@@ -157,7 +128,7 @@ namespace CompanyManagementSystem.Data
             conn.Open();
             var sql = @"
             UPDATE kullanici 
-            SET lockout_end_time = @lockoutEndTime
+            SET lockoutendtime = @lockoutEndTime
             WHERE id = @id";
             using var cmd = new NpgsqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("@id", kullaniciId);

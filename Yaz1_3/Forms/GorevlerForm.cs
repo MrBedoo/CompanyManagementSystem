@@ -25,7 +25,6 @@ namespace CompanyManagementSystem.Forms
 
         }
 
-
         private void LoadGorevler()
         {
             var gorevler = _gorevRepo.GetByAtananKullaniciId(_currentUser.Id);
@@ -35,7 +34,6 @@ namespace CompanyManagementSystem.Forms
             dgvDevamEden.DataSource = devamEden;
             dgvDevamEden.Columns["Id"].Visible = false;
         }
-
 
 
         private void button2_Click(object sender, EventArgs e)
@@ -96,6 +94,10 @@ namespace CompanyManagementSystem.Forms
             MessageBox.Show("Görev Raporu ve Durumu güncellendi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
             LoadGorevler(); // Güncellemeleri yansıtmak için görevleri yeniden yükle
 
+        }
+
+        private void txtGorevMesaj_TextChanged(object sender, EventArgs e)
+        {
 
         }
     }
