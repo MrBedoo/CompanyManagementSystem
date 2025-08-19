@@ -19,7 +19,7 @@ The system enables a more structured and efficient workflow by digitizing intern
 
 - C# (.NET)  
 - ADO.NET (direct SQL queries)  
-- Windows Forms / WPF (depending on the UI framework used)
+- Windows Forms
 
 ## Development
 
