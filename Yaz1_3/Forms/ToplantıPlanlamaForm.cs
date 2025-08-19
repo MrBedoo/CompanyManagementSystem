@@ -16,19 +16,19 @@ namespace CompanyManagementSystem.Forms
     {
 
         private Kullanici _currentUser;
-        private ToplantiRepository _repo;
+        
         private readonly ToplantiKatilimciRepository _katilimciRepo;
         private readonly KullaniciRepository _kullaniciRepo;
+        private readonly BaseRepository<Toplanti> _toplantiBaseRepo;
 
-       
 
         public ToplantıPlanlamaForm(Kullanici kullanici)
         {
             InitializeComponent();
             _currentUser = kullanici;
             _katilimciRepo = new ToplantiKatilimciRepository();
-            _repo = new ToplantiRepository();
             _kullaniciRepo = new KullaniciRepository();
+            _toplantiBaseRepo = new BaseRepository<Toplanti>();
 
             // Tarih ve saat seçimi için ayarlar
             dtpBaslama.Format = DateTimePickerFormat.Custom;
@@ -50,7 +50,7 @@ namespace CompanyManagementSystem.Forms
 
         private void LoadToplantilar()
         {
-            var toplantilar = _repo.GetToplantilar();
+            var toplantilar = _toplantiBaseRepo.GetAll();
 
             var dt = new DataTable();
             dt.Columns.Add("Id", typeof(int));
@@ -115,9 +115,39 @@ namespace CompanyManagementSystem.Forms
 
             try
             {
-                // 2️⃣ Toplantıyı ekle, Id otomatik güncellenecek
-                _repo.Add(yeniToplanti);
+                // 1️⃣ Toplantıyı ekle, Add metodu Id'yi entity'ye set ediyor
+                _toplantiBaseRepo.Add(yeniToplanti);
 
+                // 2️⃣ Eklenen toplantının Id'sini al
+                var toplantiId = yeniToplanti.Id;
+
+                // 3️⃣ CheckedListBox'tan seçilen katılımcıları al
+                var secilenKatilimcilar = checkedListBox1.CheckedItems
+                    .Cast<Kullanici>()
+                    .ToList();
+
+                if (!secilenKatilimcilar.Any())
+                {
+                    MessageBox.Show("Lütfen en az bir katılımcı seçin.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // 4️⃣ Katılımcıları veritabanına ekle
+                foreach (var kullanici in secilenKatilimcilar)
+                {
+                    _katilimciRepo.AddKatilimci(
+                        toplantiId,
+                        kullanici.Id,
+                        "Katılıyor",   // Katılım durumu
+                        "Katılımcı"    // Rol
+                    );
+                }
+
+                MessageBox.Show("Katılımcılar başarıyla eklendi!", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // 5️⃣ İşlem sonrası seçimleri temizle
+                for (int i = 0; i < checkedListBox1.Items.Count; i++)
+                    checkedListBox1.SetItemChecked(i, false);
 
                 MessageBox.Show("Toplantı başarıyla kaydedildi!");
 
@@ -188,35 +218,7 @@ namespace CompanyManagementSystem.Forms
                 return;
             }
 
-            int toplantıId = Convert.ToInt32(dgvToplantilar.SelectedRows[0].Cells["Id"].Value);
-
-            // 2️⃣ CheckedListBox'tan seçilen katılımcıları al
-            var secilenKatilimcilar = checkedListBox1.CheckedItems
-                .Cast<Kullanici>()
-                .ToList();
-
-            if (!secilenKatilimcilar.Any())
-            {
-                MessageBox.Show("Lütfen en az bir katılımcı seçin.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // 3️⃣ Katılımcıları veritabanına ekle
-            foreach (var kullanici in secilenKatilimcilar)
-            {
-                _katilimciRepo.AddKatilimci(
-                    toplantıId,
-                    kullanici.Id,
-                    "Katılıyor",   // Katılım durumu
-                    "Katılımcı"    // Rol
-                );
-            }
-
-            MessageBox.Show("Katılımcılar başarıyla eklendi!", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            // 4️⃣ İşlem sonrası seçimleri temizle
-            for (int i = 0; i < checkedListBox1.Items.Count; i++)
-                checkedListBox1.SetItemChecked(i, false);
+           
         }
 
         private void dtpBaslama_ValueChanged(object sender, EventArgs e)

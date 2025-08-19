@@ -285,6 +285,63 @@ namespace CompanyManagementSystem.Data
 
 
 
+        public int Add(T entity)
+        {
+            var type = typeof(T);
+            var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                            .Where(p => p.CanRead)
+                            .ToList();
+
+            var idProp = props.FirstOrDefault(p =>
+                string.Equals(p.Name, "Id", StringComparison.OrdinalIgnoreCase));
+
+            if (idProp == null)
+                throw new Exception("Entity'de 'Id' property bulunamadı.");
+
+            // Id hariç property’ler
+            var columns = props.Where(p => p != idProp)
+                               .Select(p => "\"" + p.Name.ToLower() + "\"")
+                               .ToList();
+
+            var parameters = props.Where(p => p != idProp)
+                                  .Select(p => "@" + p.Name.ToLower())
+                                  .ToList();
+
+            var _tableName = ToDbTableName(typeof(T).Name);
+
+            var sql = $"INSERT INTO \"{_tableName}\" ({string.Join(", ", columns)}) " +
+                      $"VALUES ({string.Join(", ", parameters)}) RETURNING \"{idProp.Name.ToLower()}\";";
+
+            using (var conn = DbHelper.GetConnection())
+            {
+                conn.Open();
+                using (var cmd = new NpgsqlCommand(sql, conn))
+                {
+                    foreach (var prop in props.Where(p => p != idProp))
+                    {
+                        var value = prop.GetValue(entity) ?? DBNull.Value;
+                        cmd.Parameters.AddWithValue("@" + prop.Name.ToLower(), value);
+                    }
+
+                    var result = cmd.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        idProp.SetValue(entity, Convert.ToInt32(result));
+                        return Convert.ToInt32(result);
+                    }
+                    else
+                    {
+                        throw new Exception("Insert başarısız oldu, Id döndürülmedi.");
+                    }
+                }
+            }
+        }
+
+
+
+
+
+
 
 
         // Sınıf adını tablo adına dönüştür (ör: Kullanici => kullanicilar)
@@ -297,12 +354,9 @@ namespace CompanyManagementSystem.Data
         // Property adını db kolon adına dönüştür (ör: DogumTarihi => dogum_tarihi)
         private string ToDbColumnName(string propName)
         {
-            return string.Concat(propName.SelectMany((ch, i) =>
-                i > 0 && char.IsUpper(ch) ? new[] { '_', char.ToLower(ch) } : new[] { char.ToLower(ch) }));
+            return propName.ToLower();
 
         }
-
-
 
 
 

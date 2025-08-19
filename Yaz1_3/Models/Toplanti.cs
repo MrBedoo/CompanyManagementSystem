@@ -13,11 +13,10 @@ namespace CompanyManagementSystem.Models
         public string Aciklama { get; set; }
         public DateTime BaslamaTarihi { get; set; }
         public DateTime? BitisTarihi { get; set; } // Planlanan bitiş olabilir, zorunlu değil
-        public string Konum { get; set; } // Fiziksel adres veya online link
+        public string Adres { get; set; } // Fiziksel adres veya online link
         public string ToplantiTuru { get; set; } // "Online" veya "Fiziksel"
         public string Durum { get; set; } = "Planlandı"; // Varsayılan değer
         public DateTime OlusturmaTarihi { get; set; } = DateTime.Now;
         public int OlusturanId { get; set; } // Admin veya kullanıcı ID
-        public string Adres { get; set; }
     }
 }

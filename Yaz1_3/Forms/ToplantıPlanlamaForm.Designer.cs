@@ -67,15 +67,15 @@
             // checkedListBox1
             // 
             checkedListBox1.FormattingEnabled = true;
-            checkedListBox1.Location = new Point(21, 313);
+            checkedListBox1.Location = new Point(16, 262);
             checkedListBox1.Name = "checkedListBox1";
-            checkedListBox1.Size = new Size(184, 76);
+            checkedListBox1.Size = new Size(199, 76);
             checkedListBox1.TabIndex = 10;
             checkedListBox1.SelectedIndexChanged += checkedListBox1_SelectedIndexChanged;
             // 
             // button2
             // 
-            button2.Location = new Point(211, 329);
+            button2.Location = new Point(221, 281);
             button2.Name = "button2";
             button2.Size = new Size(94, 38);
             button2.TabIndex = 9;
@@ -85,7 +85,7 @@
             // 
             // btnTemizle
             // 
-            btnTemizle.Location = new Point(111, 262);
+            btnTemizle.Location = new Point(126, 361);
             btnTemizle.Name = "btnTemizle";
             btnTemizle.Size = new Size(89, 36);
             btnTemizle.TabIndex = 8;
@@ -95,7 +95,7 @@
             // 
             // btnKaydet
             // 
-            btnKaydet.Location = new Point(16, 262);
+            btnKaydet.Location = new Point(16, 361);
             btnKaydet.Name = "btnKaydet";
             btnKaydet.Size = new Size(89, 36);
             btnKaydet.TabIndex = 7;
@@ -173,7 +173,7 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
-            // ToplantıPlanlama
+            // ToplantıPlanlamaForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -181,7 +181,7 @@
             Controls.Add(button1);
             Controls.Add(dgvToplantilar);
             Controls.Add(groupBox1);
-            Name = "ToplantıPlanlama";
+            Name = "ToplantıPlanlamaForm";
             Text = "ToplantıPlanlama";
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();

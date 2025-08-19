@@ -19,12 +19,18 @@ namespace CompanyManagementSystem
             var kullaniciId = Properties.Settings.Default.KullaniciId;
             var gecerlilik = Properties.Settings.Default.TokenGecerlilik;
 
+            // Debug için yazd?r
+            Console.WriteLine($"Token: {token}");
+            Console.WriteLine($"KullaniciId: {kullaniciId}");
+            Console.WriteLine($"Gecerlilik: {gecerlilik}");
+
+
             Form anaForm = null;
 
             // Oturum geçerli mi kontrol et
             if (!string.IsNullOrEmpty(token) && kullaniciId > 0 && gecerlilik > DateTime.Now)
             {
-                var kullaniciRepo = new KullaniciRepository();
+                var kullaniciRepo = new BaseRepository<Kullanici>();
                 var kullanici = kullaniciRepo.GetById(kullaniciId);
 
                 if (kullanici != null)

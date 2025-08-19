@@ -45,38 +45,8 @@ namespace CompanyManagementSystem.Data
         }
 
 
-       
 
-        public void Add(Toplanti t)
-        {
-            using var conn = DbHelper.GetConnection();
-            conn.Open();
-
-            var sql = @"
-            INSERT INTO toplanti 
-            (baslik, aciklama, baslama_tarihi, adres, olusturanid, bitis_tarihi, toplanti_turu) 
-            VALUES (@baslik, @aciklama, @baslama, @adres, @olusturanid, @bitis, @tur)";
-
-            using var cmd = new NpgsqlCommand(sql, conn);
-
-            cmd.Parameters.AddWithValue("@baslik", t.Baslik);
-            cmd.Parameters.AddWithValue("@aciklama", (object?)t.Aciklama ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@baslama", t.BaslamaTarihi);
-            cmd.Parameters.AddWithValue("@bitis", t.BitisTarihi);
-            cmd.Parameters.AddWithValue("@tur", t.ToplantiTuru);
-            cmd.Parameters.AddWithValue("@adres", (object?)t.Adres ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@olusturanid", t.OlusturanId);
-
-            cmd.ExecuteNonQuery();
-
-            // Katılımcıları eklemek için ayrıca metod yazılır (eğer ayrı tabloda saklanıyorsa)
-
-
-        }
-
-
-       
-
+        
 
 
 
