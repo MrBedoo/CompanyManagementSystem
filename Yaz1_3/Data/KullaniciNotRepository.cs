@@ -57,31 +57,7 @@ namespace CompanyManagementSystem.Data
         }
 
 
-        public List<KullaniciNot> GetAll()
-        {
-            var notlar = new List<KullaniciNot>();
-            using var conn = DbHelper.GetConnection();
-            conn.Open();
-
-            string query = "SELECT Id, GonderenId, HedefKullaniciId, NotTarihi, NotMetni, Turu FROM KullaniciNotlari ORDER BY NotTarihi DESC";
-            using var cmd = new NpgsqlCommand(query, conn);
-
-            using var reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                notlar.Add(new KullaniciNot
-                {
-                    Id = reader.GetInt32(reader.GetOrdinal("id")),
-                    GonderenId = reader.GetInt32(reader.GetOrdinal("gonderenid")),
-                    HedefKullaniciId = reader.GetInt32(reader.GetOrdinal("hedefkullaniciid")),
-                    NotTarihi = reader.GetDateTime(reader.GetOrdinal("nottarihi")),
-                    NotMetni = reader.GetString(reader.GetOrdinal("notmetni")),
-                    Turu = (NotTuru)reader.GetInt16(reader.GetOrdinal("turu")),
-                });
-            }
-
-            return notlar;
-        }
+       
 
 
 

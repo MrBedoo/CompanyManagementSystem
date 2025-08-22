@@ -15,16 +15,18 @@ namespace CompanyManagementSystem.Forms
     public partial class GorevOlusturForm : Form
     {
         private readonly Kullanici _currentUser;
-        private readonly GorevRepository _gorevRepo;
         private readonly KullaniciRepository _kullaniciRepo;
         private readonly ProjeRepository _projeRepo = new ProjeRepository();
+        private readonly BaseRepository<Gorev> _gorevBaseRepo;
+        private readonly BaseRepository<Kullanici> _kullaniciBaseRepo;
 
         public GorevOlusturForm(Kullanici kullanici)
         {
             InitializeComponent();
             _currentUser = kullanici;
             _kullaniciRepo = new KullaniciRepository();
-            _gorevRepo = new GorevRepository(); // GorevRepository örneğini oluştur
+            _gorevBaseRepo = new BaseRepository<Gorev>();
+            _kullaniciBaseRepo = new BaseRepository<Kullanici>();
 
             // Kullanıcıları comboBox’a doldur
             cmbAtananKullanici.DataSource = _kullaniciRepo.GetAll();
@@ -41,7 +43,6 @@ namespace CompanyManagementSystem.Forms
             LoadGorevler();
         }
 
-
         private void txtGorevBaslik_TextChanged(object sender, EventArgs e)
         {
 
@@ -49,54 +50,78 @@ namespace CompanyManagementSystem.Forms
 
         private void btnGorevKaydet_Click(object sender, EventArgs e)
         {
-            //if (cmbProjeler.SelectedValue == null)
-            //{
-            //    MessageBox.Show("Lütfen bir proje seçin!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //    return;
-            //}
+            if (cmbProjeler.SelectedValue == null)
+            {
+                MessageBox.Show("Lütfen bir proje seçin!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-            //int secilenProjeId = (int)cmbProjeler.SelectedValue;
+            int secilenProjeId = (int)cmbProjeler.SelectedValue;
 
-            //var yeniGorev = new Gorev
-            //{
-            //    Baslik = txtGorevBaslik.Text.Trim(),
-            //    Aciklama = txtGorevAciklama.Text.Trim(),
-            //    BitisTarihi = dtpBitis.Value,
-            //    Oncelik = txtGorevOncelik.Text,
-            //    Durum = "Beklemede",
-            //    AtananKullaniciId = (int?)cmbAtananKullanici.SelectedValue, // opsiyonel
-            //    ProjeId = secilenProjeId
-            //};
+            var yeniGorev = new Gorev
+            {
+                Baslik = txtGorevBaslik.Text.Trim(),
+                Aciklama = txtGorevAciklama.Text.Trim(),
+                BitisTarihi = dtpBitis.Value,
+                Oncelik = txtGorevOncelik.Text,
+                Durum = "Beklemede",
+                AtananKullaniciId = (int?)cmbAtananKullanici.SelectedValue, // opsiyonel
+                ProjeId = secilenProjeId
+            };
 
 
-            //try
-            //{
-            //    _gorevRepo.Add(yeniGorev);
+            try
+            {
+                _gorevBaseRepo.Add(yeniGorev);
 
-            //    if (yeniGorev.AtananKullaniciId.HasValue)
-            //    {
-            //        Kullanici kullanici1 = _kullaniciRepo.GetById(yeniGorev.AtananKullaniciId.Value);
-            //        kullanici1.AtananGorevler ??= new List<Gorev>();
-            //        var gorevler = _gorevRepo.GetByAtananKullaniciId(yeniGorev.AtananKullaniciId.Value);
-            //        var sonGorev = gorevler.OrderByDescending(g => g.OlusturmaTarihi).FirstOrDefault();
-            //        kullanici1.AtananGorevler.Add(sonGorev);
-            //    }
+                if (yeniGorev.AtananKullaniciId.HasValue)
+                {
+                    var kullanici = _kullaniciBaseRepo.GetById(yeniGorev.AtananKullaniciId.Value);
 
-            //    MessageBox.Show("Görev başarıyla eklendi!");
+                    if (kullanici == null)
+                    {
+                        MessageBox.Show("Atanan kullanıcı bulunamadı.");
+                        return;
+                    }
 
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show("Görev eklenirken hata oluştu: " + ex.Message);
-            //}
+                    // Kullanıcının güncel görevlerini çek
+                    var gorevler = _gorevBaseRepo.GetByAtananKullaniciId(yeniGorev.AtananKullaniciId.Value);
+
+                    // Son eklenen görevi bul
+                    var sonGorev = gorevler.OrderByDescending(g => g.OlusturmaTarihi).FirstOrDefault();
+
+                    // Navigation property olmadığı için sen iş tarafında ilişkiyi kurarsın
+                    // Örn: ekrana göstermek veya bir log atmak için
+                    if (sonGorev != null)
+                    {
+                        Console.WriteLine($"{kullanici.Ad} kullanıcısına '{sonGorev.Baslik}' görevi atandı.");
+                    }
+                }
+
+                LoadGorevler();  // DataGridView yenile
+
+                // Formu temizle
+                txtGorevBaslik.Clear();
+                txtGorevAciklama.Clear();
+                txtGorevOncelik.Clear();
+                cmbAtananKullanici.SelectedIndex = -1;
+                cmbProjeler.SelectedIndex = -1;
+                dtpBitis.Value = DateTime.Now;
+
+                MessageBox.Show("Görev başarıyla eklendi!");
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Görev eklenirken hata oluştu: " + ex.Message);
+            }
         }
-
 
         private void LoadGorevler()
         {
             try
             {
-                var gorevler = _gorevRepo.GetAll(); // Tüm görevleri çek
+                var gorevler = _gorevBaseRepo.GetAll(); // Tüm görevleri çek
 
                 // DataTable oluştur
                 var dt = new DataTable();
@@ -134,10 +159,7 @@ namespace CompanyManagementSystem.Forms
             this.Hide();
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+        
 
         private void cmbProjeler_SelectedIndexChanged(object sender, EventArgs e)
         {

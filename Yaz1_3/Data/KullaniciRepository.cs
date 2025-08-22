@@ -46,33 +46,6 @@ namespace CompanyManagementSystem.Data
 
         
 
-
-        public List<Kullanici> GetAll()
-        {
-            var list = new List<Kullanici>();
-
-            using var conn = DbHelper.GetConnection();
-            conn.Open();
-
-            string sql = "SELECT id, ad, soyad, rolid FROM kullanici ORDER BY ad";
-            using var cmd = new NpgsqlCommand(sql, conn);
-            using var reader = cmd.ExecuteReader();
-
-            while (reader.Read())
-            {
-                list.Add(new Kullanici
-                {
-                    Id = reader.GetInt32(0),
-                    Ad = reader.GetString(1),
-                    Soyad = reader.GetString(2),
-                    RolId = reader.GetInt32(3)
-                });
-            }
-
-            return list;
-        }
-
-
         public List<Kullanici> GetAktifKullanicilar()
         {
             var list = new List<Kullanici>();

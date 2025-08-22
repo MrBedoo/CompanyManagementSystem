@@ -16,7 +16,7 @@ namespace CompanyManagementSystem.Forms
     {
 
         private Kullanici _currentUser;
-        
+
         private readonly ToplantiKatilimciRepository _katilimciRepo;
         private readonly KullaniciRepository _kullaniciRepo;
         private readonly BaseRepository<Toplanti> _toplantiBaseRepo;

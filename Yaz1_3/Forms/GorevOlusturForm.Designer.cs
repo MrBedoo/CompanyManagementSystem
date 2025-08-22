@@ -82,7 +82,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(31, 393);
+            button1.Location = new Point(6, 393);
             button1.Name = "button1";
             button1.Size = new Size(104, 27);
             button1.TabIndex = 1;
@@ -109,7 +109,7 @@
             // 
             // btnGorevKaydet
             // 
-            btnGorevKaydet.Location = new Point(176, 358);
+            btnGorevKaydet.Location = new Point(213, 307);
             btnGorevKaydet.Name = "btnGorevKaydet";
             btnGorevKaydet.Size = new Size(119, 33);
             btnGorevKaydet.TabIndex = 7;

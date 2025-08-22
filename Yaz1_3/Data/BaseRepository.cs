@@ -78,6 +78,66 @@ namespace CompanyManagementSystem.Data
         }
 
 
+        public List<T> GetByAtananKullaniciId(int kullaniciId)
+        {
+            var type = typeof(T);
+            var tableName = ToDbTableName(type.Name);
+
+            var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                            .Where(p => p.CanRead && p.CanWrite)
+                            .ToList();
+
+            // Aranacak kolon ismini property'den dönüştürüyoruz
+            var columnName = ToDbColumnName("AtananKullaniciId");
+
+            var sql = $"SELECT * FROM \"{tableName}\" WHERE \"{columnName}\" = @kullaniciId";
+
+            using var conn = DbHelper.GetConnection();
+            conn.Open();
+            using var cmd = new NpgsqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@kullaniciId", kullaniciId);
+
+            using var reader = cmd.ExecuteReader();
+
+            var result = new List<T>();
+
+            while (reader.Read())
+            {
+                var entity = new T();
+
+                foreach (var prop in props)
+                {
+                    var dbCol = ToDbColumnName(prop.Name);
+
+                    int ordinal;
+                    try
+                    {
+                        ordinal = reader.GetOrdinal(dbCol);
+                    }
+                    catch (IndexOutOfRangeException)
+                    {
+                        continue; // DB'de kolon yoksa atla
+                    }
+
+                    if (reader.IsDBNull(ordinal))
+                    {
+                        prop.SetValue(entity, null);
+                        continue;
+                    }
+
+                    var propType = Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType;
+                    var value = reader.GetValue(ordinal);
+
+                    prop.SetValue(entity, Convert.ChangeType(value, propType));
+                }
+
+                result.Add(entity);
+            }
+
+            return result;
+        }
+
+
 
         public List<T> Listele<T>() where T : new()
         {
@@ -284,7 +344,6 @@ namespace CompanyManagementSystem.Data
         }
 
 
-
         public int Add(T entity)
         {
             var type = typeof(T);
@@ -338,6 +397,46 @@ namespace CompanyManagementSystem.Data
         }
 
 
+        public int Update(T entity)
+        {
+            var type = typeof(T);
+            var tableName = ToDbTableName(type.Name);
+            var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                            .Where(p => p.CanRead)
+                            .ToList();
+
+            var idProp = props.FirstOrDefault(p =>
+                string.Equals(p.Name, "Id", StringComparison.OrdinalIgnoreCase));
+
+            if (idProp == null)
+                throw new Exception("Entity'de 'Id' property bulunamadı.");
+
+            var idValue = idProp.GetValue(entity);
+            if (idValue == null || Convert.ToInt32(idValue) == 0)
+                throw new Exception("Update için geçerli bir Id değeri bulunamadı.");
+
+            var setClauses = props.Where(p => p != idProp)
+                                  .Select(p => $"\"{ToDbColumnName(p.Name)}\" = @{ToDbColumnName(p.Name)}")
+                                  .ToList();
+
+            var sql = $"UPDATE \"{tableName}\" SET {string.Join(", ", setClauses)} " +
+                      $"WHERE \"{ToDbColumnName(idProp.Name)}\" = @{ToDbColumnName(idProp.Name)}";
+
+            using (var conn = DbHelper.GetConnection())
+            {
+                conn.Open();
+                using (var cmd = new NpgsqlCommand(sql, conn))
+                {
+                    foreach (var prop in props)
+                    {
+                        var value = prop.GetValue(entity) ?? DBNull.Value;
+                        cmd.Parameters.AddWithValue("@" + ToDbColumnName(prop.Name), value);
+                    }
+
+                    return cmd.ExecuteNonQuery();
+                }
+            }
+        }
 
 
 

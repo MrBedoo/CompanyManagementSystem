@@ -16,11 +16,13 @@ namespace CompanyManagementSystem.Forms
     {
         private readonly Kullanici _currentUser;
         private readonly GorevRepository _gorevRepo = new GorevRepository();
+        private readonly BaseRepository<Gorev> _gorevBaseRepo;
 
         public GorevlerForm(Kullanici kullanici)
         {
             InitializeComponent();
             _currentUser = kullanici;
+            _gorevBaseRepo = new BaseRepository<Gorev>();
             LoadGorevler();
 
         }
@@ -89,7 +91,7 @@ namespace CompanyManagementSystem.Forms
             seciliGorev.Rapor = txtGorevRapor.Text;
             seciliGorev.Durum = cmbGorevDurum.Text;
 
-            _gorevRepo.Update(seciliGorev);
+            _gorevBaseRepo.Update(seciliGorev);
 
             MessageBox.Show("Görev Raporu ve Durumu güncellendi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
             LoadGorevler(); // Güncellemeleri yansıtmak için görevleri yeniden yükle

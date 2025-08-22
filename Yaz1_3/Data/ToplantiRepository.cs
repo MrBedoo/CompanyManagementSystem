@@ -18,7 +18,7 @@ namespace CompanyManagementSystem.Data
             using var conn = DbHelper.GetConnection();
             conn.Open();
 
-            string sql = "SELECT id, baslik, aciklama, baslama_tarihi, adres, olusturanid, bitis_tarihi, toplanti_turu, durum, olusturmatarihi FROM toplanti ORDER BY baslama_tarihi DESC";
+            string sql = "SELECT id, baslik, aciklama, baslamatarihi, adres, olusturanid, bitistarihi, toplantituru, durum, olusturmatarihi FROM toplanti ORDER BY baslamatarihi DESC";
 
             using var cmd = new NpgsqlCommand(sql, conn);
             using var reader = cmd.ExecuteReader();
@@ -43,11 +43,6 @@ namespace CompanyManagementSystem.Data
 
             return list;
         }
-
-
-
-        
-
 
 
     }

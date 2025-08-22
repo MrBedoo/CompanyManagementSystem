@@ -28,8 +28,6 @@ namespace CompanyManagementSystem.Forms
         private void button1_Click(object sender, EventArgs e)
         {
             var notMetni = txtNot.Text.Trim();
-            var secilenTuru = (NotTuru)cmbNotTuru.SelectedItem;
-
             if (string.IsNullOrEmpty(notMetni))
             {
                 MessageBox.Show("Not boş olamaz!");
@@ -41,6 +39,8 @@ namespace CompanyManagementSystem.Forms
                 MessageBox.Show("Not türü boş olamaz!");
                 return;
             }
+
+            var secilenTuru = (NotTuru)cmbNotTuru.SelectedItem;
 
             var yeniNot = new KullaniciNot
             {
