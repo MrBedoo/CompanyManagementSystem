@@ -45,6 +45,7 @@
             button2 = new Button();
             groupBox1 = new GroupBox();
             checkBox1 = new CheckBox();
+            checkBox2 = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             groupBox1.SuspendLayout();
@@ -166,11 +167,12 @@
             // 
             // textBox6
             // 
-            textBox6.Location = new Point(8, 22);
+            textBox6.Location = new Point(201, 22);
             textBox6.Name = "textBox6";
             textBox6.PlaceholderText = "Id";
-            textBox6.Size = new Size(133, 23);
+            textBox6.Size = new Size(81, 23);
             textBox6.TabIndex = 18;
+            textBox6.Visible = false;
             // 
             // button2
             // 
@@ -184,6 +186,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(checkBox2);
             groupBox1.Controls.Add(checkBox1);
             groupBox1.Controls.Add(textBox6);
             groupBox1.Controls.Add(textBox1);
@@ -207,13 +210,23 @@
             // checkBox1
             // 
             checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(150, 24);
+            checkBox1.Location = new Point(15, 26);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(51, 19);
             checkBox1.TabIndex = 19;
             checkBox1.Text = "Aktif";
             checkBox1.UseVisualStyleBackColor = true;
             checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+            // 
+            // checkBox2
+            // 
+            checkBox2.AutoSize = true;
+            checkBox2.Location = new Point(76, 26);
+            checkBox2.Name = "checkBox2";
+            checkBox2.Size = new Size(68, 19);
+            checkBox2.TabIndex = 20;
+            checkBox2.Text = "Yönetici";
+            checkBox2.UseVisualStyleBackColor = true;
             // 
             // KullaniciKayit
             // 
@@ -223,11 +236,13 @@
             Controls.Add(groupBox1);
             Controls.Add(button2);
             Controls.Add(dataGridView1);
+            KeyPreview = true;
             MinimizeBox = false;
             Name = "KullaniciKayit";
             StartPosition = FormStartPosition.Manual;
             Text = "Kullanıcı Kayıt";
             Load += Form1_Load;
+            KeyDown += KullaniciKayit_KeyDown;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             groupBox1.ResumeLayout(false);
@@ -254,5 +269,6 @@
         private Button button2;
         private GroupBox groupBox1;
         private CheckBox checkBox1;
+        private CheckBox checkBox2;
     }
 }

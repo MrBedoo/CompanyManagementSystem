@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CompanyManagementSystem.Forms
 {
@@ -68,8 +69,17 @@ namespace CompanyManagementSystem.Forms
                 return;
             }
 
+            string input = txtProjeId.Text;
+            int parsedId = 0; // varsayılan 0
+            if (!string.IsNullOrWhiteSpace(input) && !int.TryParse(input, out parsedId))
+            {
+                MessageBox.Show("Geçerli bir ID giriniz.");
+                return;
+            }
+
             var proje = new Proje
             {
+                Id = parsedId,
                 Ad = txtProjeBaslik.Text.Trim(),
                 Aciklama = txtProjeAciklama.Text.Trim(),
                 BaslangicTarihi = dtpProjeBaslangic.Value,
@@ -80,7 +90,7 @@ namespace CompanyManagementSystem.Forms
 
             try
             {
-                _projeBaseRepo.Add(proje);
+                _projeBaseRepo.RunInsertOrUpdate(proje);
 
                 MessageBox.Show("Proje başarıyla eklendi!", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 TemizleFormu();

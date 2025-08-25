@@ -50,7 +50,7 @@ namespace CompanyManagementSystem.Forms
 
             dgvNotlar.Columns["Id"].Visible = false;
             dgvNotlar.Columns["GonderenId"].Visible = false;
-            dgvNotlar.Columns["HedefKullaniciId"].Visible = false;
+            dgvNotlar.Columns["AtananKullaniciId"].Visible = false;
         }
 
 
@@ -69,16 +69,16 @@ namespace CompanyManagementSystem.Forms
 
         private void dgvNotlar_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            //if (e.RowIndex < 0 || e.RowIndex >= _girisKullaniciNotlari.Count) return;
+            if (e.RowIndex < 0 || e.RowIndex >= _girisKullaniciNotlari.Count) return;
 
-            //var secilenNot = _girisKullaniciNotlari[e.RowIndex];
+            var secilenNot = _girisKullaniciNotlari[e.RowIndex];
 
-            //txtNotMetni.Text = secilenNot.NotMetni;
-            //txtNotTarihi.Text = secilenNot.NotTarihi.ToString("g");
-            //txtNotTuru.Text = secilenNot.Turu.ToString(); // <- buraya ekle
+            txtNotMetni.Text = secilenNot.NotMetni;
+            txtNotTarihi.Text = secilenNot.NotTarihi.ToString("g");
+            txtNotTuru.Text = secilenNot.Turu.ToString(); // <- buraya ekle
 
-            //var gonderen = _kullaniciRepo.GetById(secilenNot.GonderenId);
-            //lblGonderen.Text = gonderen != null ? gonderen.AdSoyad : "Bilinmiyor";
+            var gonderen = _kullaniciRepo.GetById(secilenNot.GonderenId);
+            lblGonderen.Text = gonderen != null ? gonderen.Ad + " " + gonderen.Soyad : "Bilinmiyor";
 
         }
 

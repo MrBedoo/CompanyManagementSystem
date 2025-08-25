@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
+            button2 = new Button();
             button1 = new Button();
             cmbProjeLider = new ComboBox();
             dtpProjeBitis = new DateTimePicker();
@@ -37,13 +38,14 @@
             txtProjeAciklama = new TextBox();
             txtProjeBaslik = new TextBox();
             dataGridView1 = new DataGridView();
-            button2 = new Button();
+            txtProjeId = new TextBox();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(txtProjeId);
             groupBox1.Controls.Add(button2);
             groupBox1.Controls.Add(button1);
             groupBox1.Controls.Add(cmbProjeLider);
@@ -58,6 +60,16 @@
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Proje Oluştur";
+            // 
+            // button2
+            // 
+            button2.Location = new Point(6, 370);
+            button2.Name = "button2";
+            button2.Size = new Size(93, 38);
+            button2.TabIndex = 7;
+            button2.Text = "Anasayfaya Dön";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // button1
             // 
@@ -125,15 +137,13 @@
             dataGridView1.Size = new Size(423, 426);
             dataGridView1.TabIndex = 1;
             // 
-            // button2
+            // txtProjeId
             // 
-            button2.Location = new Point(6, 370);
-            button2.Name = "button2";
-            button2.Size = new Size(93, 38);
-            button2.TabIndex = 7;
-            button2.Text = "Anasayfaya Dön";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            txtProjeId.Location = new Point(222, 42);
+            txtProjeId.Name = "txtProjeId";
+            txtProjeId.PlaceholderText = "Id";
+            txtProjeId.Size = new Size(76, 23);
+            txtProjeId.TabIndex = 8;
             // 
             // ProjeOlusturForm
             // 
@@ -163,5 +173,6 @@
         private Button button1;
         private DataGridView dataGridView1;
         private Button button2;
+        private TextBox txtProjeId;
     }
 }

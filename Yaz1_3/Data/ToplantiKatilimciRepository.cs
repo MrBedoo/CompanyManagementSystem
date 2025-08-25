@@ -11,30 +11,31 @@ namespace CompanyManagementSystem.Data
 {
     internal class ToplantiKatilimciRepository
     {
-       
 
-        public List<ToplantiKatilimci> GetByToplantiId(int toplantıId)
+        public List<ToplantiKatilimciView> GetKatilimcilarByToplantiId(int toplantiId)
         {
-            var list = new List<ToplantiKatilimci>();
-            string sql = @"SELECT id, toplantiid, kullaniciid, katilimdurumu, rol
-                   FROM toplanti_katilimci
-                   WHERE toplantiid = @toplantiId";
+            var list = new List<ToplantiKatilimciView>();
+            string sql = @"
+                SELECT tk.KullaniciId, tk.Rol, tk.KatilimDurumu, k.Ad, k.Soyad
+                FROM toplantikatilimci tk
+                JOIN kullanici k ON tk.KullaniciId = k.Id
+                WHERE tk.ToplantiId = @ToplantiId";
 
             using var conn = DbHelper.GetConnection();
             conn.Open();
             using var cmd = new NpgsqlCommand(sql, conn);
-            cmd.Parameters.AddWithValue("toplantiId", toplantıId);
+            cmd.Parameters.AddWithValue("@ToplantiId", toplantiId);
 
             using var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                list.Add(new ToplantiKatilimci
+                list.Add(new ToplantiKatilimciView
                 {
-                    Id = reader.GetInt32(0),
-                    ToplantiId = reader.GetInt32(1),
-                    KullaniciId = reader.GetInt32(2),
-                    KatilimDurumu = reader.IsDBNull(3) ? "" : reader.GetString(3),
-                    Rol = reader.IsDBNull(4) ? "" : reader.GetString(4)
+                    KullaniciId = reader.GetInt32(0),
+                    Rol = reader.IsDBNull(1) ? "" : reader.GetString(1),
+                    KatilimDurumu = reader.IsDBNull(2) ? "" : reader.GetString(2),
+                    Ad = reader.IsDBNull(3) ? "" : reader.GetString(3),
+                    Soyad = reader.IsDBNull(4) ? "" : reader.GetString(4)
                 });
             }
 

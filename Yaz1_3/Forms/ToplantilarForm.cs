@@ -161,10 +161,10 @@ namespace CompanyManagementSystem.Forms
             txtDurum.Text = toplantı.Durum;
 
             listBox1.Items.Clear();
-            var katilimcilar = _katilimciRepo.GetByToplantiId(id);
+            var katilimcilar = _katilimciRepo.GetKatilimcilarByToplantiId(id);
             foreach (var k in katilimcilar)
             {
-                listBox1.Items.Add($"{k.KullaniciId} - {k.Rol} ({k.KatilimDurumu})");
+                listBox1.Items.Add($"{k.Ad} {k.Soyad} - {k.Rol} ({k.KatilimDurumu})");
             }
 
         }

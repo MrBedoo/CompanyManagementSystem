@@ -56,6 +56,7 @@ namespace CompanyManagementSystem
             textBox4.Clear();
             textBox5.Clear();
             textBox6.Clear();
+            checkBox1.Checked = false;
             comboBox1.SelectedIndex = -1;
             dateTimePicker1.Value = DateTime.Now;
             pictureBox1.Image = null;
@@ -107,7 +108,8 @@ namespace CompanyManagementSystem
                 Gelir = gelir,
                 SifreHash = _authService.Hash(textBox5.Text),
                 Resim = secilenResim,
-                Durum = checkBox1.Checked // buraya eklendi
+                Durum = checkBox1.Checked, // buraya eklendi
+                RolId = checkBox2.Checked ? 1 : 0  // yönetici ise 1, değilse 0
             };
 
 
@@ -247,6 +249,27 @@ namespace CompanyManagementSystem
                 secilenResim = null;
             }
 
+
+            // Durum CheckBox
+            if (row.Cells["Durum"].Value != null && bool.TryParse(row.Cells["Durum"].Value.ToString(), out bool durum))
+            {
+                checkBox1.Checked = durum;
+            }
+            else
+            {
+                checkBox1.Checked = false; // default
+            }
+
+            // Rol CheckBox (checkBox2) → RolId
+            if (row.Cells["RolId"].Value != null && int.TryParse(row.Cells["RolId"].Value.ToString(), out int rolId))
+            {
+                checkBox2.Checked = rolId == 1; // 1 ise yönetici, 0 ise işaretli değil
+            }
+            else
+            {
+                checkBox2.Checked = false;
+            }
+
         }
 
 
@@ -321,6 +344,15 @@ namespace CompanyManagementSystem
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void KullaniciKayit_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                dataGridView1.ClearSelection();
+                AlanlariTemizle();
+            }
         }
     }
 
