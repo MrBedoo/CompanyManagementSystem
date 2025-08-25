@@ -14,16 +14,16 @@ namespace CompanyManagementSystem.Forms
 {
     public partial class ProjeOlusturForm : Form
     {
-        private readonly ProjeRepository _projeRepo;
         private readonly KullaniciRepository _kullaniciRepo;
         private readonly Kullanici _currentUser;
+        private readonly BaseRepository<Proje> _projeBaseRepo;
 
         public ProjeOlusturForm(Kullanici kullanici)
         {
             InitializeComponent();
-            _projeRepo = new ProjeRepository();
             _kullaniciRepo = new KullaniciRepository();
             _currentUser = kullanici;
+            _projeBaseRepo = new BaseRepository<Proje>();
         }
 
         private void ProjeOlusturForm_Load(object sender, EventArgs e)
@@ -80,7 +80,7 @@ namespace CompanyManagementSystem.Forms
 
             try
             {
-                _projeRepo.Add(proje);
+                _projeBaseRepo.Add(proje);
 
                 MessageBox.Show("Proje başarıyla eklendi!", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 TemizleFormu();
@@ -94,7 +94,7 @@ namespace CompanyManagementSystem.Forms
 
         private void ProjeleriListele()
         {
-            var projeler = _projeRepo.GetAll()
+            var projeler = _projeBaseRepo.GetAll()
                 .Select(p => new
                 {
                     p.Id,

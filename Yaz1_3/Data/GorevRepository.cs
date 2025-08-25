@@ -11,9 +11,6 @@ namespace CompanyManagementSystem.Data
     internal class GorevRepository
     {
 
-       
-
-
 
     }
 }

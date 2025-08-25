@@ -81,7 +81,7 @@
             // 
             // btnCikis
             // 
-            btnCikis.Location = new Point(524, 284);
+            btnCikis.Location = new Point(685, 401);
             btnCikis.Name = "btnCikis";
             btnCikis.Size = new Size(103, 37);
             btnCikis.TabIndex = 4;

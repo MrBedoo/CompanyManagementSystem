@@ -11,23 +11,7 @@ namespace CompanyManagementSystem.Data
 {
     internal class ToplantiKatilimciRepository
     {
-        public void AddKatilimci(int toplantiId, int kullaniciId, string katilimDurumu, string rol)
-        {
-            using var conn = DbHelper.GetConnection();
-            conn.Open();
-
-            string sql = @"INSERT INTO toplanti_katilimci (toplantiid, kullaniciid, katilimdurumu, rol) 
-                   VALUES (@toplantiId, @kullaniciId, @katilimDurumu, @rol)";
-
-            using var cmd = new NpgsqlCommand(sql, conn);
-            cmd.Parameters.AddWithValue("@toplantiId", toplantiId);
-            cmd.Parameters.AddWithValue("@kullaniciId", kullaniciId);
-            cmd.Parameters.AddWithValue("@katilimDurumu", katilimDurumu);
-            cmd.Parameters.AddWithValue("@rol", rol);
-
-            cmd.ExecuteNonQuery();
-        }
-
+       
 
         public List<ToplantiKatilimci> GetByToplantiId(int toplantıId)
         {

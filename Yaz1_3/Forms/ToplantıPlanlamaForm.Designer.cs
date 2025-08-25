@@ -57,7 +57,7 @@
             groupBox1.Controls.Add(dtpBaslama);
             groupBox1.Controls.Add(txtAciklama);
             groupBox1.Controls.Add(txtBaslik);
-            groupBox1.Location = new Point(12, 35);
+            groupBox1.Location = new Point(12, 3);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(321, 403);
             groupBox1.TabIndex = 0;
@@ -165,9 +165,9 @@
             // 
             // button1
             // 
-            button1.Location = new Point(159, 3);
+            button1.Location = new Point(12, 412);
             button1.Name = "button1";
-            button1.Size = new Size(134, 34);
+            button1.Size = new Size(124, 26);
             button1.TabIndex = 2;
             button1.Text = "Anasayfaya dön";
             button1.UseVisualStyleBackColor = true;

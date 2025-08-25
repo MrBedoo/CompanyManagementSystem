@@ -20,6 +20,7 @@ namespace CompanyManagementSystem.Forms
         private readonly ToplantiKatilimciRepository _katilimciRepo;
         private readonly KullaniciRepository _kullaniciRepo;
         private readonly BaseRepository<Toplanti> _toplantiBaseRepo;
+        private readonly BaseRepository<ToplantiKatilimci> _katilimciBaseRepo;
 
 
         public ToplantıPlanlamaForm(Kullanici kullanici)
@@ -29,6 +30,7 @@ namespace CompanyManagementSystem.Forms
             _katilimciRepo = new ToplantiKatilimciRepository();
             _kullaniciRepo = new KullaniciRepository();
             _toplantiBaseRepo = new BaseRepository<Toplanti>();
+            _katilimciBaseRepo = new BaseRepository<ToplantiKatilimci>();
 
             // Tarih ve saat seçimi için ayarlar
             dtpBaslama.Format = DateTimePickerFormat.Custom;
@@ -135,12 +137,16 @@ namespace CompanyManagementSystem.Forms
                 // 4️⃣ Katılımcıları veritabanına ekle
                 foreach (var kullanici in secilenKatilimcilar)
                 {
-                    _katilimciRepo.AddKatilimci(
-                        toplantiId,
-                        kullanici.Id,
-                        "Katılıyor",   // Katılım durumu
-                        "Katılımcı"    // Rol
-                    );
+                    // Katılımcı entity’si
+                    var katilimci = new ToplantiKatilimci
+                    {
+                        ToplantiId = yeniToplanti.Id,
+                        KullaniciId = kullanici.Id,
+                        KatilimDurumu = "Katılıyor",
+                        Rol = "Katılımcı"
+                    };
+
+                    _katilimciBaseRepo.Add(katilimci);
                 }
 
                 MessageBox.Show("Katılımcılar başarıyla eklendi!", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);

@@ -44,6 +44,7 @@
             textBox6 = new TextBox();
             button2 = new Button();
             groupBox1 = new GroupBox();
+            checkBox1 = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             groupBox1.SuspendLayout();
@@ -183,6 +184,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(checkBox1);
             groupBox1.Controls.Add(textBox6);
             groupBox1.Controls.Add(textBox1);
             groupBox1.Controls.Add(textBox2);
@@ -201,6 +203,17 @@
             groupBox1.TabIndex = 20;
             groupBox1.TabStop = false;
             groupBox1.Text = "Kullanıcı Görüntüleme/Kayıt";
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(150, 24);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(51, 19);
+            checkBox1.TabIndex = 19;
+            checkBox1.Text = "Aktif";
+            checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
             // 
             // KullaniciKayit
             // 
@@ -240,5 +253,6 @@
         private TextBox textBox6;
         private Button button2;
         private GroupBox groupBox1;
+        private CheckBox checkBox1;
     }
 }

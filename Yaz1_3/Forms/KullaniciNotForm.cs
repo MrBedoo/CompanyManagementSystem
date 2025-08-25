@@ -16,13 +16,14 @@ namespace CompanyManagementSystem.Forms
     {
         private readonly Kullanici _hedefKullanici;   // Notu alacak kişi
         private readonly Kullanici _currentUser;       // Notu gönderen kişi
-        private readonly KullaniciNotRepository _notRepo = new KullaniciNotRepository();
+        private readonly BaseRepository<KullaniciNot> _notBaseRepo;
 
         public KullaniciNotForm(Kullanici hedefKullanici, Kullanici currentUser)
         {
             InitializeComponent();
             _hedefKullanici = hedefKullanici;
             _currentUser = currentUser;
+            _notBaseRepo = new BaseRepository<KullaniciNot>();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -34,9 +35,9 @@ namespace CompanyManagementSystem.Forms
                 return;
             }
 
-            if (string.IsNullOrEmpty(cmbNotTuru.Text))
+            if (cmbNotTuru.SelectedItem == null)
             {
-                MessageBox.Show("Not türü boş olamaz!");
+                MessageBox.Show("Lütfen not türünü seçiniz!");
                 return;
             }
 
@@ -44,22 +45,22 @@ namespace CompanyManagementSystem.Forms
 
             var yeniNot = new KullaniciNot
             {
-                HedefKullaniciId = _hedefKullanici.Id,   // Notu alacak kullanıcı
+                AtananKullaniciId = _hedefKullanici.Id,   // Notu alacak kullanıcı
                 GonderenId = _currentUser.Id,             // Notu gönderen kullanıcı
                 NotMetni = notMetni,
                 Turu = secilenTuru,
                 NotTarihi = DateTime.Now
             };
 
-            _notRepo.Add(yeniNot);
+            _notBaseRepo.Add(yeniNot);
             MessageBox.Show("Not başarıyla eklendi!");
             this.Close();
         }
 
         private void KullaniciNotForm_Load(object sender, EventArgs e)
         {
-            //lblKullanici.Text = _hedefKullanici.AdSoyad;  // Gösterilecek kişi
-            //cmbNotTuru.DataSource = Enum.GetValues(typeof(NotTuru));
+            lblKullanici.Text = _hedefKullanici.Ad + " " + _hedefKullanici.Soyad;  // Gösterilecek kişi
+            cmbNotTuru.DataSource = Enum.GetValues(typeof(NotTuru));
         }
 
         private void cmbNotTuru_SelectedIndexChanged(object sender, EventArgs e)

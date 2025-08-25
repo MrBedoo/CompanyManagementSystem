@@ -33,23 +33,30 @@ namespace CompanyManagementSystem.Data
                 using var conn = DbHelper.GetConnection();
                 conn.Open();
                 using var cmd = new NpgsqlCommand { Connection = conn };
-
                 if (isInsert)
                 {
-                    var columns = props.Where(p => p != idProp)
-                                       .Select(p => "\"" + p.Name.ToLower() + "\"")
-                                       .ToList();
-                    var parameters = columns.Select(c => "@" + c.Trim('"')).ToList();
+                    try
+                    {
+                        var columns = props.Where(p => p != idProp)
+                                           .Select(p => "\"" + p.Name.ToLower() + "\"")
+                                           .ToList();
+                        var parameters = columns.Select(c => "@" + c.Trim('"')).ToList();
 
-                    cmd.CommandText = $"INSERT INTO \"{tableName}\" ({string.Join(", ", columns)}) " +
-                                      $"VALUES ({string.Join(", ", parameters)}) RETURNING \"{idProp.Name.ToLower()}\";";
+                        cmd.CommandText = $"INSERT INTO \"{tableName}\" ({string.Join(", ", columns)}) " +
+                                          $"VALUES ({string.Join(", ", parameters)}) RETURNING \"{idProp.Name.ToLower()}\";";
 
-                    foreach (var prop in props.Where(p => p != idProp))
-                        cmd.Parameters.AddWithValue("@" + prop.Name.ToLower(), prop.GetValue(entity) ?? DBNull.Value);
+                        foreach (var prop in props.Where(p => p != idProp))
+                            cmd.Parameters.AddWithValue("@" + prop.Name.ToLower(), prop.GetValue(entity) ?? DBNull.Value);
 
-                    var result = cmd.ExecuteScalar();
-                    idProp.SetValue(entity, Convert.ToInt32(result));
-                    return Convert.ToInt32(result);
+                        var result = cmd.ExecuteScalar();
+                        idProp.SetValue(entity, Convert.ToInt32(result));
+
+                        return 0; // yeni kayıt eklendi
+                    }
+                    catch (PostgresException ex) when (ex.SqlState == "23505") // unique violation
+                    {
+                        return -2; // aynı ad/soyad/email
+                    }
                 }
                 else
                 {
@@ -63,7 +70,11 @@ namespace CompanyManagementSystem.Data
                     foreach (var prop in props)
                         cmd.Parameters.AddWithValue("@" + prop.Name.ToLower(), prop.GetValue(entity) ?? DBNull.Value);
 
-                    return cmd.ExecuteNonQuery();
+                    int affected = cmd.ExecuteNonQuery();
+                    if (affected > 0)
+                        return 1; // güncelleme başarılı
+                    else
+                        return -1; // id bulunamadı
                 }
             }
             catch (Npgsql.PostgresException ex) when (ex.SqlState == "23505") // unique_violation
@@ -379,6 +390,15 @@ namespace CompanyManagementSystem.Data
                     foreach (var prop in props.Where(p => p != idProp))
                     {
                         var value = prop.GetValue(entity) ?? DBNull.Value;
+
+                        // Eğer enum ise -> string ya da int'e dönüştür
+                        if (value is Enum enumValue)
+                        {
+                            // Veritabanında nasıl saklıyorsan ona göre seç
+                            value = Convert.ToInt32(enumValue); // kolon int4 olsaydı bunu kullanırdın
+                                                                // value = Convert.ToInt32(enumValue); // integer alanı için
+                        }
+
                         cmd.Parameters.AddWithValue("@" + prop.Name.ToLower(), value);
                     }
 

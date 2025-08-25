@@ -14,32 +14,33 @@ namespace CompanyManagementSystem.Forms
 {
     public partial class NotlarForm : Form
     {
-        private readonly KullaniciNotRepository _notRepo = new KullaniciNotRepository();
         private readonly KullaniciRepository _kullaniciRepo = new KullaniciRepository();
         private List<KullaniciNot> _tumNotlar;
         private readonly Kullanici _currentUser;
         private List<KullaniciNot> _girisKullaniciNotlari;
+        private readonly BaseRepository<KullaniciNot> _notBaseRepo;
 
         public NotlarForm(Kullanici kullanici)
         {
             InitializeComponent();
             _currentUser = kullanici; // Oturum açan kullanıcıyı sakla
+            _notBaseRepo = new BaseRepository<KullaniciNot>();
         }
 
 
         private void LoadNotlar()
         {
-            _tumNotlar = _notRepo.GetAll();
+            _tumNotlar = _notBaseRepo.GetAll();
 
             _girisKullaniciNotlari = _tumNotlar
-                .Where(n => n.HedefKullaniciId == _currentUser.Id)
+                .Where(n => n.AtananKullaniciId == _currentUser.Id)
                 .ToList();
 
             dgvNotlar.DataSource = _girisKullaniciNotlari.Select(n => new
             {
                 n.Id,
                 n.GonderenId,
-                n.HedefKullaniciId,
+                n.AtananKullaniciId,
                 Turu = n.Turu.ToString(),
                 NotTarihi = n.NotTarihi.ToString("g"),
                 NotOzet = string.IsNullOrEmpty(n.NotMetni)

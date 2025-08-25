@@ -16,9 +16,9 @@ namespace CompanyManagementSystem.Forms
     {
         private readonly Kullanici _currentUser;
         private readonly KullaniciRepository _kullaniciRepo;
-        private readonly ProjeRepository _projeRepo = new ProjeRepository();
         private readonly BaseRepository<Gorev> _gorevBaseRepo;
         private readonly BaseRepository<Kullanici> _kullaniciBaseRepo;
+        private readonly BaseRepository<Proje> _projeBaseRepo;
 
         public GorevOlusturForm(Kullanici kullanici)
         {
@@ -27,6 +27,7 @@ namespace CompanyManagementSystem.Forms
             _kullaniciRepo = new KullaniciRepository();
             _gorevBaseRepo = new BaseRepository<Gorev>();
             _kullaniciBaseRepo = new BaseRepository<Kullanici>();
+            _projeBaseRepo = new BaseRepository<Proje>();
 
             // Kullanıcıları comboBox’a doldur
             cmbAtananKullanici.DataSource = _kullaniciRepo.GetAll();
@@ -36,7 +37,7 @@ namespace CompanyManagementSystem.Forms
 
         private void GorevOlusturForm_Load(object sender, EventArgs e)
         {
-            var projeler = _projeRepo.GetAll();
+            var projeler = _projeBaseRepo.GetAll();
             cmbProjeler.DataSource = projeler;
             cmbProjeler.DisplayMember = "Ad";
             cmbProjeler.ValueMember = "Id";

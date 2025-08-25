@@ -21,7 +21,7 @@ namespace CompanyManagementSystem.Models
     {
         public int Id { get; set; }
         public int GonderenId { get; set; }        // Notu gönderen kullanıcı
-        public int HedefKullaniciId { get; set; } // Notu alan kullanıcı
+        public int AtananKullaniciId { get; set; } // Notu alan kullanıcı
         public DateTime NotTarihi { get; set; }
         public string NotMetni { get; set; }
         public NotTuru Turu { get; set; } // Enum

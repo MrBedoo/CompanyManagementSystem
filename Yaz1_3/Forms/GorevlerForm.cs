@@ -15,7 +15,6 @@ namespace CompanyManagementSystem.Forms
     public partial class GorevlerForm : Form
     {
         private readonly Kullanici _currentUser;
-        private readonly GorevRepository _gorevRepo = new GorevRepository();
         private readonly BaseRepository<Gorev> _gorevBaseRepo;
 
         public GorevlerForm(Kullanici kullanici)
@@ -29,7 +28,7 @@ namespace CompanyManagementSystem.Forms
 
         private void LoadGorevler()
         {
-            var gorevler = _gorevRepo.GetByAtananKullaniciId(_currentUser.Id);
+            var gorevler = _gorevBaseRepo.GetByAtananKullaniciId(_currentUser.Id);
 
             var devamEden = gorevler.Where(g => g.Durum != "Tamamlandı").ToList();
             dgvDevamEden.DataSource = null; // Önce DataSource'u temizle

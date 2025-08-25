@@ -106,7 +106,8 @@ namespace CompanyManagementSystem
                 Cinsiyet = comboBox1.SelectedItem.ToString()[0], // E/K gibi
                 Gelir = gelir,
                 SifreHash = _authService.Hash(textBox5.Text),
-                Resim = secilenResim
+                Resim = secilenResim,
+                Durum = checkBox1.Checked // buraya eklendi
             };
 
 
@@ -194,7 +195,7 @@ namespace CompanyManagementSystem
 
         private void BilgileriDoldur<T>(T entity) where T : class
         {
-            
+
 
             var row = dataGridView1.SelectedRows[0];
 
@@ -282,7 +283,7 @@ namespace CompanyManagementSystem
 
         }
 
-       
+
 
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -302,11 +303,11 @@ namespace CompanyManagementSystem
 
         }
 
-       
+
 
         private void dataGridView1_Enter(object sender, EventArgs e)
         {
-            
+
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -315,6 +316,11 @@ namespace CompanyManagementSystem
             AdminMainForm1.Show();                // Formu gösterir (aynı anda her iki form da açık kalır)
 
             this.Hide();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 

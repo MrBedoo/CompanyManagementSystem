@@ -14,19 +14,21 @@ namespace CompanyManagementSystem.Forms
 {
     public partial class ToplantilarForm : Form
     {
-        private readonly ToplantiRepository _toplantiRepo;
         private DataTable _dtToplantilar;
-        private readonly ToplantiKatilimciRepository _katilimciRepo;
+        private readonly BaseRepository<ToplantiKatilimci> _katilimciBaseRepo;
+        private readonly BaseRepository<Toplanti> _toplantiBaseRepo;
         private Kullanici _currentUser;
+        private readonly ToplantiKatilimciRepository _katilimciRepo;
 
 
         public ToplantilarForm(Kullanici aktifKullanici)
         {
             InitializeComponent();
 
-            _toplantiRepo = new ToplantiRepository();
-            _katilimciRepo = new ToplantiKatilimciRepository();
+            _katilimciBaseRepo = new BaseRepository<ToplantiKatilimci>();
             _currentUser = aktifKullanici;
+            _toplantiBaseRepo = new BaseRepository<Toplanti>();
+            _katilimciRepo = new ToplantiKatilimciRepository();
 
             // SplitContainer ayarları (kodla da yapabilirsiniz)
             splitContainer1.Dock = DockStyle.Fill;
@@ -76,7 +78,7 @@ namespace CompanyManagementSystem.Forms
 
         private void LoadToplantilar()
         {
-            var toplantilar = _toplantiRepo.GetToplantilar();
+            var toplantilar = _toplantiBaseRepo.GetAll();
 
             // DataTable oluştur, kısa açıklama için hesaplama yap
             _dtToplantilar = new DataTable();
